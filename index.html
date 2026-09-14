@@ -1,0 +1,1777 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VITAFAMA — Calculadora & Catálogo</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green-deep:   #1B4332;
+  --green-mid:    #2D6A4F;
+  --green-accent: #52B788;
+  --green-light:  #D8F3DC;
+  --lime:         #B7E4C7;
+  --bg:           #F4F9F6;
+  --surface:      #FFFFFF;
+  --border:       #C3E6CB;
+  --text:         #1A2421;
+  --text-muted:   #4A6358;
+  --danger:       #C0392B;
+  --warn:         #E67E22;
+  --radius:       12px;
+  --shadow:       0 2px 12px rgba(27,67,50,0.10);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:         #0F1F18;
+    --surface:    #162A20;
+    --border:     #2D4A38;
+    --text:       #E8F5EE;
+    --text-muted: #7DBE9A;
+    --green-light:#1B4332;
+    --lime:       #2D6A4F;
+  }
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+header {
+  background: var(--green-deep);
+  color: #fff;
+  padding: 18px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand-icon {
+  width: 42px; height: 42px;
+  background: var(--green-accent);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+}
+.brand-name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 22px; font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.brand-tagline { font-size: 12px; opacity: .65; margin-top: 1px; }
+.header-badge {
+  background: rgba(82,183,136,.18);
+  border: 1px solid var(--green-accent);
+  color: var(--green-accent);
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 12px; font-weight: 600;
+}
+
+/* ── TABS ── */
+.tabs {
+  display: flex;
+  border-bottom: 2px solid var(--border);
+  padding: 0 32px;
+  background: var(--surface);
+  gap: 4px;
+}
+.tab-btn {
+  padding: 14px 22px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700; font-size: 14px;
+  border: none; background: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  transition: color .2s, border-color .2s;
+}
+.tab-btn.active { color: var(--green-deep); border-bottom-color: var(--green-accent); }
+
+/* ── MAIN LAYOUT ── */
+main { padding: 28px 32px; max-width: 1300px; margin: 0 auto; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── CALCULATOR ── */
+.calc-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+}
+@media (max-width: 900px) { .calc-grid { grid-template-columns: 1fr; } }
+
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  padding: 24px;
+}
+.card-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 16px; font-weight: 700;
+  color: var(--green-deep);
+  margin-bottom: 18px;
+  display: flex; align-items: center; gap: 8px;
+}
+
+/* config strip */
+.config-strip {
+  display: flex; gap: 16px; flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.config-field { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 120px; }
+.config-field label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px; }
+.config-field input, .config-field select {
+  padding: 8px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  transition: border-color .2s;
+}
+.config-field input:focus, .config-field select:focus {
+  outline: none; border-color: var(--green-accent);
+}
+
+/* product table */
+.table-scroll { overflow-x: auto; }
+.products-header {
+  display: grid;
+  grid-template-columns: 260px 100px 55px 100px 75px 95px 105px 105px 130px 36px;
+  min-width: 1200px;
+  gap: 8px;
+  padding: 8px 12px;
+  font-size: 11px; font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: .4px;
+  background: var(--green-light);
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+@media (max-width: 700px) {
+  .products-header { display: none; }
+}
+.product-row {
+  display: grid;
+  grid-template-columns: 260px 100px 55px 100px 75px 95px 105px 105px 130px 36px;
+  min-width: 1200px;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 8px;
+  background: var(--surface);
+  transition: border-color .2s;
+}
+.product-row:hover { border-color: var(--green-accent); }
+@media (max-width: 700px) {
+  .product-row { grid-template-columns: 1fr 1fr; gap: 6px; }
+  .product-row .col-name { grid-column: 1 / -1; }
+}
+.product-row input, .product-row select {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 13px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+}
+.product-row input:focus { outline: none; border-color: var(--green-accent); }
+.col-name input { font-weight: 500; font-size: 13px; }
+.badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.badge-win  { background: #D1FAE5; color: #065F46; }
+.badge-ok   { background: #DBEAFE; color: #1E40AF; }
+.badge-warn { background: #FEF3C7; color: #92400E; }
+.badge-bad  { background: #FEE2E2; color: #991B1B; }
+.badge-neu  { background: #E5E7EB; color: #4B5563; }
+
+/* ── SHOP ── */
+.shop-grid { display: grid; grid-template-columns: 1fr 330px; gap: 22px; }
+@media (max-width: 900px) { .shop-grid { grid-template-columns: 1fr; } }
+.cart-col { position: sticky; top: 24px; align-self: start; }
+
+.shop-item {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  transition: border-color .2s;
+}
+.shop-item:hover { border-color: var(--green-accent); }
+.shop-info { flex: 1; min-width: 220px; }
+.shop-brand {
+  font-size: 10px; font-weight: 700; color: var(--green-accent);
+  text-transform: uppercase; letter-spacing: .7px; margin-bottom: 3px;
+}
+.shop-name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px; font-weight: 700; color: var(--text);
+  line-height: 1.4; margin-bottom: 6px;
+}
+.shop-meta { font-size: 11px; color: var(--text-muted); }
+.shop-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.shop-price {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 20px; font-weight: 800; color: var(--green-deep);
+}
+.btn-add-cart {
+  padding: 8px 18px; border: none; border-radius: 8px;
+  background: var(--green-deep); color: #fff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700; font-size: 13px; cursor: pointer;
+  transition: background .15s; white-space: nowrap;
+}
+.btn-add-cart:hover { background: var(--green-mid); }
+
+/* ── CART ── */
+.cart-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--border);
+}
+.cart-row:last-child { border-bottom: none; }
+.cart-name { font-size: 12px; font-weight: 600; line-height: 1.4; flex: 1; }
+.cart-controls { display: flex; align-items: center; gap: 6px; margin-top: 5px; }
+.qty-btn {
+  width: 22px; height: 22px; border: 1px solid var(--border);
+  border-radius: 5px; background: var(--bg); color: var(--text);
+  font-size: 13px; cursor: pointer; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+}
+.qty-btn:hover { border-color: var(--green-accent); }
+.qty-num { font-size: 12px; font-weight: 700; min-width: 18px; text-align: center; }
+.cart-price { font-size: 13px; font-weight: 700; color: var(--green-deep); white-space: nowrap; }
+.cart-remove {
+  border: none; background: none; color: #C0392B;
+  font-size: 13px; cursor: pointer; padding: 0 2px;
+}
+
+/* ── MODAL ── */
+.modal-backdrop {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.55);
+  z-index: 500;
+  overflow-y: auto;
+  padding: 30px 16px;
+}
+.modal-backdrop.open { display: block; }
+.modal-box {
+  background: var(--surface);
+  border-radius: 14px;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 24px 26px;
+  box-shadow: 0 10px 40px rgba(0,0,0,.3);
+}
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 560px) { .form-grid { grid-template-columns: 1fr; } }
+.form-field { display: flex; flex-direction: column; gap: 4px; }
+.form-field.full { grid-column: 1 / -1; }
+.form-field label {
+  font-size: 11px; font-weight: 600; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: .4px;
+}
+.form-field input {
+  padding: 9px 12px; border: 1.5px solid var(--border);
+  border-radius: 8px; font-size: 13px;
+  background: var(--bg); color: var(--text);
+  font-family: 'Inter', sans-serif;
+}
+.form-field input:focus { outline: none; border-color: var(--green-accent); }
+
+.pay-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 560px) { .pay-grid { grid-template-columns: 1fr; } }
+.pay-option {
+  display: flex; align-items: center; gap: 11px;
+  padding: 11px 13px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.pay-option:hover { border-color: var(--green-accent); }
+.pay-option.selected { border-color: var(--green-deep); background: var(--green-light); }
+.pay-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 800; font-size: 12px; flex-shrink: 0;
+}
+.pay-name { font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.3; }
+.pay-desc { font-size: 11px; color: var(--text-muted); }
+.price-result {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px; font-weight: 700;
+  color: var(--green-mid);
+}
+.margin-pct {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.margin-ok  { color: var(--green-accent); font-weight: 600; }
+.margin-low { color: var(--warn); font-weight: 600; }
+.btn-del {
+  width: 32px; height: 32px;
+  border: none; border-radius: 6px;
+  background: #FEE2E2; color: var(--danger);
+  font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s;
+}
+.btn-del:hover { background: #FECACA; }
+.btn-add {
+  margin-top: 12px;
+  padding: 10px 20px;
+  border: 2px dashed var(--green-accent);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--green-mid);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700; font-size: 14px;
+  cursor: pointer; width: 100%;
+  transition: background .2s;
+}
+.btn-add:hover { background: var(--green-light); }
+
+/* summary card */
+.summary-card { position: sticky; top: 24px; }
+.summary-row {
+  display: flex; justify-content: space-between;
+  font-size: 14px; padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.summary-row:last-of-type { border-bottom: none; }
+.summary-row.total {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 18px; font-weight: 800;
+  color: var(--green-deep);
+  padding-top: 14px;
+}
+.summary-row .lbl { color: var(--text-muted); }
+.profit-bar-wrap { margin: 16px 0 8px; }
+.profit-bar-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
+.profit-bar { height: 10px; border-radius: 999px; background: var(--border); overflow: hidden; }
+.profit-bar-fill { height: 100%; background: var(--green-accent); border-radius: 999px; transition: width .4s; }
+.btn-export {
+  margin-top: 16px; width: 100%;
+  padding: 12px;
+  background: var(--green-deep);
+  color: #fff;
+  border: none; border-radius: 10px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700; font-size: 14px;
+  cursor: pointer; transition: background .2s;
+}
+.btn-export:hover { background: var(--green-mid); }
+.btn-export-cat {
+  margin-top: 8px; width: 100%;
+  padding: 10px;
+  background: var(--green-light);
+  color: var(--green-deep);
+  border: none; border-radius: 10px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700; font-size: 13px;
+  cursor: pointer; transition: background .2s;
+}
+.btn-export-cat:hover { background: var(--lime); }
+
+/* ── CATALOG ── */
+.catalog-controls {
+  display: flex; gap: 12px; flex-wrap: wrap;
+  margin-bottom: 24px; align-items: flex-end;
+}
+.catalog-controls input, .catalog-controls select {
+  padding: 9px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+}
+.catalog-controls input { flex: 1; min-width: 180px; }
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 18px;
+}
+.catalog-item {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: border-color .2s, transform .15s;
+}
+.catalog-item:hover { border-color: var(--green-accent); transform: translateY(-2px); }
+.catalog-img {
+  width: 100%; height: 150px;
+  object-fit: contain;
+  background: var(--green-light);
+  padding: 16px;
+}
+.catalog-img-placeholder {
+  width: 100%; height: 150px;
+  background: var(--green-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 48px;
+}
+.catalog-body { padding: 14px 16px; flex: 1; display: flex; flex-direction: column; }
+.catalog-brand {
+  font-size: 10px; font-weight: 600;
+  color: var(--green-accent);
+  text-transform: uppercase; letter-spacing: .6px;
+  margin-bottom: 4px;
+}
+.catalog-name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px; font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+  margin-bottom: 10px; flex: 1;
+  word-break: break-word;
+}
+.catalog-iherb-price {
+  font-size: 11px; color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.catalog-prices { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
+.catalog-price-resale {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 20px; font-weight: 800;
+  color: var(--green-deep);
+}
+.catalog-price-original {
+  font-size: 12px; color: var(--text-muted);
+  text-decoration: line-through;
+}
+.catalog-saving {
+  font-size: 11px; font-weight: 600;
+  color: var(--green-accent);
+  background: var(--green-light);
+  padding: 2px 8px; border-radius: 999px;
+  display: inline-block; margin-bottom: 10px;
+}
+.catalog-qty {
+  font-size: 11px; color: var(--text-muted);
+  margin-bottom: 10px;
+}
+.btn-order {
+  width: 100%;
+  padding: 9px;
+  background: var(--green-deep);
+  color: #fff;
+  border: none; border-radius: 8px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700; font-size: 13px;
+  cursor: pointer; transition: background .15s;
+}
+.btn-order:hover { background: var(--green-mid); }
+
+/* empty state */
+.empty-state {
+  text-align: center; padding: 60px 20px;
+  color: var(--text-muted);
+}
+.empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+.empty-state p { font-size: 15px; }
+
+/* notifications */
+.toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: var(--green-deep); color: #fff;
+  padding: 12px 20px; border-radius: 10px;
+  font-size: 14px; font-weight: 600;
+  box-shadow: 0 4px 20px rgba(0,0,0,.2);
+  transform: translateY(80px); opacity: 0;
+  transition: all .3s; z-index: 999;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* Print / PDF */
+@media print {
+  header, .tabs, .calc-grid > .card:first-child,
+  .catalog-controls, .btn-order, .btn-export,
+  .btn-export-cat, .btn-add, .btn-del { display: none !important; }
+  .catalog-grid { grid-template-columns: repeat(3, 1fr); }
+  body { background: white; }
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-icon">
+      <svg width="30" height="30" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 6 H16 M6 6 V16" stroke="#1B4332" stroke-width="3" stroke-linecap="round"/>
+        <path d="M42 6 H32 M42 6 V16" stroke="#1B4332" stroke-width="3" stroke-linecap="round"/>
+        <path d="M6 42 H16 M6 42 V32" stroke="#1B4332" stroke-width="3" stroke-linecap="round"/>
+        <path d="M42 42 H32 M42 42 V32" stroke="#1B4332" stroke-width="3" stroke-linecap="round"/>
+        <path d="M13 26 L19 26 L23 17 L27 33 L30 24 L35 24" stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </div>
+    <div>
+      <div class="brand-name">VITAFAMA</div>
+      <div class="brand-tagline">Vitalidad con prestigio</div>
+    </div>
+  </div>
+  <div class="header-badge" id="session-badge">Tienda pública</div>
+</header>
+
+<div class="tabs">
+  <button class="tab-btn" onclick="switchTab('admin')">🔒 Panel privado</button>
+  <button class="tab-btn active" onclick="switchTab('shop')">🛒 Tienda y pagos</button>
+  <button class="tab-btn" onclick="switchTab('catalog')">📦 Catálogo</button>
+</div>
+
+<main>
+
+<!-- ═══════════ TAB: PANEL PRIVADO (protegido) ═══════════ -->
+<div id="tab-admin" class="tab-panel">
+
+  <!-- Login -->
+  <div id="login-screen" style="max-width:420px;margin:40px auto;">
+    <div class="card" style="text-align:center;">
+      <div style="font-size:40px;margin-bottom:8px;">🔒</div>
+      <div class="card-title" style="justify-content:center;">Acceso al panel privado</div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px;line-height:1.6;">
+        Esta sección contiene costos, márgenes y ganancias. Solo para el administrador.
+      </p>
+      <div style="text-align:left;margin-bottom:12px;">
+        <label style="font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px;">Usuario</label>
+        <input type="text" id="login-user" autocomplete="username" placeholder="Usuario"
+          onkeydown="if(event.key==='Enter')doLogin()"
+          style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;">
+      </div>
+      <div style="text-align:left;margin-bottom:16px;">
+        <label style="font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px;">Contraseña</label>
+        <input type="password" id="login-pass" autocomplete="current-password" placeholder="Contraseña"
+          onkeydown="if(event.key==='Enter')doLogin()"
+          style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;">
+      </div>
+      <button class="btn-export" style="margin-top:0;" onclick="doLogin()">Entrar</button>
+      <div id="login-error" style="display:none;margin-top:12px;padding:8px 12px;border-radius:8px;background:#FEE2E2;color:#991B1B;font-size:12px;font-weight:600;"></div>
+      <div style="margin-top:18px;padding:10px 12px;background:#FEF3C7;border-radius:8px;font-size:11px;color:#92400E;line-height:1.6;text-align:left;">
+        <strong>⚠️ Aviso de seguridad:</strong> esta clave está en el código del archivo. Protege de curiosos, no de alguien técnico. Para seguridad real, publica solo la Tienda y el Catálogo, y guarda el panel privado en un archivo aparte que no subas a internet.
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenido protegido -->
+  <div id="admin-content" style="display:none;">
+  <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
+    <button onclick="doLogout()" style="padding:7px 16px;border:1.5px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text-muted);font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;">Cerrar sesión</button>
+  </div>
+  <div class="calc-grid">
+
+    <!-- LEFT: inputs -->
+    <div>
+      <div class="card" style="margin-bottom:20px;">
+        <div class="card-title">⚙️ Configuración del pedido</div>
+
+        <!-- Fórmula explicada -->
+        <div style="background:var(--green-light);border-radius:10px;padding:12px 16px;margin-bottom:18px;font-size:13px;line-height:1.7;color:var(--text);">
+          <strong>📐 Fórmula que usa la calculadora:</strong><br>
+          <span style="font-size:12px;color:var(--text-muted);">El "Precio iHerb" es el total tal como aparece en iHerb (ya incluye la cantidad). La cantidad es solo para mostrarle al cliente cuántas unidades recibe.</span><br>
+          <span style="font-family:monospace;font-size:12px;background:rgba(0,0,0,.06);padding:2px 6px;border-radius:4px;">
+            Flete proporcional = (Precio iHerb ÷ Subtotal total) × Flete iHerb
+          </span><br>
+          <span style="font-family:monospace;font-size:12px;background:rgba(0,0,0,.06);padding:2px 6px;border-radius:4px;">
+            Costo real = Precio iHerb + Flete proporcional
+          </span><br>
+          <span style="font-family:monospace;font-size:12px;background:rgba(0,0,0,.06);padding:2px 6px;border-radius:4px;">
+            Precio reventa = Costo real × (1 + Margen%)  →  redondeado
+          </span><br>
+          <span style="font-family:monospace;font-size:12px;background:rgba(0,0,0,.06);padding:2px 6px;border-radius:4px;">
+            Ganancia por producto = Precio reventa − Costo real
+          </span>
+        </div>
+
+        <div class="config-strip">
+          <div class="config-field">
+            <label>Flete iHerb (COP)</label>
+            <input type="number" id="cfg-flete" value="32111" min="0" step="100" oninput="recalc()">
+            <span style="font-size:11px;color:var(--text-muted);">Costo real de envío del pedido</span>
+          </div>
+          <div class="config-field">
+            <label>Redondear precios a</label>
+            <select id="cfg-round" onchange="recalc()">
+              <option value="1000">$1.000</option>
+              <option value="500" selected>$500</option>
+              <option value="100">$100</option>
+              <option value="0">Sin redondeo</option>
+            </select>
+            <span style="font-size:11px;color:var(--text-muted);">Para precios más limpios</span>
+          </div>
+        </div>
+
+        <!-- Slider de margen -->
+        <div style="margin-top:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <label style="font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;">Margen de ganancia a aplicar</label>
+            <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--green-deep);" id="margin-display">18%</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span style="font-size:12px;color:var(--text-muted);min-width:32px;">0%</span>
+            <input type="range" id="cfg-margin" min="0" max="80" value="18" step="1"
+              oninput="document.getElementById('margin-display').textContent=this.value+'%';recalc()"
+              style="flex:1;accent-color:var(--green-accent);height:6px;cursor:pointer;">
+            <span style="font-size:12px;color:var(--text-muted);min-width:32px;">80%</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:8px;">
+            <div style="text-align:center;flex:1;padding:6px 8px;background:var(--green-light);border-radius:8px;margin-right:6px;font-size:12px;">
+              <div style="color:var(--text-muted);">Margen mínimo recomendado</div>
+              <div style="font-weight:700;color:var(--green-mid);">
+                <input type="number" id="cfg-margin-min" value="12" min="0" max="80"
+                  style="width:48px;border:none;background:transparent;font-weight:700;color:var(--green-mid);font-size:14px;text-align:center;"
+                  oninput="updateMarkerLine()">%
+              </div>
+              <div style="font-size:10px;color:var(--text-muted);">Umbral mínimo acceptable</div>
+            </div>
+            <div style="text-align:center;flex:1;padding:6px 8px;background:var(--green-light);border-radius:8px;font-size:12px;">
+              <div style="color:var(--text-muted);">Margen máximo competitivo</div>
+              <div style="font-weight:700;color:var(--green-deep);">
+                <input type="number" id="cfg-margin-max" value="22" min="0" max="80"
+                  style="width:48px;border:none;background:transparent;font-weight:700;color:var(--green-deep);font-size:14px;text-align:center;"
+                  oninput="updateMarkerLine()">%
+              </div>
+              <div style="font-size:10px;color:var(--text-muted);">Sigue siendo competitivo vs tiendas</div>
+            </div>
+          </div>
+          <div id="margin-alert" style="display:none;margin-top:8px;padding:8px 12px;border-radius:8px;font-size:12px;font-weight:600;"></div>
+        </div>
+
+        <!-- Descuento vs mercado -->
+        <div style="margin-top:20px;padding:14px 16px;background:linear-gradient(135deg, #E8F5EE 0%, #D8F3DC 100%);border-radius:10px;border:2px solid var(--green-accent);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <label style="font-size:12px;font-weight:700;color:var(--green-deep);text-transform:uppercase;letter-spacing:.5px;">🎯 Modo estratégico: Descuento vs precio mercado</label>
+            <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--green-deep);" id="desc-display">8%</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span style="font-size:12px;color:var(--text-muted);min-width:32px;">0%</span>
+            <input type="range" id="cfg-desc-mercado" min="0" max="25" value="8" step="1"
+              oninput="document.getElementById('desc-display').textContent=this.value+'%';recalc()"
+              style="flex:1;accent-color:var(--green-deep);height:6px;cursor:pointer;">
+            <span style="font-size:12px;color:var(--text-muted);min-width:36px;">25%</span>
+          </div>
+          <div style="margin-top:10px;font-size:12px;color:var(--text);line-height:1.6;">
+            <strong>Cómo funciona:</strong> Cuando un producto tiene <em>Precio mercado</em>, el sistema lo prioriza y calcula: <code style="background:rgba(0,0,0,0.06);padding:1px 5px;border-radius:3px;">Reventa = Mercado × (1 − Descuento%)</code><br>
+            Los productos con costo bajo generan más margen y compensan a los apretados. Si algún producto queda por debajo del costo, se sube automáticamente al mínimo viable (costo + 3%).
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📋 Productos del pedido</div>
+        <div class="table-scroll">
+        <div class="products-header">
+          <span>Producto</span>
+          <span style="text-align:right" title="Precio total tal como aparece en iHerb (ya incluye la cantidad)">Precio iHerb (total)</span>
+          <span style="text-align:center">Cant.</span>
+          <span style="text-align:right">Costo real</span>
+          <span style="text-align:center" title="Margen específico para este producto. Vacío = usa el margen global.">Margen %</span>
+          <span style="text-align:right">Ganancia</span>
+          <span style="text-align:right">Precio reventa</span>
+          <span style="text-align:right" title="Precio de referencia en Mercado Libre / competencia">Precio mercado</span>
+          <span style="text-align:center">Estado</span>
+          <span></span>
+        </div>
+        <div id="products-list"></div>
+        </div><!-- end table-scroll -->
+        <button class="btn-add" onclick="addRow()">+ Agregar producto</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: summary -->
+    <div class="summary-card">
+      <div class="card">
+        <div class="card-title">📊 Resumen del pedido</div>
+
+        <div class="summary-row">
+          <span class="lbl">Subtotal iHerb</span>
+          <span id="sum-subtotal">$0</span>
+        </div>
+        <div class="summary-row">
+          <span class="lbl">Flete total</span>
+          <span id="sum-flete">$0</span>
+        </div>
+        <div class="summary-row">
+          <span class="lbl">Costo total real</span>
+          <span id="sum-costo">$0</span>
+        </div>
+        <div class="summary-row">
+          <span class="lbl">Total reventa</span>
+          <span id="sum-reventa" style="color:var(--green-mid);font-weight:700">$0</span>
+        </div>
+        <div class="summary-row total">
+          <span>Ganancia estimada</span>
+          <span id="sum-ganancia">$0</span>
+        </div>
+
+        <div class="profit-bar-wrap">
+          <div class="profit-bar-label">
+            <span>Margen sobre costo</span>
+            <span id="bar-pct">0%</span>
+          </div>
+          <div class="profit-bar">
+            <div class="profit-bar-fill" id="profit-bar-fill" style="width:0%"></div>
+          </div>
+        </div>
+
+        <div style="font-size:12px;color:var(--text-muted);margin-top:12px;line-height:1.5;">
+          💡 <strong>Estrategia:</strong> aplica margen sobre el costo real (precio iHerb + flete proporcional). El cliente paga menos que en tiendas naturistas sin importar él mismo.
+        </div>
+
+        <button class="btn-export" onclick="exportExcel()">📊 Exportar a Excel (.xlsx)</button>
+        <button class="btn-export-cat" onclick="printClientOrder()">🖨️ Imprimir pedido para cliente</button>
+      </div>
+
+      <div class="card" style="margin-top:16px;">
+        <div class="card-title">💰 Comparativa de mercado</div>
+        <div style="font-size:13px;color:var(--text-muted);line-height:1.6;">
+          <div style="margin-bottom:8px;">Un cliente que importa por sí mismo paga:</div>
+          <div style="background:var(--green-light);border-radius:8px;padding:10px 12px;color:var(--text);">
+            Producto + <strong>flete mínimo iHerb ~$25.000–$40.000</strong> + tiempo + riesgo de aduana. Comprarte a ti es más barato y sin complicaciones.
+          </div>
+          <div style="margin-top:10px;font-size:12px;">
+            Tiendas naturistas marcan <strong>+60–100%</strong> sobre precio de importación. Tu margen del <span id="comp-margin">22</span>% es muy competitivo.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  </div><!-- end admin-content -->
+</div>
+
+<!-- ═══════════ TAB: TIENDA Y PAGOS ═══════════ -->
+<div id="tab-shop" class="tab-panel active">
+  <div class="shop-grid">
+
+    <!-- Productos -->
+    <div>
+      <div class="card" style="margin-bottom:18px;">
+        <div class="card-title">🛍️ Nuestros productos</div>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:4px;">
+          Suplementos originales importados de Estados Unidos. Marcas certificadas con garantía de calidad. Entrega estimada: 17 a 22 días hábiles.
+        </p>
+      </div>
+      <div id="shop-list"></div>
+    </div>
+
+    <!-- Carrito -->
+    <div class="cart-col">
+      <div class="card">
+        <div class="card-title">🛒 Tu pedido</div>
+        <div id="cart-items"></div>
+        <div id="cart-summary" style="display:none;">
+          <div class="summary-row" style="margin-top:8px;">
+            <span class="lbl">Subtotal</span>
+            <span id="cart-subtotal">$0</span>
+          </div>
+          <div class="summary-row">
+            <span class="lbl">Domicilio</span>
+            <span id="cart-shipping">$0</span>
+          </div>
+          <div class="summary-row total">
+            <span>Total</span>
+            <span id="cart-total">$0</span>
+          </div>
+          <button class="btn-export" onclick="openCheckout()">Continuar al pago</button>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px;">
+        <div class="card-title">✅ Por qué comprarnos</div>
+        <div style="font-size:13px;color:var(--text-muted);line-height:1.8;">
+          <div>🇺🇸 Producto original importado de EE.UU.</div>
+          <div>🧪 Marcas con pruebas de laboratorio</div>
+          <div>💰 Más barato que tiendas naturistas</div>
+          <div>📦 Sin que tú pagues flete internacional</div>
+          <div>🤝 Atención personalizada</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════ MODAL CHECKOUT ═══════════ -->
+<div id="checkout-modal" class="modal-backdrop" onclick="if(event.target===this)closeCheckout()">
+  <div class="modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <div class="card-title" style="margin:0;">💳 Finalizar compra</div>
+      <button onclick="closeCheckout()" style="border:none;background:none;font-size:22px;cursor:pointer;color:var(--text-muted);line-height:1;">✕</button>
+    </div>
+
+    <!-- Paso 1: Datos -->
+    <div id="checkout-step1">
+      <div style="font-size:12px;font-weight:700;color:var(--green-deep);margin-bottom:10px;">1 · Tus datos</div>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Nombre completo *</label>
+          <input type="text" id="ck-name" placeholder="Nombre y apellido">
+        </div>
+        <div class="form-field">
+          <label>Documento *</label>
+          <input type="text" id="ck-doc" placeholder="C.C. / NIT">
+        </div>
+        <div class="form-field">
+          <label>Celular *</label>
+          <input type="tel" id="ck-phone" placeholder="300 000 0000">
+        </div>
+        <div class="form-field">
+          <label>Correo *</label>
+          <input type="email" id="ck-email" placeholder="correo@ejemplo.com">
+        </div>
+        <div class="form-field full">
+          <label>Dirección de entrega *</label>
+          <input type="text" id="ck-address" placeholder="Calle, número, apartamento">
+        </div>
+        <div class="form-field">
+          <label>Ciudad *</label>
+          <input type="text" id="ck-city" placeholder="Bogotá">
+        </div>
+        <div class="form-field">
+          <label>Departamento</label>
+          <input type="text" id="ck-state" placeholder="Cundinamarca">
+        </div>
+      </div>
+
+      <div style="font-size:12px;font-weight:700;color:var(--green-deep);margin:20px 0 10px;">2 · Método de pago</div>
+      <div class="pay-grid">
+        <div class="pay-option" data-method="PSE" onclick="selectPay(this)">
+          <div class="pay-icon" style="background:#0B4EA2;">PSE</div>
+          <div>
+            <div class="pay-name">PSE</div>
+            <div class="pay-desc">Débito desde tu banco</div>
+          </div>
+        </div>
+        <div class="pay-option" data-method="Nequi" onclick="selectPay(this)">
+          <div class="pay-icon" style="background:#DA0081;">N</div>
+          <div>
+            <div class="pay-name">Nequi</div>
+            <div class="pay-desc">Pago desde la app</div>
+          </div>
+        </div>
+        <div class="pay-option" data-method="Daviplata" onclick="selectPay(this)">
+          <div class="pay-icon" style="background:#ED1C24;">D</div>
+          <div>
+            <div class="pay-name">Daviplata</div>
+            <div class="pay-desc">Pago desde la app</div>
+          </div>
+        </div>
+        <div class="pay-option" data-method="Tarjeta de crédito" onclick="selectPay(this)">
+          <div class="pay-icon" style="background:#1B4332;">CR</div>
+          <div>
+            <div class="pay-name">Tarjeta de crédito</div>
+            <div class="pay-desc">Visa, Mastercard, Amex</div>
+          </div>
+        </div>
+        <div class="pay-option" data-method="Tarjeta débito" onclick="selectPay(this)">
+          <div class="pay-icon" style="background:#2D6A4F;">DB</div>
+          <div>
+            <div class="pay-name">Tarjeta débito</div>
+            <div class="pay-desc">Visa débito, Maestro</div>
+          </div>
+        </div>
+        <div class="pay-option" data-method="Transferencia / Contra entrega" onclick="selectPay(this)">
+          <div class="pay-icon" style="background:#52B788;">💵</div>
+          <div>
+            <div class="pay-name">Transferencia o contra entrega</div>
+            <div class="pay-desc">Coordinamos por WhatsApp</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="ck-error" style="display:none;margin-top:14px;padding:9px 12px;border-radius:8px;background:#FEE2E2;color:#991B1B;font-size:12px;font-weight:600;"></div>
+
+      <div style="margin-top:18px;padding:12px 14px;background:var(--green-light);border-radius:10px;">
+        <div style="display:flex;justify-content:space-between;font-size:14px;font-weight:700;color:var(--green-deep);">
+          <span>Total a pagar</span>
+          <span id="ck-total">$0</span>
+        </div>
+      </div>
+
+      <button class="btn-export" onclick="submitOrder()">Confirmar pedido</button>
+    </div>
+
+    <!-- Paso 2: Confirmación -->
+    <div id="checkout-step2" style="display:none;text-align:center;padding:10px 0;">
+      <div style="font-size:48px;margin-bottom:10px;">✅</div>
+      <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:19px;font-weight:800;color:var(--green-deep);margin-bottom:8px;">Pedido registrado</div>
+      <div style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:18px;" id="ck-confirm-msg"></div>
+      <div id="ck-summary-box" style="text-align:left;background:var(--green-light);border-radius:10px;padding:14px 16px;font-size:13px;line-height:1.8;margin-bottom:18px;"></div>
+      <button class="btn-export" style="margin-top:0;" onclick="sendWhatsApp()">📱 Enviar pedido por WhatsApp</button>
+      <button class="btn-export-cat" onclick="closeCheckout();clearCart()">Cerrar</button>
+    </div>
+  </div>
+</div>
+<div id="tab-catalog" class="tab-panel">
+  <div class="catalog-controls">
+    <input type="text" id="cat-search" placeholder="🔍 Buscar producto..." oninput="renderCatalog()">
+    <select id="cat-sort" onchange="renderCatalog()">
+      <option value="name">Ordenar: A–Z</option>
+      <option value="price-asc">Precio: menor primero</option>
+      <option value="price-desc">Precio: mayor primero</option>
+    </select>
+    <button class="btn-export" style="width:auto;padding:9px 18px;" onclick="window.print()">🖨 Imprimir catálogo</button>
+  </div>
+  <div id="catalog-grid" class="catalog-grid">
+    <div class="empty-state">
+      <div class="icon">🌿</div>
+      <p>Agrega productos en la calculadora<br>y presiona <strong>"Enviar al catálogo"</strong></p>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── STATE ──
+let products = [];
+let catalogItems = [];
+const EMOJIS = ['💊','🌿','🍋','💪','🫀','🧠','⚗️','🌱'];
+
+// ── INITIAL DATA (from screenshot) ──
+const DEMO = [
+  { name: 'Nutricost, Extracto diente de león, 180 cáps (525mg)', brand: 'Nutricost', price: 40528, qty: 1, marketPrice: 65000 },
+  { name: 'NOW Foods, Raíz diente de león, 500mg, 100 cáps vegetales', brand: 'NOW Foods', price: 22988, qty: 1, marketPrice: 45000 },
+  { name: 'NOW Foods, Citrato de magnesio, 200mg, 100 comprimidos', brand: 'NOW Foods', price: 39168, qty: 1, marketPrice: 60000 },
+  { name: 'Swanson, Hongo melena de león, 500mg, 60 cáps', brand: 'Swanson', price: 33864, qty: 1, marketPrice: 55000 },
+  { name: 'California Gold Nutrition, Vitamina C Quali-C, 1000mg, 60 cáps', brand: 'CGN', price: 55588, qty: 2, marketPrice: 90000 },
+  { name: 'California Gold Nutrition, Complejo Resveratrol, 60 cáps', brand: 'CGN', price: 23673, qty: 1, marketPrice: 50000 },
+  { name: 'California Gold Nutrition, Ashwagandha, 500mg, 120 cáps', brand: 'CGN', price: 88319, qty: 2, marketPrice: 140000 },
+  { name: 'Natural Factors, WellBetX Berberina, 120 cáps (500mg)', brand: 'Natural Factors', price: 107896, qty: 1, marketPrice: 119000 },
+];
+
+// ── INIT ──
+window.onload = () => {
+  DEMO.forEach(d => addRow(d));
+  recalc();
+  renderShop();
+  renderCart();
+  autoFillCatalog();
+};
+
+function autoFillCatalog() {
+  catalogItems = products.filter(p => p.name && p.price > 0).map((p, i) => ({
+    id: p.id,
+    name: p.name,
+    brand: p.brand || '',
+    qty: 1,
+    priceOriginal: p.marketPrice || 0,
+    resale: publicPrice(p),
+    imgUrl: '',
+    emoji: EMOJIS[i % EMOJIS.length]
+  }));
+  renderCatalog();
+}
+
+function updateMarkerLine() { recalc(); }
+
+function uid() { return Math.random().toString(36).slice(2, 7); }
+
+function addRow(data = {}) {
+  const id = uid();
+  products.push({
+    id,
+    name: data.name || '',
+    brand: data.brand || '',
+    price: data.price || 0,
+    qty: data.qty || 1,
+    marginOverride: data.marginOverride ?? null,
+    marketPrice: data.marketPrice || 0
+  });
+  renderRows();
+  recalc();
+}
+
+function removeRow(id) {
+  products = products.filter(p => p.id !== id);
+  renderRows();
+  recalc();
+}
+
+function updateField(id, field, val) {
+  const p = products.find(p => p.id === id);
+  if (!p) return;
+  if (field === 'price' || field === 'qty' || field === 'marketPrice') {
+    p[field] = parseFloat(val) || 0;
+  } else if (field === 'marginOverride') {
+    p[field] = val === '' ? null : parseFloat(val);
+  } else {
+    p[field] = val;
+  }
+  recalc();
+}
+
+function renderRows() {
+  const list = document.getElementById('products-list');
+  list.innerHTML = products.map((p, i) => `
+    <div class="product-row" id="row-${p.id}">
+      <div class="col-name"><input value="${esc(p.name)}" placeholder="Nombre del producto" title="${esc(p.name)}" oninput="updateField('${p.id}','name',this.value);this.title=this.value"></div>
+      <div style="text-align:right"><input type="number" value="${p.price}" min="0" step="100" style="text-align:right" oninput="updateField('${p.id}','price',this.value)"></div>
+      <div style="text-align:center"><input type="number" value="${p.qty}" min="1" max="99" style="text-align:center" oninput="updateField('${p.id}','qty',this.value)"></div>
+      <div id="costo-${p.id}" style="font-size:13px;font-weight:600;text-align:right;padding-right:4px;">—</div>
+      <div style="text-align:center">
+        <input type="number" value="${p.marginOverride ?? ''}" placeholder="global" min="0" max="100" step="1"
+          style="text-align:center;font-size:12px;padding:4px 6px;"
+          oninput="updateField('${p.id}','marginOverride',this.value)"
+          title="Deja vacío para usar el margen global. Escribe un número para usar margen específico para este producto.">
+      </div>
+      <div id="gan-${p.id}" style="font-size:13px;font-weight:600;color:var(--green-accent);text-align:right;padding-right:4px;">—</div>
+      <div id="resale-${p.id}" class="price-result" style="text-align:right;padding-right:4px;">—</div>
+      <div style="text-align:right">
+        <input type="number" value="${p.marketPrice || ''}" placeholder="opcional" min="0" step="1000"
+          style="text-align:right;font-size:12px;padding:4px 6px;"
+          oninput="updateField('${p.id}','marketPrice',this.value)"
+          title="Precio de referencia en Mercado Libre o competencia local. Sirve para calcular competitividad.">
+      </div>
+      <div id="status-${p.id}" style="text-align:center;">—</div>
+      <button class="btn-del" onclick="removeRow('${p.id}')" title="Eliminar">✕</button>
+    </div>
+  `).join('');
+}
+
+function esc(s) { return (s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+function fmt(n) {
+  return '$' + Math.round(n).toLocaleString('es-CO');
+}
+
+function roundTo(n, r) {
+  if (!r) return n;
+  return Math.ceil(n / r) * r;
+}
+
+function recalc() {
+  const flete    = parseFloat(document.getElementById('cfg-flete').value) || 0;
+  const marginG  = parseFloat(document.getElementById('cfg-margin').value) || 18;
+  const marginMin = parseFloat(document.getElementById('cfg-margin-min').value) || 12;
+  const marginMax = parseFloat(document.getElementById('cfg-margin-max').value) || 22;
+  const descMercado = parseFloat(document.getElementById('cfg-desc-mercado').value) || 8;
+  const round    = parseInt(document.getElementById('cfg-round').value) || 0;
+  const MIN_MARGIN = 3; // Margen mínimo viable
+
+  document.getElementById('comp-margin').textContent = marginG;
+
+  // Alert de margen global
+  const alert = document.getElementById('margin-alert');
+  if (marginG < marginMin) {
+    alert.style.display = 'block';
+    alert.style.background = '#FEF3C7'; alert.style.color = '#92400E';
+    alert.textContent = `⚠️ Margen global (${marginG}%) por debajo del mínimo recomendado (${marginMin}%).`;
+  } else if (marginG > marginMax) {
+    alert.style.display = 'block';
+    alert.style.background = '#FEF3C7'; alert.style.color = '#92400E';
+    alert.textContent = `⚠️ Margen global (${marginG}%) supera el máximo competitivo (${marginMax}%).`;
+  } else {
+    alert.style.display = 'block';
+    alert.style.background = '#D1FAE5'; alert.style.color = '#065F46';
+    alert.textContent = `✅ Margen global del ${marginG}% dentro del rango (${marginMin}%–${marginMax}%). Se usa solo para productos sin precio mercado.`;
+  }
+
+  const subtotal = products.reduce((s, p) => s + (p.price), 0);
+
+  let totalReventa = 0;
+  let totalCosto   = 0;
+  let hasForced = false;
+
+  products.forEach(p => {
+    const lineVal    = p.price;
+    const fleteShare = subtotal > 0 ? (lineVal / subtotal) * flete : 0;
+    const costoReal  = lineVal + fleteShare;
+
+    // Determinar precio de reventa según prioridad:
+    // 1. marginOverride manual (máxima prioridad)
+    // 2. Precio mercado × (1 − descMercado%)  — respetando mínimo viable
+    // 3. Costo × (1 + marginG%)
+    let resale, priceSource;
+    const minPrice = roundTo(costoReal * (1 + MIN_MARGIN/100), round);
+
+    if (p.marginOverride !== null && !isNaN(p.marginOverride) && p.marginOverride !== '') {
+      resale = roundTo(costoReal * (1 + p.marginOverride/100), round);
+      priceSource = 'manual';
+    } else if (p.marketPrice && p.marketPrice > 0) {
+      const marketBased = roundTo(p.marketPrice * (1 - descMercado/100), round);
+      if (marketBased < minPrice) {
+        resale = minPrice;
+        priceSource = 'forced-min';
+        hasForced = true;
+      } else {
+        resale = marketBased;
+        priceSource = 'market';
+      }
+    } else {
+      resale = roundTo(costoReal * (1 + marginG/100), round);
+      priceSource = 'global';
+    }
+
+    const ganancia = resale - costoReal;
+    const marginReal = costoReal > 0 ? (ganancia / costoReal * 100) : 0;
+
+    totalCosto   += costoReal;
+    totalReventa += resale;
+
+    const el = (id) => document.getElementById(id);
+    if (el(`costo-${p.id}`))   el(`costo-${p.id}`).textContent   = fmt(costoReal);
+    if (el(`gan-${p.id}`))     el(`gan-${p.id}`).textContent     = fmt(ganancia) + ' (' + marginReal.toFixed(0) + '%)';
+    if (el(`resale-${p.id}`))  el(`resale-${p.id}`).textContent  = fmt(resale);
+
+    // Status badge (basado en precio mercado + fuente del cálculo)
+    const statusEl = el(`status-${p.id}`);
+    if (statusEl) {
+      if (priceSource === 'forced-min') {
+        statusEl.innerHTML = '<span class="badge badge-warn" title="Precio subido al mínimo viable">⚠️ Ajustado</span>';
+      } else if (priceSource === 'manual') {
+        statusEl.innerHTML = '<span class="badge badge-ok">👤 Manual</span>';
+      } else if (!p.marketPrice) {
+        statusEl.innerHTML = '<span class="badge badge-neu">Sin ref.</span>';
+      } else if (resale < p.marketPrice * 0.92) {
+        statusEl.innerHTML = '<span class="badge badge-win">🟢 Muy competitivo</span>';
+      } else if (resale <= p.marketPrice * 1.02) {
+        statusEl.innerHTML = '<span class="badge badge-ok">✅ Competitivo</span>';
+      } else if (resale <= p.marketPrice * 1.10) {
+        statusEl.innerHTML = '<span class="badge badge-warn">⚠️ Un poco alto</span>';
+      } else {
+        statusEl.innerHTML = '<span class="badge badge-bad">🔴 Muy caro</span>';
+      }
+    }
+  });
+
+  const ganancia = totalReventa - totalCosto;
+  const pct = totalCosto > 0 ? (ganancia / totalCosto * 100) : 0;
+
+  document.getElementById('sum-subtotal').textContent = fmt(subtotal);
+  document.getElementById('sum-flete').textContent    = fmt(flete);
+  document.getElementById('sum-costo').textContent    = fmt(totalCosto);
+  document.getElementById('sum-reventa').textContent  = fmt(totalReventa);
+  document.getElementById('sum-ganancia').textContent = fmt(ganancia);
+  document.getElementById('bar-pct').textContent      = pct.toFixed(1) + '%';
+  document.getElementById('profit-bar-fill').style.width = Math.min(pct * 2, 100) + '%';
+}
+
+// ── CATALOG ──
+function sendToCatalog() {
+  const flete  = parseFloat(document.getElementById('cfg-flete').value) || 0;
+  const margin = parseFloat(document.getElementById('cfg-margin').value) || 22;
+  const round  = parseInt(document.getElementById('cfg-round').value) || 0;
+  const subtotal = products.reduce((s, p) => s + p.price, 0);
+
+  catalogItems = products.filter(p => p.name && p.price > 0).map((p, i) => {
+    const lineVal    = p.price;
+    const fleteShare = subtotal > 0 ? (lineVal / subtotal) * flete : 0;
+    const costoReal  = lineVal + fleteShare;
+    const resale     = roundTo(costoReal * (1 + margin / 100), round);
+    return {
+      id: p.id,
+      name: p.name,
+      brand: p.brand || '',
+      qty: p.qty,
+      priceOriginal: p.price,
+      resale,
+      imgUrl: p.imgUrl || '',
+      emoji: EMOJIS[i % EMOJIS.length]
+    };
+  });
+
+  renderCatalog();
+  switchTab('catalog');
+  toast('✅ Catálogo actualizado con ' + catalogItems.length + ' productos');
+}
+
+function renderCatalog() {
+  const grid   = document.getElementById('catalog-grid');
+  const search = (document.getElementById('cat-search').value || '').toLowerCase();
+  const sort   = document.getElementById('cat-sort').value;
+
+  let items = catalogItems.filter(c => c.name.toLowerCase().includes(search) || c.brand.toLowerCase().includes(search));
+
+  if (sort === 'name')       items.sort((a,b) => a.name.localeCompare(b.name));
+  if (sort === 'price-asc')  items.sort((a,b) => a.resale - b.resale);
+  if (sort === 'price-desc') items.sort((a,b) => b.resale - a.resale);
+
+  if (!items.length) {
+    grid.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><p>${catalogItems.length ? 'Sin resultados para "'+search+'"' : 'Agrega productos en la calculadora<br>y presiona <strong>"Enviar al catálogo"</strong>'}</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = items.map(c => {
+    const imgHtml = c.imgUrl
+      ? `<img src="${esc(c.imgUrl)}" class="catalog-img"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+            alt="${esc(c.name)}">
+         <div class="catalog-img-placeholder" style="display:none">${c.emoji}</div>`
+      : `<div class="catalog-img-placeholder">${c.emoji}</div>`;
+    return `
+    <div class="catalog-item">
+      ${imgHtml}
+      <div class="catalog-body">
+        <div class="catalog-brand">${esc(c.brand) || 'VITAFAMA'}</div>
+        <div class="catalog-name">${esc(c.name)}</div>
+        ${c.priceOriginal > c.resale ? '<div class="catalog-iherb-price">Tiendas locales: <span style="text-decoration:line-through">' + fmt(c.priceOriginal) + '</span></div>' : ''}
+        <div class="catalog-prices">
+          <span class="catalog-price-resale">${fmt(c.resale)}</span>
+        </div>
+        <div class="catalog-qty">🇺🇸 Importado de EE.UU. · Original</div>
+        <div class="catalog-saving">✓ Marca certificada con garantía</div>
+        <button class="btn-order" onclick="addToCart('${c.id}');switchTab('shop')">Agregar al pedido</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── EXPORT EXCEL ──
+function exportExcel() {
+  const flete     = parseFloat(document.getElementById('cfg-flete').value) || 0;
+  const marginG   = parseFloat(document.getElementById('cfg-margin').value) || 18;
+  const marginMin = parseFloat(document.getElementById('cfg-margin-min').value) || 12;
+  const marginMax = parseFloat(document.getElementById('cfg-margin-max').value) || 22;
+  const descMercado = parseFloat(document.getElementById('cfg-desc-mercado').value) || 8;
+  const round     = parseInt(document.getElementById('cfg-round').value) || 0;
+  const subtotal  = products.reduce((s,p) => s + p.price, 0);
+  const fecha     = new Date().toLocaleDateString('es-CO');
+  const MIN_MARGIN = 3;
+
+  const wb = XLSX.utils.book_new();
+
+  const headers = [
+    'Producto', 'Marca', 'Precio iHerb (total línea)',
+    'Cantidad recibe cliente', 'Flete proporcional (COP)', 'Costo real (COP)',
+    'Margen aplicado', 'Precio reventa (COP)',
+    'Ganancia por producto (COP)', '% Ganancia real',
+    'Precio mercado ref. (COP)', 'Estado', 'Fuente cálculo'
+  ];
+
+  const calcResale = (p, cr) => {
+    const minPrice = roundTo(cr * (1 + MIN_MARGIN/100), round);
+    if (p.marginOverride !== null && !isNaN(p.marginOverride) && p.marginOverride !== '') {
+      return { rv: roundTo(cr * (1 + p.marginOverride/100), round), src: 'Manual (' + p.marginOverride + '%)' };
+    }
+    if (p.marketPrice && p.marketPrice > 0) {
+      const mb = roundTo(p.marketPrice * (1 - descMercado/100), round);
+      if (mb < minPrice) return { rv: minPrice, src: 'Mercado (ajustado a mínimo)' };
+      return { rv: mb, src: 'Mercado (-' + descMercado + '%)' };
+    }
+    return { rv: roundTo(cr * (1 + marginG/100), round), src: 'Global (' + marginG + '%)' };
+  };
+
+  const getStatus = (rv, cr, mp) => {
+    if (!mp) return 'Sin referencia';
+    if (rv < cr * 1.02) return '🔴 No rentable';
+    if (rv < mp * 0.92) return '🟢 Muy competitivo';
+    if (rv <= mp * 1.02) return '✅ Competitivo';
+    if (rv <= mp * 1.10) return '⚠️ Un poco alto';
+    return '🔴 Muy caro';
+  };
+
+  const dataRows = products.map(p => {
+    const lv = p.price;
+    const fs = subtotal > 0 ? (lv / subtotal) * flete : 0;
+    const cr = lv + fs;
+    const { rv, src } = calcResale(p, cr);
+    const gan = rv - cr;
+    const ganPct = cr > 0 ? (gan / cr * 100) : 0;
+    return [
+      p.name, p.brand || '', p.price,
+      p.qty, Math.round(fs), Math.round(cr),
+      ganPct / 100, rv,
+      Math.round(gan), ganPct / 100,
+      p.marketPrice || '', getStatus(rv, cr, p.marketPrice), src
+    ];
+  });
+
+  const totalLv  = products.reduce((s,p) => s + p.price, 0);
+  const totalCr  = products.reduce((s,p) => {
+    const lv=p.price; const fs=subtotal>0?(lv/subtotal)*flete:0; return s+lv+fs;
+  }, 0);
+  const totalRv  = products.reduce((s,p) => {
+    const lv=p.price; const fs=subtotal>0?(lv/subtotal)*flete:0; const cr=lv+fs;
+    return s + calcResale(p, cr).rv;
+  }, 0);
+  const totalGan = totalRv - totalCr;
+
+  const totalsRow = ['TOTAL', '', totalLv, '', flete, Math.round(totalCr), '', totalRv, Math.round(totalGan), totalCr>0?totalGan/totalCr:0, '', '', ''];
+
+  const wsData = [headers, ...dataRows, [], totalsRow];
+  const ws = XLSX.utils.aoa_to_sheet(wsData);
+
+  ws['!cols'] = [
+    {wch:50},{wch:18},{wch:22},{wch:10},{wch:20},{wch:18},{wch:12},{wch:20},{wch:22},{wch:14},{wch:22},{wch:22},{wch:26}
+  ];
+
+  const fmtCOP  = '"$"#,##0';
+  const fmtPct  = '0.0%';
+  const startRow = 2;
+
+  dataRows.forEach((_, ri) => {
+    const r = startRow + ri;
+    ['C','E','F','H','I','K'].forEach(col => {
+      const cell = ws[col + r];
+      if (cell) cell.z = fmtCOP;
+    });
+    const gCell = ws['G' + r]; if (gCell) gCell.z = fmtPct;
+    const jCell = ws['J' + r]; if (jCell) jCell.z = fmtPct;
+  });
+
+  const tr = startRow + dataRows.length + 1;
+  ['C','E','F','H','I'].forEach(col => {
+    const cell = ws[col + tr]; if (cell) cell.z = fmtCOP;
+  });
+  const jTot = ws['J' + tr]; if (jTot) jTot.z = fmtPct;
+
+  XLSX.utils.book_append_sheet(wb, ws, 'Cálculo detallado');
+
+  // ── HOJA 2: Configuración y fórmulas ──
+  const cfgData = [
+    ['CONFIGURACIÓN DEL PEDIDO', ''],
+    ['Fecha', fecha],
+    ['Flete iHerb total (COP)', flete],
+    ['Margen global aplicado', marginG / 100],
+    ['Margen mínimo recomendado', marginMin / 100],
+    ['Margen máximo competitivo', marginMax / 100],
+    ['Redondeo aplicado (COP)', round || 'Sin redondeo'],
+    [],
+    ['FÓRMULAS USADAS', ''],
+    ['Nota', 'El Precio iHerb es el total de la línea en iHerb (ya incluye cantidad).'],
+    ['Flete proporcional por producto', '= (Precio iHerb ÷ Subtotal total) × Flete iHerb'],
+    ['Costo real', '= Precio iHerb + Flete proporcional'],
+    ['Precio reventa', '= Costo real × (1 + Margen%)  →  redondeado al múltiplo elegido'],
+    ['Ganancia por producto', '= Precio reventa − Costo real'],
+    ['% Ganancia real', '= Ganancia ÷ Costo real'],
+    [],
+    ['RESUMEN', ''],
+    ['Subtotal iHerb (COP)', subtotal],
+    ['Flete total (COP)', flete],
+    ['Costo real total (COP)', Math.round(totalCr)],
+    ['Total reventa (COP)', totalRv],
+    ['Ganancia total estimada (COP)', Math.round(totalGan)],
+    ['Margen real obtenido', totalCr > 0 ? totalGan / totalCr : 0],
+  ];
+
+  const ws2 = XLSX.utils.aoa_to_sheet(cfgData);
+  ws2['!cols'] = [{wch:40},{wch:50}];
+  ['B4','B5','B6'].forEach(ref => { const c = ws2[ref]; if(c) c.z = fmtPct; });
+  ['B18','B19','B20','B21','B22'].forEach(ref => { const c = ws2[ref]; if(c) c.z = fmtCOP; });
+  const cMarg = ws2['B23']; if(cMarg) cMarg.z = fmtPct;
+
+  XLSX.utils.book_append_sheet(wb, ws2, 'Config y fórmulas');
+
+  XLSX.writeFile(wb, `VITAFAMA-precios-${fecha.replace(/\//g,'-')}.xlsx`);
+  toast('✅ Excel exportado con ' + products.length + ' productos');
+}
+
+// ── IMPRIMIR PEDIDO CLIENTE ──
+function printClientOrder() {
+  const flete    = parseFloat(document.getElementById('cfg-flete').value) || 0;
+  const marginG  = parseFloat(document.getElementById('cfg-margin').value) || 18;
+  const descMercado = parseFloat(document.getElementById('cfg-desc-mercado').value) || 8;
+  const round    = parseInt(document.getElementById('cfg-round').value) || 0;
+  const subtotal = products.reduce((s,p) => s + p.price, 0);
+  const fecha    = new Date().toLocaleDateString('es-CO', {year:'numeric',month:'long',day:'numeric'});
+  const MIN_MARGIN = 3;
+
+  const rows = products.filter(p => p.name && p.price > 0).map(p => {
+    const lv = p.price;
+    const fs = subtotal > 0 ? (lv / subtotal) * flete : 0;
+    const cr = lv + fs;
+    const minPrice = roundTo(cr * (1 + MIN_MARGIN/100), round);
+    let rv;
+    if (p.marginOverride !== null && !isNaN(p.marginOverride) && p.marginOverride !== '') {
+      rv = roundTo(cr * (1 + p.marginOverride/100), round);
+    } else if (p.marketPrice && p.marketPrice > 0) {
+      const mb = roundTo(p.marketPrice * (1 - descMercado/100), round);
+      rv = Math.max(minPrice, mb);
+    } else {
+      rv = roundTo(cr * (1 + marginG / 100), round);
+    }
+    return { name: p.name, qty: p.qty, precio: rv };
+  });
+
+  const totalCliente = rows.reduce((s,r) => s + r.precio, 0);
+
+  const html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Pedido — VITAFAMA</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', Arial, sans-serif; color: #1A2421; background: #fff; padding: 40px; }
+  .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; border-bottom: 3px solid #1B4332; padding-bottom: 20px; }
+  .brand { font-size: 26px; font-weight: 700; color: #1B4332; }
+  .brand span { display: block; font-size: 13px; font-weight: 400; color: #4A6358; margin-top: 4px; }
+  .meta { text-align: right; font-size: 13px; color: #4A6358; line-height: 1.7; }
+  h2 { font-size: 16px; color: #1B4332; margin-bottom: 16px; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
+  thead tr { background: #1B4332; color: #fff; }
+  thead th { padding: 12px 14px; text-align: left; font-size: 13px; font-weight: 600; }
+  thead th:last-child { text-align: right; }
+  thead th:nth-child(2) { text-align: center; }
+  tbody tr { border-bottom: 1px solid #D8F3DC; }
+  tbody tr:nth-child(even) { background: #F4F9F6; }
+  tbody td { padding: 11px 14px; font-size: 13px; vertical-align: top; line-height: 1.4; }
+  tbody td:last-child { text-align: right; font-weight: 600; white-space: nowrap; }
+  tbody td:nth-child(2) { text-align: center; }
+  .total-row { background: #1B4332 !important; }
+  .total-row td { color: #fff; font-weight: 700; font-size: 15px; padding: 13px 14px; border-bottom: none; }
+  .total-row td:last-child { color: #B7E4C7; }
+  .footer { margin-top: 32px; font-size: 12px; color: #4A6358; line-height: 1.7; border-top: 1px solid #C3E6CB; padding-top: 16px; }
+  .note { background: #D8F3DC; border-radius: 8px; padding: 12px 16px; font-size: 12px; color: #1B4332; margin-bottom: 20px; }
+  @media print {
+    body { padding: 20px; }
+    @page { margin: 15mm; size: A4; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <div>
+    <div class="brand">🌿 VITAFAMA<span>Suplementos importados de EE.UU. — Salud &amp; Rendimiento</span></div>
+  </div>
+  <div class="meta">
+    <strong>Fecha:</strong> ${fecha}<br>
+    <strong>Pedido #:</strong> ${Math.floor(Math.random()*9000)+1000}<br>
+    <strong>Entrega estimada:</strong> 17–22 días hábiles
+  </div>
+</div>
+
+<div class="note">
+  📦 Productos importados directamente desde Estados Unidos. Marcas certificadas, originales y con garantía de calidad. Precio incluye producto + flete internacional.
+</div>
+
+<h2>Detalle del pedido</h2>
+<table>
+  <thead>
+    <tr>
+      <th style="width:60%">Producto</th>
+      <th style="width:10%">Cant.</th>
+      <th style="width:30%">Valor</th>
+    </tr>
+  </thead>
+  <tbody>
+    ${rows.map(r => `
+    <tr>
+      <td>${r.name}</td>
+      <td>${r.qty}</td>
+      <td>${'$' + Math.round(r.precio).toLocaleString('es-CO')}</td>
+    </tr>`).join('')}
+    <tr class="total-row">
+      <td colspan="2">TOTAL A PAGAR</td>
+      <td>${'$' + Math.round(totalCliente).toLocaleString('es-CO')}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="footer">
+  • Precios en pesos colombianos (COP) &nbsp;|&nbsp; Incluye flete internacional<br>
+  • Productos originales con garantía de calidad &nbsp;|&nbsp; Pago contra entrega o transferencia anticipada<br>
+  • Contacto: VITAFAMA — Fabián Mauricio Ospina Castañeda
+</div>
+<script>window.onload = () => { window.print(); }<\/script>
+</body>
+</html>`;
+
+  const win = window.open('', '_blank');
+  win.document.write(html);
+  win.document.close();
+}
+
+// ── LOGIN ──
+const ADMIN_USER = 'Faustolliniperrone*2025';
+const ADMIN_PASS = 'FMOC*FP1420';
+let isLogged = false;
+
+function doLogin() {
+  const u = document.getElementById('login-user').value;
+  const p = document.getElementById('login-pass').value;
+  const err = document.getElementById('login-error');
+  if (u === ADMIN_USER && p === ADMIN_PASS) {
+    isLogged = true;
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-content').style.display = 'block';
+    document.getElementById('session-badge').textContent = 'Sesión de administrador';
+    err.style.display = 'none';
+    document.getElementById('login-pass').value = '';
+    recalc();
+  } else {
+    err.style.display = 'block';
+    err.textContent = 'Usuario o contraseña incorrectos. Verifica e intenta de nuevo.';
+  }
+}
+
+function doLogout() {
+  isLogged = false;
+  document.getElementById('login-screen').style.display = 'block';
+  document.getElementById('admin-content').style.display = 'none';
+  document.getElementById('session-badge').textContent = 'Tienda pública';
+  document.getElementById('login-user').value = '';
+  document.getElementById('login-pass').value = '';
+  document.getElementById('login-error').style.display = 'none';
+  switchTab('shop');
+}
+
+// ── PRECIO PÚBLICO (misma lógica que recalc, sin exponer costos) ──
+function publicPrice(p) {
+  const flete       = parseFloat(document.getElementById('cfg-flete').value) || 0;
+  const marginG     = parseFloat(document.getElementById('cfg-margin').value) || 18;
+  const descMercado = parseFloat(document.getElementById('cfg-desc-mercado').value) || 8;
+  const round       = parseInt(document.getElementById('cfg-round').value) || 0;
+  const MIN_MARGIN  = 3;
+  const subtotal    = products.reduce((s, x) => s + x.price, 0);
+
+  const fs = subtotal > 0 ? (p.price / subtotal) * flete : 0;
+  const cr = p.price + fs;
+  const minPrice = roundTo(cr * (1 + MIN_MARGIN/100), round);
+
+  if (p.marginOverride !== null && !isNaN(p.marginOverride) && p.marginOverride !== '') {
+    return roundTo(cr * (1 + p.marginOverride/100), round);
+  }
+  if (p.marketPrice && p.marketPrice > 0) {
+    return Math.max(minPrice, roundTo(p.marketPrice * (1 - descMercado/100), round));
+  }
+  return roundTo(cr * (1 + marginG/100), round);
+}
+
+// ── TIENDA ──
+const SHIPPING_LOCAL = 12000;
+
+function renderShop() {
+  const list = document.getElementById('shop-list');
+  const items = products.filter(p => p.name && p.price > 0);
+  if (!items.length) {
+    list.innerHTML = '<div class="empty-state"><div class="icon">🌿</div><p>Catálogo en actualización. Vuelve pronto.</p></div>';
+    return;
+  }
+  list.innerHTML = items.map(p => {
+    const price = publicPrice(p);
+    const mp = p.marketPrice || 0;
+    const saving = mp > price ? mp - price : 0;
+    return `
+    <div class="shop-item">
+      <div class="shop-info">
+        <div class="shop-brand">${esc(p.brand) || 'VITAFAMA'}</div>
+        <div class="shop-name">${esc(p.name)}</div>
+        <div class="shop-meta">Importado de EE.UU. · Original con garantía${saving > 0 ? ' · <strong style="color:var(--green-accent)">Ahorras ' + fmt(saving) + '</strong> vs tiendas locales' : ''}</div>
+      </div>
+      <div class="shop-right">
+        ${saving > 0 ? '<div style="font-size:12px;color:var(--text-muted);text-decoration:line-through;">' + fmt(mp) + '</div>' : ''}
+        <div class="shop-price">${fmt(price)}</div>
+        <button class="btn-add-cart" onclick="addToCart('${p.id}')">Agregar</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── CARRITO ──
+let cart = [];
+
+function addToCart(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  const existing = cart.find(c => c.id === id);
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({ id, name: p.name, brand: p.brand, price: publicPrice(p), qty: 1 });
+  }
+  renderCart();
+  toast('Agregado al pedido');
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(c => c.id === id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) cart = cart.filter(c => c.id !== id);
+  renderCart();
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(c => c.id !== id);
+  renderCart();
+}
+
+function clearCart() {
+  cart = [];
+  renderCart();
+}
+
+function cartTotals() {
+  const subtotal = cart.reduce((s, c) => s + c.price * c.qty, 0);
+  const shipping = cart.length ? SHIPPING_LOCAL : 0;
+  return { subtotal, shipping, total: subtotal + shipping };
+}
+
+function renderCart() {
+  const box = document.getElementById('cart-items');
+  const sum = document.getElementById('cart-summary');
+  if (!cart.length) {
+    box.innerHTML = '<div style="text-align:center;padding:26px 10px;color:var(--text-muted);font-size:13px;">Tu pedido está vacío.<br>Agrega productos desde la lista.</div>';
+    sum.style.display = 'none';
+    return;
+  }
+  box.innerHTML = cart.map(c => `
+    <div class="cart-row">
+      <div style="flex:1;">
+        <div class="cart-name">${esc(c.name)}</div>
+        <div class="cart-controls">
+          <button class="qty-btn" onclick="changeQty('${c.id}',-1)">−</button>
+          <span class="qty-num">${c.qty}</span>
+          <button class="qty-btn" onclick="changeQty('${c.id}',1)">+</button>
+          <button class="cart-remove" onclick="removeFromCart('${c.id}')" title="Quitar">✕</button>
+        </div>
+      </div>
+      <div class="cart-price">${fmt(c.price * c.qty)}</div>
+    </div>`).join('');
+
+  const t = cartTotals();
+  document.getElementById('cart-subtotal').textContent = fmt(t.subtotal);
+  document.getElementById('cart-shipping').textContent = fmt(t.shipping);
+  document.getElementById('cart-total').textContent    = fmt(t.total);
+  sum.style.display = 'block';
+}
+
+// ── CHECKOUT ──
+let selectedMethod = '';
+let lastOrder = null;
+
+function openCheckout() {
+  if (!cart.length) { toast('Agrega productos antes de pagar'); return; }
+  document.getElementById('checkout-step1').style.display = 'block';
+  document.getElementById('checkout-step2').style.display = 'none';
+  document.getElementById('ck-total').textContent = fmt(cartTotals().total);
+  document.getElementById('checkout-modal').classList.add('open');
+}
+
+function closeCheckout() {
+  document.getElementById('checkout-modal').classList.remove('open');
+}
+
+function selectPay(el) {
+  document.querySelectorAll('.pay-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedMethod = el.dataset.method;
+  document.getElementById('ck-error').style.display = 'none';
+}
+
+function submitOrder() {
+  const err = document.getElementById('ck-error');
+  const get = id => document.getElementById(id).value.trim();
+  const name = get('ck-name'), doc = get('ck-doc'), phone = get('ck-phone');
+  const email = get('ck-email'), address = get('ck-address'), city = get('ck-city');
+  const state = get('ck-state');
+
+  if (!name || !doc || !phone || !email || !address || !city) {
+    err.style.display = 'block';
+    err.textContent = 'Completa todos los campos marcados con *.';
+    return;
+  }
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+    err.style.display = 'block';
+    err.textContent = 'Escribe un correo válido.';
+    return;
+  }
+  if (!selectedMethod) {
+    err.style.display = 'block';
+    err.textContent = 'Selecciona un método de pago.';
+    return;
+  }
+  err.style.display = 'none';
+
+  const t = cartTotals();
+  const ref = 'VF-' + Date.now().toString().slice(-6);
+  lastOrder = { ref, name, doc, phone, email, address, city, state, method: selectedMethod, items: [...cart], ...t };
+
+  document.getElementById('ck-confirm-msg').innerHTML =
+    `Referencia <strong>${ref}</strong><br>Te contactaremos al ${phone} para confirmar el pago por <strong>${selectedMethod}</strong> y coordinar la entrega.`;
+
+  document.getElementById('ck-summary-box').innerHTML =
+    lastOrder.items.map(i => `<div>${i.qty} × ${esc(i.name)} — <strong>${fmt(i.price * i.qty)}</strong></div>`).join('') +
+    `<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);"><strong>Total: ${fmt(t.total)}</strong></div>` +
+    `<div style="margin-top:8px;font-size:12px;color:var(--text-muted);">Entrega: ${esc(address)}, ${esc(city)}</div>`;
+
+  document.getElementById('checkout-step1').style.display = 'none';
+  document.getElementById('checkout-step2').style.display = 'block';
+}
+
+function sendWhatsApp() {
+  if (!lastOrder) return;
+  const o = lastOrder;
+  const lines = [
+    `*Nuevo pedido VITAFAMA* (${o.ref})`,
+    '',
+    `*Cliente:* ${o.name}`,
+    `*Documento:* ${o.doc}`,
+    `*Celular:* ${o.phone}`,
+    `*Correo:* ${o.email}`,
+    `*Dirección:* ${o.address}, ${o.city}${o.state ? ', ' + o.state : ''}`,
+    `*Método de pago:* ${o.method}`,
+    '',
+    '*Productos:*',
+    ...o.items.map(i => `• ${i.qty} × ${i.name} — $${Math.round(i.price * i.qty).toLocaleString('es-CO')}`),
+    '',
+    `*Subtotal:* $${Math.round(o.subtotal).toLocaleString('es-CO')}`,
+    `*Domicilio:* $${Math.round(o.shipping).toLocaleString('es-CO')}`,
+    `*TOTAL:* $${Math.round(o.total).toLocaleString('es-CO')}`
+  ];
+  const url = 'https://wa.me/?text=' + encodeURIComponent(lines.join('\n'));
+  window.open(url, '_blank');
+}
+
+// ── TABS ──
+function switchTab(name) {
+  const order = ['admin', 'shop', 'catalog'];
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  const idx = order.indexOf(name);
+  if (idx >= 0) document.querySelectorAll('.tab-btn')[idx].classList.add('active');
+  if (name === 'shop') { renderShop(); renderCart(); }
+}
+
+// ── TOAST ──
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
