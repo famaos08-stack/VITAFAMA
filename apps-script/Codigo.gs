@@ -120,6 +120,7 @@ function json(obj) {
 function prepararHoja() {
   Object.keys(TABS).forEach(k => getSheet(TABS[k]));
   const ss = SpreadsheetApp.getActiveSpreadsheet();
+  ss.setSpreadsheetTimeZone('America/Bogota');   // fechas en hora de Colombia
   const r = ss.getSheetByName('Resumen') || ss.insertSheet('Resumen', 0);
   const rows = [
     ['Clientes registrados', '=COUNTA(Clientes!C2:C)', '0'],
@@ -132,5 +133,18 @@ function prepararHoja() {
   rows.forEach((row, i) => {
     r.getRange(4 + i, 1).setValue(row[0]);
     r.getRange(4 + i, 2).setFormula(row[1]).setNumberFormat(row[2]).setFontWeight('bold');
+  });
+}
+
+/** Borra las filas de prueba (sesión o mensaje que empiezan por "PRUEBA") de todas las pestañas. */
+function borrarPruebas() {
+  Object.keys(TABS).forEach(k => {
+    const sheet = getSheet(TABS[k]);
+    const last = sheet.getLastRow();
+    if (last < 2) return;
+    const values = sheet.getRange(2, 1, last - 1, sheet.getLastColumn()).getValues();
+    for (let i = values.length - 1; i >= 0; i--) {
+      if (values[i].some(v => /^PRUEBA/.test(String(v)))) sheet.deleteRow(i + 2);
+    }
   });
 }
