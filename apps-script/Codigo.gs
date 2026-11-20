@@ -116,7 +116,21 @@ function json(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
 }
 
-/** Opcional: ejecútalo una vez desde el editor para comprobar que todo escribe bien. */
-function probar() {
-  append('chat', { session: 'prueba', client: 'Prueba', message: 'Hola, ¿esto funciona?', answer: 'Saludo', resolved: 'Sí' });
+/** Ejecútalo una vez desde el editor: crea las pestañas que falten y arma la pestaña "Resumen". */
+function prepararHoja() {
+  Object.keys(TABS).forEach(k => getSheet(TABS[k]));
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const r = ss.getSheetByName('Resumen') || ss.insertSheet('Resumen', 0);
+  const rows = [
+    ['Clientes registrados', '=COUNTA(Clientes!C2:C)', '0'],
+    ['Mensajes recibidos en el chat', '=COUNTA(Conversaciones!D2:D)', '0'],
+    ['Preguntas que el bot no supo responder', '=COUNTIF(Conversaciones!F2:F,"No")', '0'],
+    ['Pedidos registrados', '=COUNTA(Pedidos!B2:B)', '0'],
+    ['Valor de pedidos registrados', '=SUM(Pedidos!L2:L)', '"$"#,##0'],
+    ['Valor de pedidos pagados', '=SUMIFS(Pedidos!L2:L,Pedidos!N2:N,"Pagado")', '"$"#,##0'],
+  ];
+  rows.forEach((row, i) => {
+    r.getRange(4 + i, 1).setValue(row[0]);
+    r.getRange(4 + i, 2).setFormula(row[1]).setNumberFormat(row[2]).setFontWeight('bold');
+  });
 }
