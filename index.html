@@ -1,1777 +1,1276 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VITAFAMA — Calculadora & Catálogo</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VITAFAMA — Suplementos americanos originales en Colombia</title>
+<meta name="description" content="100% originales, calidad garantizada. Suplementos premium importados de Estados Unidos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Manrope:wght@400;500;600;700&display=swap">
 <style>
-:root {
-  --green-deep:   #1B4332;
-  --green-mid:    #2D6A4F;
-  --green-accent: #52B788;
-  --green-light:  #D8F3DC;
-  --lime:         #B7E4C7;
-  --bg:           #F4F9F6;
-  --surface:      #FFFFFF;
-  --border:       #C3E6CB;
-  --text:         #1A2421;
-  --text-muted:   #4A6358;
-  --danger:       #C0392B;
-  --warn:         #E67E22;
-  --radius:       12px;
-  --shadow:       0 2px 12px rgba(27,67,50,0.10);
+:root{
+  --bg:#FAF7EF; --fg:#1E2B24; --card:#FDFCF8; --primary:#1B4332; --primary-fg:#F5F3EA;
+  --accent:#52B788; --accent-fg:#14261C; --gold:#D9B45B; --cream:#F3EDDC;
+  --muted:#EDEAE0; --muted-fg:#5C6B60; --border:#E3DECF; --destructive:#C0392B;
+  --radius:14px;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg:         #0F1F18;
-    --surface:    #162A20;
-    --border:     #2D4A38;
-    --text:       #E8F5EE;
-    --text-muted: #7DBE9A;
-    --green-light:#1B4332;
-    --lime:       #2D6A4F;
-  }
-}
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'Inter', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-}
+*{box-sizing:border-box;border-color:var(--border)}
+html{scroll-behavior:smooth;scroll-padding-top:130px}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:Manrope,system-ui,sans-serif}
+h1,h2,h3,h4,.font-display{font-family:Fraunces,Georgia,serif;letter-spacing:-.02em}
+img{display:block;max-width:100%}
+button{font-family:inherit;cursor:pointer}
+input,textarea,select{font-family:inherit;font-size:14px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;width:100%;background:#fff;color:var(--fg)}
+input[type=radio],input[type=checkbox]{width:auto;padding:0;accent-color:var(--primary)}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px}
+label{font-size:13px;font-weight:600;color:var(--primary);display:block;margin-bottom:5px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:none;border-radius:999px;background:var(--primary);color:var(--primary-fg);padding:10px 20px;font-size:14px;font-weight:600;transition:background .2s,transform .15s;text-decoration:none}
+.btn:hover{background:#25573F}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-accent{background:var(--accent);color:var(--accent-fg)}
+.btn-accent:hover{background:#45A276}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--fg)}
+.btn-outline:hover{background:var(--muted)}
+.btn-wa{background:#25D366;color:#fff}
+.btn-wa:hover{background:#1EB957}
+.btn-ghost{background:transparent;color:var(--fg);padding:8px;border:none;border-radius:8px}
+.btn-ghost:hover{background:var(--muted)}
+.btn-lg{padding:13px 26px;font-size:15px}
+.btn-block{width:100%}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+@media(max-width:480px){.container{padding:0 16px}}
 
-/* ── HEADER ── */
-header {
-  background: var(--green-deep);
-  color: #fff;
-  padding: 18px 32px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-.brand { display: flex; align-items: center; gap: 12px; }
-.brand-icon {
-  width: 42px; height: 42px;
-  background: var(--green-accent);
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px;
-}
-.brand-name {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 22px; font-weight: 800;
-  letter-spacing: -0.5px;
-}
-.brand-tagline { font-size: 12px; opacity: .65; margin-top: 1px; }
-.header-badge {
-  background: rgba(82,183,136,.18);
-  border: 1px solid var(--green-accent);
-  color: var(--green-accent);
-  padding: 5px 14px;
-  border-radius: 999px;
-  font-size: 12px; font-weight: 600;
-}
+/* ---------- barra superior ---------- */
+.topbar{background:var(--primary);color:var(--primary-fg);font-size:12.5px;text-align:center;padding:8px 16px;letter-spacing:.02em}
+.topbar b{color:var(--gold);font-weight:700}
 
-/* ── TABS ── */
-.tabs {
-  display: flex;
-  border-bottom: 2px solid var(--border);
-  padding: 0 32px;
-  background: var(--surface);
-  gap: 4px;
-}
-.tab-btn {
-  padding: 14px 22px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 700; font-size: 14px;
-  border: none; background: none;
-  color: var(--text-muted);
-  cursor: pointer;
-  border-bottom: 3px solid transparent;
-  margin-bottom: -2px;
-  transition: color .2s, border-color .2s;
-}
-.tab-btn.active { color: var(--green-deep); border-bottom-color: var(--green-accent); }
+/* ---------- header ---------- */
+header.site{position:sticky;top:0;z-index:40;border-bottom:1px solid var(--border);background:rgba(250,247,239,.92);backdrop-filter:blur(10px)}
+header.site .main{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:12px;padding-bottom:12px}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none;color:inherit}
+.logo .name{font-family:Fraunces,serif;font-size:21px;font-weight:600;letter-spacing:.2em;color:var(--primary);line-height:1}
+.logo .tag{font-size:10px;text-transform:uppercase;letter-spacing:.18em;color:var(--muted-fg)}
+@media(max-width:520px){.logo .tag{display:none}.logo .name{font-size:19px}}
+.icons{display:flex;align-items:center;gap:2px}
+.ibtn{position:relative;width:40px;height:40px;border-radius:50%;border:none;background:transparent;color:var(--fg);display:inline-flex;align-items:center;justify-content:center;text-decoration:none;transition:background .2s,color .2s}
+.ibtn:hover{background:var(--muted);color:var(--primary)}
+.cart-count{position:absolute;top:0;right:0;min-width:18px;height:18px;padding:0 4px;border-radius:999px;background:var(--accent);color:var(--accent-fg);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.cart-count.bump{animation:bump .4s}
+@keyframes bump{50%{transform:scale(1.35)}}
+.searchbar{border-top:1px solid var(--border);padding:12px 0}
+.searchbar .container{display:flex;gap:8px}
+.searchbar input{border-radius:999px;padding-left:18px}
 
-/* ── MAIN LAYOUT ── */
-main { padding: 28px 32px; max-width: 1300px; margin: 0 auto; }
-.tab-panel { display: none; }
-.tab-panel.active { display: block; }
+/* pestañas de categorías */
+nav.cats{border-top:1px solid var(--border)}
+nav.cats ul{list-style:none;margin:0;padding:0;display:flex;justify-content:center;gap:2px}
+nav.cats li{position:relative}
+.tab{display:inline-flex;align-items:center;gap:5px;padding:12px 14px;font-size:15px;font-weight:500;color:var(--fg);background:none;border:none;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+.tab svg{transition:transform .2s}
+.tab:hover,nav.cats li:hover>.tab,nav.cats li:focus-within>.tab,.tab.active{color:var(--primary);border-bottom-color:var(--accent)}
+nav.cats li:hover>.tab svg,nav.cats li:focus-within>.tab svg{transform:rotate(180deg)}
+.dropdown{position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(8px);min-width:240px;background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:0 24px 44px -20px rgba(27,67,50,.4);padding:8px;opacity:0;visibility:hidden;transition:opacity .18s,transform .18s,visibility .18s;z-index:45}
+nav.cats li:hover>.dropdown,nav.cats li:focus-within>.dropdown{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+nav.cats.suppress .dropdown{opacity:0!important;visibility:hidden!important}
+.dropdown a{display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:var(--fg);text-decoration:none}
+.dropdown a:hover{background:var(--cream);color:var(--primary)}
+.dropdown a.all{font-weight:700;color:var(--primary)}
+.dropdown hr{border:none;border-top:1px solid var(--border);margin:4px 6px}
+@media(max-width:900px){nav.cats{display:none}.desk{display:none!important}}
+@media(min-width:901px){.mob{display:none!important}}
 
-/* ── CALCULATOR ── */
-.calc-grid {
-  display: grid;
-  grid-template-columns: 1fr 340px;
-  gap: 24px;
-}
-@media (max-width: 900px) { .calc-grid { grid-template-columns: 1fr; } }
+/* menú móvil */
+.mnav-backdrop{position:fixed;inset:0;background:rgba(15,25,20,.5);z-index:50;opacity:0;pointer-events:none;transition:opacity .3s}
+.mnav{position:fixed;top:0;left:0;bottom:0;width:86%;max-width:340px;background:var(--card);z-index:51;transform:translateX(-100%);transition:transform .35s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;overflow-y:auto}
+body.mnav-open .mnav-backdrop{opacity:1;pointer-events:auto}
+body.mnav-open .mnav{transform:none}
+.mnav .head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border)}
+.mnav details{border-bottom:1px solid var(--border)}
+.mnav summary{list-style:none;padding:15px 18px;font-weight:600;color:var(--primary);display:flex;justify-content:space-between;cursor:pointer}
+.mnav summary::-webkit-details-marker{display:none}
+.mnav summary::after{content:"+";color:var(--accent);font-size:18px;line-height:1}
+.mnav details[open] summary::after{content:"−"}
+.mnav details a{display:block;padding:9px 30px;font-size:14px;color:var(--fg);text-decoration:none}
+.mnav details a.all{font-weight:700;color:var(--primary)}
+.mnav .extra{padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.mnav .extra a{color:var(--fg);text-decoration:none;font-size:14px}
 
-.card {
-  background: var(--surface);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border);
-  padding: 24px;
-}
-.card-title {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 16px; font-weight: 700;
-  color: var(--green-deep);
-  margin-bottom: 18px;
-  display: flex; align-items: center; gap: 8px;
-}
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden}
+.hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero .overlay{position:absolute;inset:0;background:linear-gradient(100deg,rgba(13,32,23,.95) 0%,rgba(20,43,32,.78) 45%,rgba(24,48,36,.12) 100%)}
+.hero .inner{position:relative;padding-top:90px;padding-bottom:90px}
+@media(min-width:768px){.hero .inner{padding-top:140px;padding-bottom:140px}}
+.hero .content{max-width:580px;color:var(--primary-fg)}
+.badge-pill{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(217,180,91,.5);border-radius:999px;padding:5px 16px;font-size:12px;text-transform:uppercase;letter-spacing:.2em;color:var(--gold)}
+.hero h1{margin:24px 0 0;font-size:40px;font-weight:600;line-height:1.05}
+@media(min-width:768px){.hero h1{font-size:58px}}
+.hero h1 em{color:var(--gold);font-style:italic}
+.hero p{margin:20px 0 0;font-size:18px;opacity:.85;line-height:1.6}
+.hero .btn{margin-top:32px}
 
-/* config strip */
-.config-strip {
-  display: flex; gap: 16px; flex-wrap: wrap;
-  margin-bottom: 20px;
-}
-.config-field { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 120px; }
-.config-field label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px; }
-.config-field input, .config-field select {
-  padding: 8px 12px;
-  border: 1.5px solid var(--border);
-  border-radius: 8px;
-  font-size: 14px;
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Inter', sans-serif;
-  transition: border-color .2s;
-}
-.config-field input:focus, .config-field select:focus {
-  outline: none; border-color: var(--green-accent);
-}
+/* ---------- beneficios ---------- */
+.perks{background:var(--card);border-bottom:1px solid var(--border)}
+.perks .container{display:grid;gap:24px;padding-top:30px;padding-bottom:30px}
+@media(min-width:640px){.perks .container{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.perks .container{grid-template-columns:repeat(4,1fr)}}
+.perk{display:flex;gap:12px;align-items:flex-start}
+.perk .ic{width:42px;height:42px;border-radius:50%;background:var(--cream);color:var(--primary);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.perk .t{font-weight:700;font-size:14px;color:var(--primary)}
+.perk .d{font-size:13px;color:var(--muted-fg);line-height:1.5;margin-top:3px}
 
-/* product table */
-.table-scroll { overflow-x: auto; }
-.products-header {
-  display: grid;
-  grid-template-columns: 260px 100px 55px 100px 75px 95px 105px 105px 130px 36px;
-  min-width: 1200px;
-  gap: 8px;
-  padding: 8px 12px;
-  font-size: 11px; font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase; letter-spacing: .4px;
-  background: var(--green-light);
-  border-radius: 8px;
-  margin-bottom: 8px;
-}
-@media (max-width: 700px) {
-  .products-header { display: none; }
-}
-.product-row {
-  display: grid;
-  grid-template-columns: 260px 100px 55px 100px 75px 95px 105px 105px 130px 36px;
-  min-width: 1200px;
-  gap: 8px;
-  align-items: center;
-  padding: 10px 12px;
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  margin-bottom: 8px;
-  background: var(--surface);
-  transition: border-color .2s;
-}
-.product-row:hover { border-color: var(--green-accent); }
-@media (max-width: 700px) {
-  .product-row { grid-template-columns: 1fr 1fr; gap: 6px; }
-  .product-row .col-name { grid-column: 1 / -1; }
-}
-.product-row input, .product-row select {
-  width: 100%;
-  padding: 6px 8px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  font-size: 13px;
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Inter', sans-serif;
-}
-.product-row input:focus { outline: none; border-color: var(--green-accent); }
-.col-name input { font-weight: 500; font-size: 13px; }
-.badge {
-  display: inline-block;
-  padding: 3px 8px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 600;
-  white-space: nowrap;
-}
-.badge-win  { background: #D1FAE5; color: #065F46; }
-.badge-ok   { background: #DBEAFE; color: #1E40AF; }
-.badge-warn { background: #FEF3C7; color: #92400E; }
-.badge-bad  { background: #FEE2E2; color: #991B1B; }
-.badge-neu  { background: #E5E7EB; color: #4B5563; }
+/* ---------- productos ---------- */
+.products{padding-top:72px;padding-bottom:72px}
+.section-head{text-align:center;margin-bottom:36px}
+.section-head .kicker{font-size:12px;text-transform:uppercase;letter-spacing:.25em;color:var(--accent);margin:0}
+.section-head h2{margin:8px 0 0;font-size:36px;font-weight:600;color:var(--primary)}
+.gold-rule{height:1px;width:160px;margin:20px auto 0;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.pills{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 8px;margin-bottom:14px;scrollbar-width:none}
+.pills::-webkit-scrollbar{display:none}
+@media(min-width:901px){.pills{justify-content:center;flex-wrap:wrap}}
+.pill-tab{flex-shrink:0;border:1px solid var(--border);background:var(--card);color:var(--fg);border-radius:999px;padding:8px 16px;font-size:14px;font-weight:600;transition:all .2s}
+.pill-tab:hover{border-color:var(--accent);color:var(--primary)}
+.pill-tab.active{background:var(--primary);border-color:var(--primary);color:var(--primary-fg)}
+.filter-label{text-align:center;font-size:14px;color:var(--muted-fg);margin:0 0 28px;min-height:20px}
+.filter-label b{color:var(--primary)}
+.grid{display:grid;gap:28px}
+@media(min-width:640px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{overflow:hidden;border:1px solid var(--border);border-radius:18px;background:var(--card);transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s}
+.card:hover{transform:translateY(-6px);box-shadow:0 24px 48px -20px rgba(27,67,50,.35)}
+.card .imgwrap{position:relative;aspect-ratio:1/1;overflow:hidden;background:var(--cream)}
+.card .imgwrap img{width:100%;height:100%;object-fit:cover;transition:transform .7s}
+.card:hover .imgwrap img{transform:scale(1.05)}
+.card .cat{position:absolute;left:16px;top:16px;border-radius:999px;background:rgba(27,67,50,.9);color:var(--primary-fg);padding:4px 12px;font-size:12px}
+.card .off{position:absolute;right:16px;top:16px;border-radius:999px;background:var(--gold);color:var(--accent-fg);padding:4px 12px;font-size:12px;font-weight:700}
+.card .body{padding:24px}
+.card .brand{font-size:12px;text-transform:uppercase;letter-spacing:.18em;color:var(--muted-fg);margin:0}
+.card h3{margin:4px 0 0;font-size:20px;font-weight:600;color:var(--primary)}
+.card .desc{margin:8px 0 0;font-size:14px;color:var(--muted-fg);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card .row{margin-top:20px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.card .price{font-family:Fraunces,serif;font-size:24px;font-weight:600;color:var(--primary)}
+.card .old{display:block;font-family:Manrope,sans-serif;font-size:13px;font-weight:500;color:var(--muted-fg);text-decoration:line-through}
+.empty-cat{text-align:center;padding:40px 20px;border:1px dashed var(--border);border-radius:18px;color:var(--muted-fg)}
+.empty-cat h3{color:var(--primary);margin:0 0 8px;font-size:22px}
+.empty-cat .btn{margin-top:16px}
 
-/* ── SHOP ── */
-.shop-grid { display: grid; grid-template-columns: 1fr 330px; gap: 22px; }
-@media (max-width: 900px) { .shop-grid { grid-template-columns: 1fr; } }
-.cart-col { position: sticky; top: 24px; align-self: start; }
+/* ---------- preguntas ---------- */
+.faq{background:var(--cream);padding:76px 0;border-top:1px solid var(--border)}
+.faq-grid{display:grid;gap:32px;align-items:start}
+@media(min-width:900px){.faq-grid{grid-template-columns:1fr 1.5fr}}
+.faq .section-head{text-align:left;margin-bottom:22px}
+.faq .gold-rule{margin-left:0}
+details.q{border:1px solid var(--border);background:var(--card);border-radius:14px;margin-bottom:10px;transition:box-shadow .2s}
+details.q[open]{box-shadow:0 10px 30px -18px rgba(27,67,50,.35)}
+details.q summary{list-style:none;cursor:pointer;padding:16px 18px;font-weight:600;color:var(--primary);display:flex;justify-content:space-between;align-items:center;gap:12px}
+details.q summary::-webkit-details-marker{display:none}
+details.q summary::after{content:"+";font-size:22px;line-height:1;color:var(--accent);transition:transform .2s;flex-shrink:0}
+details.q[open] summary::after{transform:rotate(45deg)}
+details.q .a{padding:0 18px 16px;font-size:14px;line-height:1.65;color:var(--muted-fg)}
+.ask-card{background:var(--primary);color:var(--primary-fg);border-radius:18px;padding:26px;margin-top:22px}
+.ask-card h3{margin:0;font-size:22px}
+.ask-card p{margin:8px 0 16px;font-size:14px;opacity:.8;line-height:1.55}
+.ask-card label{color:var(--gold)}
+.ask-card .form-fields{gap:12px}
 
-.shop-item {
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: 12px;
-  padding: 16px 18px;
-  margin-bottom: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  transition: border-color .2s;
-}
-.shop-item:hover { border-color: var(--green-accent); }
-.shop-info { flex: 1; min-width: 220px; }
-.shop-brand {
-  font-size: 10px; font-weight: 700; color: var(--green-accent);
-  text-transform: uppercase; letter-spacing: .7px; margin-bottom: 3px;
-}
-.shop-name {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 14px; font-weight: 700; color: var(--text);
-  line-height: 1.4; margin-bottom: 6px;
-}
-.shop-meta { font-size: 11px; color: var(--text-muted); }
-.shop-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
-.shop-price {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 20px; font-weight: 800; color: var(--green-deep);
-}
-.btn-add-cart {
-  padding: 8px 18px; border: none; border-radius: 8px;
-  background: var(--green-deep); color: #fff;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 700; font-size: 13px; cursor: pointer;
-  transition: background .15s; white-space: nowrap;
-}
-.btn-add-cart:hover { background: var(--green-mid); }
+/* ---------- footer ---------- */
+footer.site{background:var(--primary);color:var(--primary-fg);padding:56px 0 88px}
+.foot-grid{display:grid;gap:36px}
+@media(min-width:640px){.foot-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.foot-grid{grid-template-columns:1.4fr 1fr 1fr 1fr}}
+footer .name{font-family:Fraunces,serif;font-size:20px;letter-spacing:.25em}
+footer .about{margin:12px 0 0;font-size:14px;line-height:1.6;opacity:.75;max-width:320px}
+.foot-h{font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin:0;font-family:Manrope,sans-serif}
+.foot-h::after{content:"";display:block;width:70px;height:2px;background:var(--accent);margin-top:10px}
+.foot-links{list-style:none;padding:0;margin:16px 0 0;display:flex;flex-direction:column;gap:10px}
+.foot-links a,.foot-links button{color:rgba(245,243,234,.8);text-decoration:none;font-size:14px;background:none;border:none;padding:0;text-align:left;display:inline-flex;align-items:center;gap:8px}
+.foot-links a:hover,.foot-links button:hover{color:#fff}
+.socials{display:flex;gap:10px;margin-top:20px}
+.socials a{width:40px;height:40px;border-radius:50%;border:1px solid rgba(245,243,234,.3);display:flex;align-items:center;justify-content:center;color:var(--primary-fg);transition:all .2s}
+.socials a:hover{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.foot-bottom{border-top:1px solid rgba(245,243,234,.15);margin-top:40px;padding-top:20px;display:flex;flex-wrap:wrap;gap:10px 20px;justify-content:space-between;font-size:12.5px;color:rgba(245,243,234,.65)}
+.foot-bottom a{color:inherit}
+.disclaimer{font-size:11.5px;color:rgba(245,243,234,.5);margin-top:14px;line-height:1.55}
 
-/* ── CART ── */
-.cart-row {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--border);
-}
-.cart-row:last-child { border-bottom: none; }
-.cart-name { font-size: 12px; font-weight: 600; line-height: 1.4; flex: 1; }
-.cart-controls { display: flex; align-items: center; gap: 6px; margin-top: 5px; }
-.qty-btn {
-  width: 22px; height: 22px; border: 1px solid var(--border);
-  border-radius: 5px; background: var(--bg); color: var(--text);
-  font-size: 13px; cursor: pointer; line-height: 1;
-  display: flex; align-items: center; justify-content: center;
-}
-.qty-btn:hover { border-color: var(--green-accent); }
-.qty-num { font-size: 12px; font-weight: 700; min-width: 18px; text-align: center; }
-.cart-price { font-size: 13px; font-weight: 700; color: var(--green-deep); white-space: nowrap; }
-.cart-remove {
-  border: none; background: none; color: #C0392B;
-  font-size: 13px; cursor: pointer; padding: 0 2px;
-}
+.wa-float{position:fixed;right:18px;bottom:18px;width:56px;height:56px;border-radius:50%;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 25px rgba(0,0,0,.25);z-index:39;transition:transform .2s}
+.wa-float:hover{transform:scale(1.08)}
 
-/* ── MODAL ── */
-.modal-backdrop {
-  display: none;
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,.55);
-  z-index: 500;
-  overflow-y: auto;
-  padding: 30px 16px;
-}
-.modal-backdrop.open { display: block; }
-.modal-box {
-  background: var(--surface);
-  border-radius: 14px;
-  max-width: 620px;
-  margin: 0 auto;
-  padding: 24px 26px;
-  box-shadow: 0 10px 40px rgba(0,0,0,.3);
-}
+/* ---------- carrito (drawer) ---------- */
+.drawer-backdrop{position:fixed;inset:0;background:rgba(15,25,20,.5);z-index:50;opacity:0;pointer-events:none;transition:opacity .3s}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:100%;max-width:440px;background:var(--card);z-index:51;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .35s cubic-bezier(.2,.8,.2,1);box-shadow:-20px 0 60px rgba(0,0,0,.2)}
+body.drawer-open .drawer-backdrop{opacity:1;pointer-events:auto}
+body.drawer-open .drawer{transform:none}
+.drawer .head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--border)}
+.drawer .head h3{margin:0;font-size:24px;color:var(--primary)}
+.steps{display:flex;gap:6px;padding:12px 16px;border-bottom:1px solid var(--border);font-size:12px}
+.steps span{flex:1;text-align:center;padding:6px 4px;border-radius:999px;background:var(--muted);color:var(--muted-fg);font-weight:700}
+.steps span.on{background:var(--primary);color:var(--primary-fg)}
+.steps span.done{background:rgba(82,183,136,.22);color:var(--primary)}
+.drawer .items{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:14px}
+.drawer .empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--muted-fg);padding:20px;text-align:center}
+.cart-line{display:flex;gap:12px;border:1px solid var(--border);border-radius:14px;padding:12px;background:#fff}
+.cart-line img{width:64px;height:64px;border-radius:10px;object-fit:cover}
+.cart-line .info{flex:1;min-width:0}
+.cart-line .nm{font-weight:600;color:var(--primary);font-size:14px}
+.cart-line .pr{font-size:13px;color:var(--muted-fg)}
+.qty-row{margin-top:8px;display:flex;align-items:center;gap:8px}
+.qty-row .qbtn{width:28px;height:28px;border:1px solid var(--border);border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:var(--primary)}
+.qty-row .qbtn:hover{background:var(--muted)}
+.qty-row .qv{width:24px;text-align:center;font-size:14px}
+.qty-row .lt{margin-left:auto;font-weight:700;color:var(--primary);font-size:14px}
+.qty-row .del{background:none;border:none;color:var(--destructive);padding:6px}
+.ship-bar{background:var(--cream);border-radius:12px;padding:12px;font-size:13px;color:var(--primary)}
+.ship-bar .track{height:6px;border-radius:999px;background:var(--border);margin-top:8px;overflow:hidden}
+.ship-bar .fill{height:100%;background:var(--accent);border-radius:999px;transition:width .4s}
+.drawer .foot{border-top:1px solid var(--border);padding:16px}
+.kv{display:flex;justify-content:space-between;gap:12px;font-size:14px;padding:3px 0}
+.kv .k{color:var(--muted-fg)}
+.kv .v{font-weight:700;color:var(--primary);text-align:right}
+.total-row{display:flex;justify-content:space-between;font-size:18px;margin:6px 0 14px;padding-top:8px;border-top:1px dashed var(--border)}
+.total-row .amt{font-family:Fraunces,serif;font-weight:600;color:var(--primary)}
+.note{background:var(--cream);border-radius:10px;padding:12px;font-size:12px;color:var(--muted-fg);line-height:1.5;margin:0}
+.form-fields{display:flex;flex-direction:column;gap:14px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pm{display:flex;gap:12px;align-items:flex-start;border:1.5px solid var(--border);border-radius:14px;padding:14px;cursor:pointer;background:#fff;font-weight:400;color:var(--fg);margin:0;transition:border-color .2s,background .2s}
+.pm input{margin-top:3px}
+.pm:has(input:checked){border-color:var(--accent);background:rgba(82,183,136,.07)}
+.pm.disabled{opacity:.55;cursor:not-allowed}
+.pm .pt{font-weight:700;color:var(--primary);font-size:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pm .pd{font-size:12.5px;color:var(--muted-fg);margin-top:3px;line-height:1.45}
+.tagx{font-size:10.5px;font-weight:700;border-radius:999px;padding:2px 8px;background:var(--gold);color:var(--accent-fg)}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.chips span{font-size:10.5px;font-weight:700;letter-spacing:.04em;border:1px solid var(--border);border-radius:6px;padding:2px 6px;color:var(--muted-fg);background:var(--bg)}
+.terms-row{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:var(--muted-fg);font-weight:400;line-height:1.5;margin:0}
+.terms-row input{margin-top:2px}
+.terms-row a{color:var(--primary)}
+.secure{display:flex;align-items:center;justify-content:center;gap:6px;font-size:11.5px;color:var(--muted-fg);margin-top:10px}
 
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-@media (max-width: 560px) { .form-grid { grid-template-columns: 1fr; } }
-.form-field { display: flex; flex-direction: column; gap: 4px; }
-.form-field.full { grid-column: 1 / -1; }
-.form-field label {
-  font-size: 11px; font-weight: 600; color: var(--text-muted);
-  text-transform: uppercase; letter-spacing: .4px;
-}
-.form-field input {
-  padding: 9px 12px; border: 1.5px solid var(--border);
-  border-radius: 8px; font-size: 13px;
-  background: var(--bg); color: var(--text);
-  font-family: 'Inter', sans-serif;
-}
-.form-field input:focus { outline: none; border-color: var(--green-accent); }
+/* ---------- modal ---------- */
+.modal-backdrop{position:fixed;inset:0;background:rgba(15,25,20,.55);z-index:60;display:none;align-items:center;justify-content:center;padding:16px}
+.modal-backdrop.open{display:flex}
+.modal{position:relative;background:var(--card);border-radius:20px;max-width:460px;width:100%;max-height:90vh;overflow-y:auto;padding:36px 28px 28px;text-align:center;animation:pop .35s cubic-bezier(.2,.8,.2,1)}
+.modal.left{text-align:left;max-width:620px}
+.modal .x{position:absolute;top:12px;right:12px}
+@keyframes pop{from{opacity:0;transform:scale(.92) translateY(12px)}to{opacity:1;transform:none}}
+.modal .check{width:64px;height:64px;border-radius:50%;background:rgba(82,183,136,.2);color:var(--accent);display:flex;align-items:center;justify-content:center;margin:0 auto}
+.modal .check.wait{background:rgba(217,180,91,.22);color:#B08A2E}
+.modal .check.err{background:rgba(192,57,43,.12);color:var(--destructive)}
+.modal h3{margin:18px 0 0;font-size:28px;color:var(--primary)}
+.modal.left h3{margin-top:0}
+.modal h4{margin:20px 0 6px;color:var(--primary);font-size:17px}
+.modal p,.modal li{font-size:14.5px;line-height:1.65;color:var(--muted-fg)}
+.modal p{margin:12px 0 0}
+.modal .pill{display:inline-flex;align-items:center;gap:8px;border-radius:999px;background:var(--cream);padding:7px 16px;font-size:13px;color:var(--primary);margin-top:16px}
+.modal .actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:22px}
+.modal.left .actions{justify-content:flex-start}
+.bank{background:var(--cream);border-radius:12px;padding:14px;text-align:left;margin-top:16px}
+.order{border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:12px;background:#fff}
+.order .top{display:flex;justify-content:space-between;gap:10px;font-weight:700;color:var(--primary);font-size:14px}
+.order .st{font-size:12px;font-weight:700;border-radius:999px;padding:2px 10px;background:var(--cream);color:var(--primary);white-space:nowrap}
+.order .meta{font-size:12.5px;color:var(--muted-fg);margin-top:4px}
 
-.pay-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-@media (max-width: 560px) { .pay-grid { grid-template-columns: 1fr; } }
-.pay-option {
-  display: flex; align-items: center; gap: 11px;
-  padding: 11px 13px;
-  border: 2px solid var(--border);
-  border-radius: 10px;
-  cursor: pointer;
-  transition: border-color .15s, background .15s;
-}
-.pay-option:hover { border-color: var(--green-accent); }
-.pay-option.selected { border-color: var(--green-deep); background: var(--green-light); }
-.pay-icon {
-  width: 36px; height: 36px; border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  color: #fff; font-weight: 800; font-size: 12px; flex-shrink: 0;
-}
-.pay-name { font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.3; }
-.pay-desc { font-size: 11px; color: var(--text-muted); }
-.price-result {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 15px; font-weight: 700;
-  color: var(--green-mid);
-}
-.margin-pct {
-  font-size: 12px;
-  color: var(--text-muted);
-}
-.margin-ok  { color: var(--green-accent); font-weight: 600; }
-.margin-low { color: var(--warn); font-weight: 600; }
-.btn-del {
-  width: 32px; height: 32px;
-  border: none; border-radius: 6px;
-  background: #FEE2E2; color: var(--danger);
-  font-size: 16px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: background .2s;
-}
-.btn-del:hover { background: #FECACA; }
-.btn-add {
-  margin-top: 12px;
-  padding: 10px 20px;
-  border: 2px dashed var(--green-accent);
-  border-radius: 10px;
-  background: transparent;
-  color: var(--green-mid);
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 700; font-size: 14px;
-  cursor: pointer; width: 100%;
-  transition: background .2s;
-}
-.btn-add:hover { background: var(--green-light); }
+/* ---------- toast ---------- */
+#toast{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-90px);background:var(--primary);color:var(--primary-fg);padding:11px 22px;border-radius:999px;font-size:14px;font-weight:600;z-index:70;transition:transform .35s cubic-bezier(.2,.8,.2,1);box-shadow:0 10px 30px rgba(0,0,0,.25);max-width:calc(100% - 32px);text-align:center}
+#toast.show{transform:translateX(-50%) translateY(0)}
+#toast.error{background:var(--destructive);color:#fff}
 
-/* summary card */
-.summary-card { position: sticky; top: 24px; }
-.summary-row {
-  display: flex; justify-content: space-between;
-  font-size: 14px; padding: 8px 0;
-  border-bottom: 1px solid var(--border);
-}
-.summary-row:last-of-type { border-bottom: none; }
-.summary-row.total {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 18px; font-weight: 800;
-  color: var(--green-deep);
-  padding-top: 14px;
-}
-.summary-row .lbl { color: var(--text-muted); }
-.profit-bar-wrap { margin: 16px 0 8px; }
-.profit-bar-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
-.profit-bar { height: 10px; border-radius: 999px; background: var(--border); overflow: hidden; }
-.profit-bar-fill { height: 100%; background: var(--green-accent); border-radius: 999px; transition: width .4s; }
-.btn-export {
-  margin-top: 16px; width: 100%;
-  padding: 12px;
-  background: var(--green-deep);
-  color: #fff;
-  border: none; border-radius: 10px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 700; font-size: 14px;
-  cursor: pointer; transition: background .2s;
-}
-.btn-export:hover { background: var(--green-mid); }
-.btn-export-cat {
-  margin-top: 8px; width: 100%;
-  padding: 10px;
-  background: var(--green-light);
-  color: var(--green-deep);
-  border: none; border-radius: 10px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 700; font-size: 13px;
-  cursor: pointer; transition: background .2s;
-}
-.btn-export-cat:hover { background: var(--lime); }
-
-/* ── CATALOG ── */
-.catalog-controls {
-  display: flex; gap: 12px; flex-wrap: wrap;
-  margin-bottom: 24px; align-items: flex-end;
-}
-.catalog-controls input, .catalog-controls select {
-  padding: 9px 14px;
-  border: 1.5px solid var(--border);
-  border-radius: 8px;
-  font-size: 14px;
-  background: var(--surface);
-  color: var(--text);
-  font-family: 'Inter', sans-serif;
-}
-.catalog-controls input { flex: 1; min-width: 180px; }
-.catalog-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 18px;
-}
-.catalog-item {
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  display: flex; flex-direction: column;
-  transition: border-color .2s, transform .15s;
-}
-.catalog-item:hover { border-color: var(--green-accent); transform: translateY(-2px); }
-.catalog-img {
-  width: 100%; height: 150px;
-  object-fit: contain;
-  background: var(--green-light);
-  padding: 16px;
-}
-.catalog-img-placeholder {
-  width: 100%; height: 150px;
-  background: var(--green-light);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 48px;
-}
-.catalog-body { padding: 14px 16px; flex: 1; display: flex; flex-direction: column; }
-.catalog-brand {
-  font-size: 10px; font-weight: 600;
-  color: var(--green-accent);
-  text-transform: uppercase; letter-spacing: .6px;
-  margin-bottom: 4px;
-}
-.catalog-name {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 13px; font-weight: 700;
-  color: var(--text);
-  line-height: 1.4;
-  margin-bottom: 10px; flex: 1;
-  word-break: break-word;
-}
-.catalog-iherb-price {
-  font-size: 11px; color: var(--text-muted);
-  margin-bottom: 4px;
-}
-.catalog-prices { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
-.catalog-price-resale {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 20px; font-weight: 800;
-  color: var(--green-deep);
-}
-.catalog-price-original {
-  font-size: 12px; color: var(--text-muted);
-  text-decoration: line-through;
-}
-.catalog-saving {
-  font-size: 11px; font-weight: 600;
-  color: var(--green-accent);
-  background: var(--green-light);
-  padding: 2px 8px; border-radius: 999px;
-  display: inline-block; margin-bottom: 10px;
-}
-.catalog-qty {
-  font-size: 11px; color: var(--text-muted);
-  margin-bottom: 10px;
-}
-.btn-order {
-  width: 100%;
-  padding: 9px;
-  background: var(--green-deep);
-  color: #fff;
-  border: none; border-radius: 8px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 700; font-size: 13px;
-  cursor: pointer; transition: background .15s;
-}
-.btn-order:hover { background: var(--green-mid); }
-
-/* empty state */
-.empty-state {
-  text-align: center; padding: 60px 20px;
-  color: var(--text-muted);
-}
-.empty-state .icon { font-size: 48px; margin-bottom: 12px; }
-.empty-state p { font-size: 15px; }
-
-/* notifications */
-.toast {
-  position: fixed; bottom: 24px; right: 24px;
-  background: var(--green-deep); color: #fff;
-  padding: 12px 20px; border-radius: 10px;
-  font-size: 14px; font-weight: 600;
-  box-shadow: 0 4px 20px rgba(0,0,0,.2);
-  transform: translateY(80px); opacity: 0;
-  transition: all .3s; z-index: 999;
-}
-.toast.show { transform: translateY(0); opacity: 1; }
-
-/* Print / PDF */
-@media print {
-  header, .tabs, .calc-grid > .card:first-child,
-  .catalog-controls, .btn-order, .btn-export,
-  .btn-export-cat, .btn-add, .btn-del { display: none !important; }
-  .catalog-grid { grid-template-columns: repeat(3, 1fr); }
-  body { background: white; }
-}
+/* ---------- admin ---------- */
+.admin-login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--primary);padding:20px}
+.admin-login form{width:100%;max-width:380px;background:var(--card);border-radius:20px;padding:32px;box-shadow:0 30px 60px rgba(0,0,0,.35);display:flex;flex-direction:column;gap:18px}
+.admin-login .top{text-align:center}
+.admin-login h1{margin:8px 0 0;font-size:24px;color:var(--primary)}
+.admin-bar{background:var(--primary);color:var(--primary-fg)}
+.admin-bar .container{display:flex;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px}
+.admin-bar .brand{display:flex;align-items:center;gap:8px;font-family:Fraunces,serif;font-size:17px;letter-spacing:.2em}
+.admin-bar .btn-ghost{color:var(--primary-fg)}
+.admin-bar .btn-ghost:hover{background:rgba(255,255,255,.12)}
+.admin-main{display:grid;gap:32px;padding-top:40px;padding-bottom:40px}
+@media(min-width:1024px){.admin-main{grid-template-columns:420px 1fr}}
+.panel{border:1px solid var(--border);border-radius:18px;background:var(--card);padding:24px;height:fit-content}
+.panel h2{margin:0 0 16px;font-size:20px;color:var(--primary)}
+.panel .fields{display:flex;flex-direction:column;gap:14px}
+.calc{background:var(--cream);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.calc .ct{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--primary);font-size:14px}
+.calc .sep{border-top:1px solid var(--border);padding-top:10px}
+.link-btn{background:none;border:none;color:var(--accent);font-size:12px;text-decoration:underline;padding:0}
+.inv-list{display:flex;flex-direction:column;gap:12px}
+.inv-item{display:flex;align-items:center;gap:16px;border:1px solid var(--border);border-radius:14px;background:var(--card);padding:14px}
+.inv-item img{width:56px;height:56px;border-radius:10px;object-fit:cover}
+.inv-item .inf{flex:1;min-width:0}
+.inv-item .nm{font-weight:600;color:var(--primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.inv-item .sub{font-size:12px;color:var(--muted-fg)}
+.inv-item .pr{font-family:Fraunces,serif;font-size:18px;font-weight:600;color:var(--primary)}
+.hidden{display:none!important}
+.fade-up{animation:fadeUp .8s cubic-bezier(.2,.8,.2,1) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
 
-<header>
-  <div class="brand">
-    <div class="brand-icon">
-      <svg width="30" height="30" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M6 6 H16 M6 6 V16" stroke="#1B4332" stroke-width="3" stroke-linecap="round"/>
-        <path d="M42 6 H32 M42 6 V16" stroke="#1B4332" stroke-width="3" stroke-linecap="round"/>
-        <path d="M6 42 H16 M6 42 V32" stroke="#1B4332" stroke-width="3" stroke-linecap="round"/>
-        <path d="M42 42 H32 M42 42 V32" stroke="#1B4332" stroke-width="3" stroke-linecap="round"/>
-        <path d="M13 26 L19 26 L23 17 L27 33 L30 24 L35 24" stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      </svg>
-    </div>
-    <div>
-      <div class="brand-name">VITAFAMA</div>
-      <div class="brand-tagline">Vitalidad con prestigio</div>
-    </div>
-  </div>
-  <div class="header-badge" id="session-badge">Tienda pública</div>
-</header>
+<!-- ============ TIENDA ============ -->
+<div id="view-store">
+  <div class="topbar">Envío <b>GRATIS</b> en compras superiores a <b id="free-from">$199.000</b> · 100% originales importados de EE.UU.</div>
 
-<div class="tabs">
-  <button class="tab-btn" onclick="switchTab('admin')">🔒 Panel privado</button>
-  <button class="tab-btn active" onclick="switchTab('shop')">🛒 Tienda y pagos</button>
-  <button class="tab-btn" onclick="switchTab('catalog')">📦 Catálogo</button>
+  <header class="site">
+    <div class="container main">
+      <div style="display:flex;align-items:center;gap:6px">
+        <button class="ibtn mob" onclick="openMenu()" aria-label="Abrir menú">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        </button>
+        <a class="logo" href="#" onclick="setFilter({},false);window.scrollTo(0,0);return false;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#52B788" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+          <span><span class="name">VITAFAMA</span><br><span class="tag">Vitalidad con prestigio americano</span></span>
+        </a>
+      </div>
+      <div class="icons">
+        <button class="ibtn" onclick="toggleSearch()" aria-label="Buscar" title="Buscar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </button>
+        <button class="ibtn desk" onclick="openInfo('pagos')" aria-label="Medios de pago" title="Medios de pago">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>
+        </button>
+        <a class="ibtn desk" data-social="instagram" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+        </a>
+        <a class="ibtn desk" data-social="tiktok" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3c.4 2.4 2 4 4.5 4.2v3.2c-1.7 0-3.2-.5-4.5-1.4V15a6 6 0 1 1-6-6v3.2a2.8 2.8 0 1 0 2.8 2.8V3Z"/></svg>
+        </a>
+        <button class="ibtn" onclick="openOrders()" aria-label="Mis pedidos" title="Mis pedidos">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>
+        </button>
+        <button class="ibtn" onclick="openCart()" aria-label="Carrito de compras" title="Carrito">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-count hidden" id="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+    <div class="searchbar hidden" id="searchbar">
+      <div class="container">
+        <input id="q" type="search" placeholder="Buscar suplementos, vitaminas, marcas…" autocomplete="off"
+               oninput="filter.q=this.value;renderProducts()" onkeydown="if(event.key==='Enter'){goProducts()}">
+        <button class="btn" onclick="goProducts()">Buscar</button>
+      </div>
+    </div>
+    <nav class="cats" id="cats-nav" onmouseleave="this.classList.remove('suppress')" aria-label="Categorías">
+      <div class="container"><ul id="cat-menu"></ul></div>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <img class="bg" src="img/hero.jpg" alt="">
+    <div class="overlay"></div>
+    <div class="container inner">
+      <div class="content fade-up">
+        <span class="badge-pill">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+          Importado de EE.UU.
+        </span>
+        <h1>100% Suplementos Americanos <em>Originales</em></h1>
+        <p>Calidad garantizada. Directo de laboratorios en Estados Unidos a tu puerta en Colombia.</p>
+        <a href="#productos" class="btn btn-accent btn-lg">Ver catálogo</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="perks">
+    <div class="container">
+      <div class="perk">
+        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/><line x1="6" x2="10" y1="15" y2="15"/></svg></div>
+        <div><div class="t">Pagos seguros y protegidos</div><div class="d">Paga mediante pasarelas certificadas y encriptadas con tarjeta de crédito, PSE, Nequi o transferencia bancaria.</div></div>
+      </div>
+      <div class="perk">
+        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M21 16v2a4 4 0 0 1-4 4h-5"/></svg></div>
+        <div><div class="t">¿Tienes preguntas?</div><div class="d">Contamos con un equipo especializado que te atenderá ante cualquier duda o ayuda que necesites.</div></div>
+      </div>
+      <div class="perk">
+        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg></div>
+        <div><div class="t">Envío gratis</div><div class="d">¡Obtén tus productos despachados completamente GRATIS al comprar sobre <span class="free-amt">$199.000</span>!</div></div>
+      </div>
+      <div class="perk">
+        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <div><div class="t">Marcas reconocidas</div><div class="d">Trabajamos con marcas reconocidas y te orientamos antes de comprar, por WhatsApp o en tienda.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="productos" class="products container">
+    <div class="section-head">
+      <p class="kicker">Colección</p>
+      <h2>Nuestros suplementos</h2>
+      <div class="gold-rule"></div>
+    </div>
+    <div class="pills" id="pills" role="tablist"></div>
+    <p class="filter-label" id="filter-label"></p>
+    <div class="grid" id="product-grid"></div>
+    <div id="no-products" class="empty-cat hidden"></div>
+  </section>
+
+  <!-- ============ PREGUNTAS FRECUENTES ============ -->
+  <section class="faq" id="preguntas">
+    <div class="container faq-grid">
+      <div>
+        <div class="section-head">
+          <p class="kicker">Ayuda</p>
+          <h2>Preguntas frecuentes</h2>
+          <div class="gold-rule"></div>
+        </div>
+        <p style="color:var(--muted-fg);line-height:1.65;margin:0">Resolvemos las dudas más comunes sobre nuestros productos, pagos y envíos. Si no encuentras tu respuesta, escríbenos.</p>
+        <form class="ask-card" onsubmit="askQuestion(event)">
+          <h3>¿Tienes otra pregunta?</h3>
+          <p>Déjanos tu duda y te respondemos por WhatsApp con asesoría personalizada.</p>
+          <div class="form-fields">
+            <div><label for="ask-name">Tu nombre</label><input id="ask-name" required></div>
+            <div><label for="ask-msg">Tu pregunta</label><textarea id="ask-msg" rows="3" required placeholder="Ej: ¿Qué magnesio me recomiendan para dormir mejor?"></textarea></div>
+            <button class="btn btn-wa btn-block" type="submit">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+              Enviar por WhatsApp
+            </button>
+          </div>
+        </form>
+      </div>
+      <div id="faq-list"></div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site">
+    <div class="container">
+      <div class="foot-grid">
+        <div>
+          <div class="name">VITAFAMA</div>
+          <p class="about">Suplementos, vitaminas y productos de bienestar 100% originales, importados directamente de Estados Unidos a toda Colombia.</p>
+          <div class="socials">
+            <a data-social="instagram" target="_blank" rel="noopener" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+            <a data-social="tiktok" target="_blank" rel="noopener" aria-label="TikTok"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3c.4 2.4 2 4 4.5 4.2v3.2c-1.7 0-3.2-.5-4.5-1.4V15a6 6 0 1 1-6-6v3.2a2.8 2.8 0 1 0 2.8 2.8V3Z"/></svg></a>
+            <a data-social="facebook" target="_blank" rel="noopener" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+            <a data-social="whatsapp" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg></a>
+          </div>
+        </div>
+        <div>
+          <h4 class="foot-h">Categorías</h4>
+          <ul class="foot-links">
+            <li><a href="#productos" data-filter data-offers="1">Ofertas y Combos</a></li>
+            <li><button onclick="openCart()">Carro de Pedido</button></li>
+            <li><button onclick="openInfo('terminos')">Términos y Condiciones</button></li>
+            <li><a href="#preguntas">Preguntas Frecuentes</a></li>
+            <li><button onclick="openInfo('privacidad')">Política de Privacidad</button></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="foot-h">Tienda</h4>
+          <ul class="foot-links" id="foot-cats"></ul>
+        </div>
+        <div>
+          <h4 class="foot-h">Contacto</h4>
+          <ul class="foot-links">
+            <li><a data-social="whatsapp" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg> <span id="wa-text">WhatsApp</span></a></li>
+            <li><a id="mail-link"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> <span id="mail-text"></span></a></li>
+            <li><button onclick="openInfo('pagos')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg> Medios de pago</button></li>
+            <li><button onclick="openInfo('envios')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg> Envíos a toda Colombia</button></li>
+          </ul>
+        </div>
+      </div>
+      <p class="disclaimer">Los suplementos dietarios no son medicamentos y no reemplazan una alimentación balanceada. No están destinados a diagnosticar, tratar, curar ni prevenir enfermedades. Consulta a tu médico antes de consumirlos si estás embarazada, lactando o tomando medicamentos.</p>
+      <div class="foot-bottom">
+        <span>© <span id="year">2026</span> VITAFAMA · Vitalidad con prestigio americano · Colombia</span>
+        <a href="#admin" onclick="showAdmin();return false;">Acceso administrador</a>
+      </div>
+    </div>
+  </footer>
+
+  <a class="wa-float" data-social="whatsapp" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9.5 9.5c.3 1.6 1.5 3.4 3.2 4.3l1-.9 1.6.8-.4 1.4c-2.9.1-5.9-2.9-5.8-5.8l1.4-.4.8 1.6Z" fill="currentColor" stroke="none"/></svg>
+  </a>
 </div>
 
-<main>
-
-<!-- ═══════════ TAB: PANEL PRIVADO (protegido) ═══════════ -->
-<div id="tab-admin" class="tab-panel">
-
-  <!-- Login -->
-  <div id="login-screen" style="max-width:420px;margin:40px auto;">
-    <div class="card" style="text-align:center;">
-      <div style="font-size:40px;margin-bottom:8px;">🔒</div>
-      <div class="card-title" style="justify-content:center;">Acceso al panel privado</div>
-      <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px;line-height:1.6;">
-        Esta sección contiene costos, márgenes y ganancias. Solo para el administrador.
-      </p>
-      <div style="text-align:left;margin-bottom:12px;">
-        <label style="font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px;">Usuario</label>
-        <input type="text" id="login-user" autocomplete="username" placeholder="Usuario"
-          onkeydown="if(event.key==='Enter')doLogin()"
-          style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;">
-      </div>
-      <div style="text-align:left;margin-bottom:16px;">
-        <label style="font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px;">Contraseña</label>
-        <input type="password" id="login-pass" autocomplete="current-password" placeholder="Contraseña"
-          onkeydown="if(event.key==='Enter')doLogin()"
-          style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;">
-      </div>
-      <button class="btn-export" style="margin-top:0;" onclick="doLogin()">Entrar</button>
-      <div id="login-error" style="display:none;margin-top:12px;padding:8px 12px;border-radius:8px;background:#FEE2E2;color:#991B1B;font-size:12px;font-weight:600;"></div>
-      <div style="margin-top:18px;padding:10px 12px;background:#FEF3C7;border-radius:8px;font-size:11px;color:#92400E;line-height:1.6;text-align:left;">
-        <strong>⚠️ Aviso de seguridad:</strong> esta clave está en el código del archivo. Protege de curiosos, no de alguien técnico. Para seguridad real, publica solo la Tienda y el Catálogo, y guarda el panel privado en un archivo aparte que no subas a internet.
-      </div>
+<!-- ============ MENÚ MÓVIL ============ -->
+<div class="mnav-backdrop" onclick="closeMenu()"></div>
+<aside class="mnav" aria-label="Menú">
+  <div class="head">
+    <span class="logo"><span class="name" style="font-size:18px">VITAFAMA</span></span>
+    <button class="btn-ghost" onclick="closeMenu()" aria-label="Cerrar">✕</button>
+  </div>
+  <div id="mnav-cats"></div>
+  <div class="extra">
+    <a href="#productos" data-filter data-offers="1">Ofertas y Combos</a>
+    <a href="#preguntas" onclick="closeMenu()">Preguntas frecuentes</a>
+    <a href="#" onclick="closeMenu();openInfo('pagos');return false;">Medios de pago</a>
+    <a href="#" onclick="closeMenu();openOrders();return false;">Mis pedidos</a>
+    <div class="socials" style="margin-top:6px">
+      <a data-social="instagram" target="_blank" rel="noopener" aria-label="Instagram" style="color:var(--primary);border-color:var(--border)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+      <a data-social="tiktok" target="_blank" rel="noopener" aria-label="TikTok" style="color:var(--primary);border-color:var(--border)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3c.4 2.4 2 4 4.5 4.2v3.2c-1.7 0-3.2-.5-4.5-1.4V15a6 6 0 1 1-6-6v3.2a2.8 2.8 0 1 0 2.8 2.8V3Z"/></svg></a>
+      <a data-social="facebook" target="_blank" rel="noopener" aria-label="Facebook" style="color:var(--primary);border-color:var(--border)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
     </div>
   </div>
+</aside>
 
-  <!-- Contenido protegido -->
-  <div id="admin-content" style="display:none;">
-  <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
-    <button onclick="doLogout()" style="padding:7px 16px;border:1.5px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text-muted);font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;">Cerrar sesión</button>
+<!-- ============ CARRITO / CHECKOUT ============ -->
+<div class="drawer-backdrop" onclick="closeCart()"></div>
+<aside class="drawer" id="drawer" aria-label="Carrito de compras">
+  <div class="head">
+    <h3 id="drawer-title">Tu carrito</h3>
+    <button class="btn-ghost" onclick="closeCart()" aria-label="Cerrar">✕</button>
   </div>
-  <div class="calc-grid">
+  <div class="steps" id="steps"></div>
+  <div id="drawer-body" style="display:flex;flex-direction:column;flex:1;overflow:hidden"></div>
+</aside>
 
-    <!-- LEFT: inputs -->
-    <div>
-      <div class="card" style="margin-bottom:20px;">
-        <div class="card-title">⚙️ Configuración del pedido</div>
+<!-- ============ MODAL GENERAL ============ -->
+<div class="modal-backdrop" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modal-box"></div>
+</div>
 
-        <!-- Fórmula explicada -->
-        <div style="background:var(--green-light);border-radius:10px;padding:12px 16px;margin-bottom:18px;font-size:13px;line-height:1.7;color:var(--text);">
-          <strong>📐 Fórmula que usa la calculadora:</strong><br>
-          <span style="font-size:12px;color:var(--text-muted);">El "Precio iHerb" es el total tal como aparece en iHerb (ya incluye la cantidad). La cantidad es solo para mostrarle al cliente cuántas unidades recibe.</span><br>
-          <span style="font-family:monospace;font-size:12px;background:rgba(0,0,0,.06);padding:2px 6px;border-radius:4px;">
-            Flete proporcional = (Precio iHerb ÷ Subtotal total) × Flete iHerb
-          </span><br>
-          <span style="font-family:monospace;font-size:12px;background:rgba(0,0,0,.06);padding:2px 6px;border-radius:4px;">
-            Costo real = Precio iHerb + Flete proporcional
-          </span><br>
-          <span style="font-family:monospace;font-size:12px;background:rgba(0,0,0,.06);padding:2px 6px;border-radius:4px;">
-            Precio reventa = Costo real × (1 + Margen%)  →  redondeado
-          </span><br>
-          <span style="font-family:monospace;font-size:12px;background:rgba(0,0,0,.06);padding:2px 6px;border-radius:4px;">
-            Ganancia por producto = Precio reventa − Costo real
-          </span>
+<!-- ============ ADMIN ============ -->
+<div id="view-admin" class="hidden">
+  <div class="admin-login" id="admin-login">
+    <form onsubmit="adminLogin(event)">
+      <div class="top">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#52B788" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+        <h1>Panel VITAFAMA</h1>
+      </div>
+      <div><label>Usuario</label><input id="au" autocomplete="username"></div>
+      <div><label>Contraseña</label><input id="ap" type="password" autocomplete="current-password"></div>
+      <button class="btn btn-block" type="submit">Ingresar</button>
+      <button class="btn btn-outline btn-block" type="button" onclick="showStore()">Volver a la tienda</button>
+    </form>
+  </div>
+
+  <div id="admin-dash" class="hidden" style="min-height:100vh;background:var(--bg)">
+    <div class="admin-bar">
+      <div class="container">
+        <div class="brand">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#52B788" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+          VITAFAMA · Admin
         </div>
-
-        <div class="config-strip">
-          <div class="config-field">
-            <label>Flete iHerb (COP)</label>
-            <input type="number" id="cfg-flete" value="32111" min="0" step="100" oninput="recalc()">
-            <span style="font-size:11px;color:var(--text-muted);">Costo real de envío del pedido</span>
-          </div>
-          <div class="config-field">
-            <label>Redondear precios a</label>
-            <select id="cfg-round" onchange="recalc()">
-              <option value="1000">$1.000</option>
-              <option value="500" selected>$500</option>
-              <option value="100">$100</option>
-              <option value="0">Sin redondeo</option>
-            </select>
-            <span style="font-size:11px;color:var(--text-muted);">Para precios más limpios</span>
-          </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn-ghost" onclick="showStore()">Ver tienda</button>
+          <button class="btn-ghost" onclick="adminLogout()" aria-label="Salir">⎋</button>
         </div>
-
-        <!-- Slider de margen -->
-        <div style="margin-top:16px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-            <label style="font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;">Margen de ganancia a aplicar</label>
-            <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--green-deep);" id="margin-display">18%</span>
+      </div>
+    </div>
+    <main class="container admin-main">
+      <form class="panel" onsubmit="saveProduct(event)">
+        <h2 id="form-title">Nuevo producto</h2>
+        <div class="fields">
+          <div><label>Nombre</label><input id="f-name"></div>
+          <div class="two">
+            <div><label>Marca</label><input id="f-brand" list="brand-list"><datalist id="brand-list"></datalist></div>
+            <div><label>Categoría</label><select id="f-category" onchange="fillSubList()"></select></div>
           </div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <span style="font-size:12px;color:var(--text-muted);min-width:32px;">0%</span>
-            <input type="range" id="cfg-margin" min="0" max="80" value="18" step="1"
-              oninput="document.getElementById('margin-display').textContent=this.value+'%';recalc()"
-              style="flex:1;accent-color:var(--green-accent);height:6px;cursor:pointer;">
-            <span style="font-size:12px;color:var(--text-muted);min-width:32px;">80%</span>
+          <div class="two">
+            <div><label>Subcategoría</label><input id="f-sub" list="sub-list"><datalist id="sub-list"></datalist></div>
+            <div><label>Precio antes (oferta)</label><input id="f-oldPrice" type="number" min="0" placeholder="Opcional"></div>
           </div>
-          <div style="display:flex;justify-content:space-between;margin-top:8px;">
-            <div style="text-align:center;flex:1;padding:6px 8px;background:var(--green-light);border-radius:8px;margin-right:6px;font-size:12px;">
-              <div style="color:var(--text-muted);">Margen mínimo recomendado</div>
-              <div style="font-weight:700;color:var(--green-mid);">
-                <input type="number" id="cfg-margin-min" value="12" min="0" max="80"
-                  style="width:48px;border:none;background:transparent;font-weight:700;color:var(--green-mid);font-size:14px;text-align:center;"
-                  oninput="updateMarkerLine()">%
-              </div>
-              <div style="font-size:10px;color:var(--text-muted);">Umbral mínimo acceptable</div>
+          <div><label>Descripción</label><textarea id="f-description" rows="2"></textarea></div>
+          <div><label>URL de imagen (opcional)</label><input id="f-image"></div>
+          <div class="calc">
+            <div class="ct"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D9B45B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg> Calculadora de utilidad</div>
+            <div class="two">
+              <div><label>Costo producto (COP)</label><input id="f-productCost" type="number" min="0" oninput="recalc()"></div>
+              <div><label>Envío importación (COP)</label><input id="f-shippingCost" type="number" min="0" oninput="recalc()"></div>
             </div>
-            <div style="text-align:center;flex:1;padding:6px 8px;background:var(--green-light);border-radius:8px;font-size:12px;">
-              <div style="color:var(--text-muted);">Margen máximo competitivo</div>
-              <div style="font-weight:700;color:var(--green-deep);">
-                <input type="number" id="cfg-margin-max" value="22" min="0" max="80"
-                  style="width:48px;border:none;background:transparent;font-weight:700;color:var(--green-deep);font-size:14px;text-align:center;"
-                  oninput="updateMarkerLine()">%
+            <div><label>Margen objetivo (%)</label><input id="f-margin" type="number" min="0" max="95" value="25" oninput="recalc()"></div>
+            <div class="sep">
+              <div class="kv"><span class="k">Costo base</span><span class="v" id="c-base">$0</span></div>
+              <div class="kv"><span class="k">Precio sugerido</span><span class="v" id="c-suggested">$0</span></div>
+            </div>
+            <div>
+              <label>Precio final de venta</label>
+              <div style="display:flex;gap:8px">
+                <input id="f-price" type="number" oninput="manualPrice()">
+                <button type="button" class="btn btn-outline" onclick="roundPrice()">↑ 1.000</button>
               </div>
-              <div style="font-size:10px;color:var(--text-muted);">Sigue siendo competitivo vs tiendas</div>
+              <button type="button" class="link-btn hidden" id="back-suggested" onclick="autoPrice()">Volver al precio sugerido</button>
+            </div>
+            <div>
+              <div class="kv"><span class="k">Ganancia por unidad</span><span class="v" id="c-profit">$0</span></div>
+              <div class="kv"><span class="k">Margen real</span><span class="v" id="c-margin">0%</span></div>
             </div>
           </div>
-          <div id="margin-alert" style="display:none;margin-top:8px;padding:8px 12px;border-radius:8px;font-size:12px;font-weight:600;"></div>
-        </div>
-
-        <!-- Descuento vs mercado -->
-        <div style="margin-top:20px;padding:14px 16px;background:linear-gradient(135deg, #E8F5EE 0%, #D8F3DC 100%);border-radius:10px;border:2px solid var(--green-accent);">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-            <label style="font-size:12px;font-weight:700;color:var(--green-deep);text-transform:uppercase;letter-spacing:.5px;">🎯 Modo estratégico: Descuento vs precio mercado</label>
-            <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--green-deep);" id="desc-display">8%</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <span style="font-size:12px;color:var(--text-muted);min-width:32px;">0%</span>
-            <input type="range" id="cfg-desc-mercado" min="0" max="25" value="8" step="1"
-              oninput="document.getElementById('desc-display').textContent=this.value+'%';recalc()"
-              style="flex:1;accent-color:var(--green-deep);height:6px;cursor:pointer;">
-            <span style="font-size:12px;color:var(--text-muted);min-width:36px;">25%</span>
-          </div>
-          <div style="margin-top:10px;font-size:12px;color:var(--text);line-height:1.6;">
-            <strong>Cómo funciona:</strong> Cuando un producto tiene <em>Precio mercado</em>, el sistema lo prioriza y calcula: <code style="background:rgba(0,0,0,0.06);padding:1px 5px;border-radius:3px;">Reventa = Mercado × (1 − Descuento%)</code><br>
-            Los productos con costo bajo generan más margen y compensan a los apretados. Si algún producto queda por debajo del costo, se sube automáticamente al mínimo viable (costo + 3%).
+          <div style="display:flex;gap:8px">
+            <button type="button" class="btn btn-outline hidden" id="cancel-edit" onclick="resetForm()">Cancelar</button>
+            <button class="btn" style="flex:1" type="submit" id="save-btn">＋ Agregar producto</button>
           </div>
         </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">📋 Productos del pedido</div>
-        <div class="table-scroll">
-        <div class="products-header">
-          <span>Producto</span>
-          <span style="text-align:right" title="Precio total tal como aparece en iHerb (ya incluye la cantidad)">Precio iHerb (total)</span>
-          <span style="text-align:center">Cant.</span>
-          <span style="text-align:right">Costo real</span>
-          <span style="text-align:center" title="Margen específico para este producto. Vacío = usa el margen global.">Margen %</span>
-          <span style="text-align:right">Ganancia</span>
-          <span style="text-align:right">Precio reventa</span>
-          <span style="text-align:right" title="Precio de referencia en Mercado Libre / competencia">Precio mercado</span>
-          <span style="text-align:center">Estado</span>
-          <span></span>
-        </div>
-        <div id="products-list"></div>
-        </div><!-- end table-scroll -->
-        <button class="btn-add" onclick="addRow()">+ Agregar producto</button>
-      </div>
-    </div>
-
-    <!-- RIGHT: summary -->
-    <div class="summary-card">
-      <div class="card">
-        <div class="card-title">📊 Resumen del pedido</div>
-
-        <div class="summary-row">
-          <span class="lbl">Subtotal iHerb</span>
-          <span id="sum-subtotal">$0</span>
-        </div>
-        <div class="summary-row">
-          <span class="lbl">Flete total</span>
-          <span id="sum-flete">$0</span>
-        </div>
-        <div class="summary-row">
-          <span class="lbl">Costo total real</span>
-          <span id="sum-costo">$0</span>
-        </div>
-        <div class="summary-row">
-          <span class="lbl">Total reventa</span>
-          <span id="sum-reventa" style="color:var(--green-mid);font-weight:700">$0</span>
-        </div>
-        <div class="summary-row total">
-          <span>Ganancia estimada</span>
-          <span id="sum-ganancia">$0</span>
-        </div>
-
-        <div class="profit-bar-wrap">
-          <div class="profit-bar-label">
-            <span>Margen sobre costo</span>
-            <span id="bar-pct">0%</span>
-          </div>
-          <div class="profit-bar">
-            <div class="profit-bar-fill" id="profit-bar-fill" style="width:0%"></div>
-          </div>
-        </div>
-
-        <div style="font-size:12px;color:var(--text-muted);margin-top:12px;line-height:1.5;">
-          💡 <strong>Estrategia:</strong> aplica margen sobre el costo real (precio iHerb + flete proporcional). El cliente paga menos que en tiendas naturistas sin importar él mismo.
-        </div>
-
-        <button class="btn-export" onclick="exportExcel()">📊 Exportar a Excel (.xlsx)</button>
-        <button class="btn-export-cat" onclick="printClientOrder()">🖨️ Imprimir pedido para cliente</button>
-      </div>
-
-      <div class="card" style="margin-top:16px;">
-        <div class="card-title">💰 Comparativa de mercado</div>
-        <div style="font-size:13px;color:var(--text-muted);line-height:1.6;">
-          <div style="margin-bottom:8px;">Un cliente que importa por sí mismo paga:</div>
-          <div style="background:var(--green-light);border-radius:8px;padding:10px 12px;color:var(--text);">
-            Producto + <strong>flete mínimo iHerb ~$25.000–$40.000</strong> + tiempo + riesgo de aduana. Comprarte a ti es más barato y sin complicaciones.
-          </div>
-          <div style="margin-top:10px;font-size:12px;">
-            Tiendas naturistas marcan <strong>+60–100%</strong> sobre precio de importación. Tu margen del <span id="comp-margin">22</span>% es muy competitivo.
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-  </div><!-- end admin-content -->
-</div>
-
-<!-- ═══════════ TAB: TIENDA Y PAGOS ═══════════ -->
-<div id="tab-shop" class="tab-panel active">
-  <div class="shop-grid">
-
-    <!-- Productos -->
-    <div>
-      <div class="card" style="margin-bottom:18px;">
-        <div class="card-title">🛍️ Nuestros productos</div>
-        <p style="font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:4px;">
-          Suplementos originales importados de Estados Unidos. Marcas certificadas con garantía de calidad. Entrega estimada: 17 a 22 días hábiles.
-        </p>
-      </div>
-      <div id="shop-list"></div>
-    </div>
-
-    <!-- Carrito -->
-    <div class="cart-col">
-      <div class="card">
-        <div class="card-title">🛒 Tu pedido</div>
-        <div id="cart-items"></div>
-        <div id="cart-summary" style="display:none;">
-          <div class="summary-row" style="margin-top:8px;">
-            <span class="lbl">Subtotal</span>
-            <span id="cart-subtotal">$0</span>
-          </div>
-          <div class="summary-row">
-            <span class="lbl">Domicilio</span>
-            <span id="cart-shipping">$0</span>
-          </div>
-          <div class="summary-row total">
-            <span>Total</span>
-            <span id="cart-total">$0</span>
-          </div>
-          <button class="btn-export" onclick="openCheckout()">Continuar al pago</button>
-        </div>
-      </div>
-
-      <div class="card" style="margin-top:16px;">
-        <div class="card-title">✅ Por qué comprarnos</div>
-        <div style="font-size:13px;color:var(--text-muted);line-height:1.8;">
-          <div>🇺🇸 Producto original importado de EE.UU.</div>
-          <div>🧪 Marcas con pruebas de laboratorio</div>
-          <div>💰 Más barato que tiendas naturistas</div>
-          <div>📦 Sin que tú pagues flete internacional</div>
-          <div>🤝 Atención personalizada</div>
-        </div>
-      </div>
-    </div>
-
+      </form>
+      <section>
+        <h2 style="margin:0 0 16px;font-size:20px;color:var(--primary)">Inventario (<span id="inv-count">0</span>)</h2>
+        <div class="inv-list" id="inv-list"></div>
+      </section>
+    </main>
   </div>
 </div>
 
-<!-- ═══════════ MODAL CHECKOUT ═══════════ -->
-<div id="checkout-modal" class="modal-backdrop" onclick="if(event.target===this)closeCheckout()">
-  <div class="modal-box">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
-      <div class="card-title" style="margin:0;">💳 Finalizar compra</div>
-      <button onclick="closeCheckout()" style="border:none;background:none;font-size:22px;cursor:pointer;color:var(--text-muted);line-height:1;">✕</button>
-    </div>
-
-    <!-- Paso 1: Datos -->
-    <div id="checkout-step1">
-      <div style="font-size:12px;font-weight:700;color:var(--green-deep);margin-bottom:10px;">1 · Tus datos</div>
-      <div class="form-grid">
-        <div class="form-field">
-          <label>Nombre completo *</label>
-          <input type="text" id="ck-name" placeholder="Nombre y apellido">
-        </div>
-        <div class="form-field">
-          <label>Documento *</label>
-          <input type="text" id="ck-doc" placeholder="C.C. / NIT">
-        </div>
-        <div class="form-field">
-          <label>Celular *</label>
-          <input type="tel" id="ck-phone" placeholder="300 000 0000">
-        </div>
-        <div class="form-field">
-          <label>Correo *</label>
-          <input type="email" id="ck-email" placeholder="correo@ejemplo.com">
-        </div>
-        <div class="form-field full">
-          <label>Dirección de entrega *</label>
-          <input type="text" id="ck-address" placeholder="Calle, número, apartamento">
-        </div>
-        <div class="form-field">
-          <label>Ciudad *</label>
-          <input type="text" id="ck-city" placeholder="Bogotá">
-        </div>
-        <div class="form-field">
-          <label>Departamento</label>
-          <input type="text" id="ck-state" placeholder="Cundinamarca">
-        </div>
-      </div>
-
-      <div style="font-size:12px;font-weight:700;color:var(--green-deep);margin:20px 0 10px;">2 · Método de pago</div>
-      <div class="pay-grid">
-        <div class="pay-option" data-method="PSE" onclick="selectPay(this)">
-          <div class="pay-icon" style="background:#0B4EA2;">PSE</div>
-          <div>
-            <div class="pay-name">PSE</div>
-            <div class="pay-desc">Débito desde tu banco</div>
-          </div>
-        </div>
-        <div class="pay-option" data-method="Nequi" onclick="selectPay(this)">
-          <div class="pay-icon" style="background:#DA0081;">N</div>
-          <div>
-            <div class="pay-name">Nequi</div>
-            <div class="pay-desc">Pago desde la app</div>
-          </div>
-        </div>
-        <div class="pay-option" data-method="Daviplata" onclick="selectPay(this)">
-          <div class="pay-icon" style="background:#ED1C24;">D</div>
-          <div>
-            <div class="pay-name">Daviplata</div>
-            <div class="pay-desc">Pago desde la app</div>
-          </div>
-        </div>
-        <div class="pay-option" data-method="Tarjeta de crédito" onclick="selectPay(this)">
-          <div class="pay-icon" style="background:#1B4332;">CR</div>
-          <div>
-            <div class="pay-name">Tarjeta de crédito</div>
-            <div class="pay-desc">Visa, Mastercard, Amex</div>
-          </div>
-        </div>
-        <div class="pay-option" data-method="Tarjeta débito" onclick="selectPay(this)">
-          <div class="pay-icon" style="background:#2D6A4F;">DB</div>
-          <div>
-            <div class="pay-name">Tarjeta débito</div>
-            <div class="pay-desc">Visa débito, Maestro</div>
-          </div>
-        </div>
-        <div class="pay-option" data-method="Transferencia / Contra entrega" onclick="selectPay(this)">
-          <div class="pay-icon" style="background:#52B788;">💵</div>
-          <div>
-            <div class="pay-name">Transferencia o contra entrega</div>
-            <div class="pay-desc">Coordinamos por WhatsApp</div>
-          </div>
-        </div>
-      </div>
-
-      <div id="ck-error" style="display:none;margin-top:14px;padding:9px 12px;border-radius:8px;background:#FEE2E2;color:#991B1B;font-size:12px;font-weight:600;"></div>
-
-      <div style="margin-top:18px;padding:12px 14px;background:var(--green-light);border-radius:10px;">
-        <div style="display:flex;justify-content:space-between;font-size:14px;font-weight:700;color:var(--green-deep);">
-          <span>Total a pagar</span>
-          <span id="ck-total">$0</span>
-        </div>
-      </div>
-
-      <button class="btn-export" onclick="submitOrder()">Confirmar pedido</button>
-    </div>
-
-    <!-- Paso 2: Confirmación -->
-    <div id="checkout-step2" style="display:none;text-align:center;padding:10px 0;">
-      <div style="font-size:48px;margin-bottom:10px;">✅</div>
-      <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:19px;font-weight:800;color:var(--green-deep);margin-bottom:8px;">Pedido registrado</div>
-      <div style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:18px;" id="ck-confirm-msg"></div>
-      <div id="ck-summary-box" style="text-align:left;background:var(--green-light);border-radius:10px;padding:14px 16px;font-size:13px;line-height:1.8;margin-bottom:18px;"></div>
-      <button class="btn-export" style="margin-top:0;" onclick="sendWhatsApp()">📱 Enviar pedido por WhatsApp</button>
-      <button class="btn-export-cat" onclick="closeCheckout();clearCart()">Cerrar</button>
-    </div>
-  </div>
-</div>
-<div id="tab-catalog" class="tab-panel">
-  <div class="catalog-controls">
-    <input type="text" id="cat-search" placeholder="🔍 Buscar producto..." oninput="renderCatalog()">
-    <select id="cat-sort" onchange="renderCatalog()">
-      <option value="name">Ordenar: A–Z</option>
-      <option value="price-asc">Precio: menor primero</option>
-      <option value="price-desc">Precio: mayor primero</option>
-    </select>
-    <button class="btn-export" style="width:auto;padding:9px 18px;" onclick="window.print()">🖨 Imprimir catálogo</button>
-  </div>
-  <div id="catalog-grid" class="catalog-grid">
-    <div class="empty-state">
-      <div class="icon">🌿</div>
-      <p>Agrega productos en la calculadora<br>y presiona <strong>"Enviar al catálogo"</strong></p>
-    </div>
-  </div>
-</div>
-
-</main>
-
-<div class="toast" id="toast"></div>
+<div id="toast" role="status" aria-live="polite"></div>
 
 <script>
-// ── STATE ──
-let products = [];
-let catalogItems = [];
-const EMOJIS = ['💊','🌿','🍋','💪','🫀','🧠','⚗️','🌱'];
+/* =====================================================================
+   CONFIGURACIÓN DE LA TIENDA — edita estos datos con la información real
+   ===================================================================== */
+const CONFIG = {
+  whatsapp: "573000000000",            // Número con indicativo 57, sin "+" ni espacios
+  whatsappTexto: "+57 300 000 0000",   // Cómo se muestra el número en la página
+  email: "contacto@vitafama.co",
+  instagram: "https://www.instagram.com/vitafama",
+  tiktok: "https://www.tiktok.com/@vitafama",
+  facebook: "https://www.facebook.com/vitafama",
+  envioGratisDesde: 199000,            // Compras desde este valor tienen envío gratis
+  costoEnvio: 15000,                   // Valor del envío para compras menores
 
-// ── INITIAL DATA (from screenshot) ──
-const DEMO = [
-  { name: 'Nutricost, Extracto diente de león, 180 cáps (525mg)', brand: 'Nutricost', price: 40528, qty: 1, marketPrice: 65000 },
-  { name: 'NOW Foods, Raíz diente de león, 500mg, 100 cáps vegetales', brand: 'NOW Foods', price: 22988, qty: 1, marketPrice: 45000 },
-  { name: 'NOW Foods, Citrato de magnesio, 200mg, 100 comprimidos', brand: 'NOW Foods', price: 39168, qty: 1, marketPrice: 60000 },
-  { name: 'Swanson, Hongo melena de león, 500mg, 60 cáps', brand: 'Swanson', price: 33864, qty: 1, marketPrice: 55000 },
-  { name: 'California Gold Nutrition, Vitamina C Quali-C, 1000mg, 60 cáps', brand: 'CGN', price: 55588, qty: 2, marketPrice: 90000 },
-  { name: 'California Gold Nutrition, Complejo Resveratrol, 60 cáps', brand: 'CGN', price: 23673, qty: 1, marketPrice: 50000 },
-  { name: 'California Gold Nutrition, Ashwagandha, 500mg, 120 cáps', brand: 'CGN', price: 88319, qty: 2, marketPrice: 140000 },
-  { name: 'Natural Factors, WellBetX Berberina, 120 cáps (500mg)', brand: 'Natural Factors', price: 107896, qty: 1, marketPrice: 119000 },
-];
+  // Pasarela de pagos ePayco (tarjeta, PSE, Nequi, Daviplata, efectivo).
+  // Pega aquí tu PUBLIC_KEY (panel ePayco > Integraciones > Llaves API).
+  // Mientras esté vacía, el pago en línea se muestra como "Próximamente".
+  // Para probar el flujo sin llave, abre la página con ?demo al final de la URL.
+  epayco: { publicKey: "", test: true }, // Cambia test a false cuando salgas a producción
 
-// ── INIT ──
-window.onload = () => {
-  DEMO.forEach(d => addRow(d));
-  recalc();
-  renderShop();
-  renderCart();
-  autoFillCatalog();
+  // Datos para pagos por transferencia
+  banco: {
+    entidad: "Bancolombia",
+    tipo: "Cuenta de ahorros",
+    numero: "000-000000-00",
+    titular: "VITAFAMA",
+    documento: "NIT 000.000.000-0",
+    nequi: "300 000 0000"
+  }
 };
 
-function autoFillCatalog() {
-  catalogItems = products.filter(p => p.name && p.price > 0).map((p, i) => ({
-    id: p.id,
-    name: p.name,
-    brand: p.brand || '',
-    qty: 1,
-    priceOriginal: p.marketPrice || 0,
-    resale: publicPrice(p),
-    imgUrl: '',
-    emoji: EMOJIS[i % EMOJIS.length]
-  }));
-  renderCatalog();
+/* Pestañas de categorías y subcategorías */
+const CATS = [
+  { id:"Suplementos", subs:["Omega y aceites","Colágeno","Probióticos","Digestión","Sueño y relajación","Articulaciones"] },
+  { id:"Belleza", subs:["Cabello, piel y uñas","Biotina","Colágeno hidrolizado","Antiedad"] },
+  { id:"Comestibles", subs:["Snacks saludables","Superalimentos","Bebidas y tés","Endulzantes naturales"] },
+  { id:"Vitaminas/Minerales", subs:["Multivitamínicos","Vitamina C","Vitamina D","Complejo B","Magnesio","Zinc","Hierro"] },
+  { id:"Deporte", subs:["Proteínas","Creatina","Pre-entreno","Aminoácidos","Recuperación"] }
+];
+const BRANDS = ["Nordic Naturals","Sports Research","Doctor's Best","NOW Foods","Nature's Bounty","Garden of Life","Optimum Nutrition","Vital Proteins"];
+
+const FAQS = [
+  ["¿Los productos son 100% originales?", "Sí. Todos nuestros productos son importados directamente de distribuidores autorizados en Estados Unidos y llegan sellados, con su etiqueta y lote originales. Nunca vendemos productos reenvasados."],
+  ["¿Cuánto tarda en llegar mi pedido?", "Una vez confirmado el pago, despachamos en 1 a 2 días hábiles. La entrega toma normalmente de 2 a 5 días hábiles según tu ciudad. Si algún producto es bajo pedido de importación, te informamos el tiempo antes de que pagues."],
+  ["¿Cuánto cuesta el envío?", "El envío es GRATIS en compras superiores a {FREE}. Para compras menores, el envío tiene un costo fijo de {SHIP} a cualquier ciudad de Colombia."],
+  ["¿Qué medios de pago aceptan?", "Puedes pagar en línea con tarjeta de crédito o débito, PSE, Nequi o Daviplata a través de nuestra pasarela certificada. También aceptamos transferencia bancaria y pedidos asistidos por WhatsApp."],
+  ["¿Es seguro pagar en la página?", "Sí. Los pagos en línea se procesan en la plataforma segura de la pasarela de pagos, con conexión encriptada. VITAFAMA nunca ve ni almacena los datos de tu tarjeta."],
+  ["¿Me pueden asesorar antes de comprar?", "¡Claro! Escríbenos por WhatsApp y te orientamos sobre el producto que mejor se ajusta a lo que buscas. Recuerda que los suplementos no reemplazan la consulta con tu médico."],
+  ["¿Puedo hacer cambios o devoluciones?", "Si tu producto llega en mal estado o no corresponde a lo que pediste, escríbenos dentro de los 5 días siguientes a la entrega y lo solucionamos. Por higiene y seguridad, no aceptamos devoluciones de productos abiertos."],
+  ["¿Cómo hago seguimiento a mi pedido?", "Al despachar te enviamos el número de guía por WhatsApp o correo. También puedes ver tus pedidos en el ícono de usuario de la parte superior y consultarnos con tu número de referencia."]
+];
+
+/* Catálogo inicial (el catálogo completo se agregará más adelante) */
+const seed = [
+  { id:"s1", name:"Omega-3 Triple Strength", brand:"Nordic Naturals", category:"Suplementos", sub:"Omega y aceites", description:"Aceite de pescado ultra puro, 120 cápsulas blandas.", image:"", productCost:110000, shippingCost:25000, margin:25, price:180000 },
+  { id:"s2", name:"Vitamina D3 + K2", brand:"Sports Research", category:"Vitaminas/Minerales", sub:"Vitamina D", description:"5000 UI con K2 MK-7, 60 cápsulas.", image:"", productCost:62000, shippingCost:18000, margin:25, price:107000 },
+  { id:"s3", name:"Magnesio Glicinato", brand:"Doctor's Best", category:"Vitaminas/Minerales", sub:"Magnesio", description:"Alta absorción, 240 tabletas.", image:"", productCost:70000, shippingCost:20000, margin:25, price:120000 }
+];
+const BOTTLE = "img/frasco.jpg";
+
+/* ---------- estado ---------- */
+const load = (k, d) => { try { const v = JSON.parse(localStorage.getItem(k)); return v ?? d; } catch(e){ return d; } };
+const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} };
+let products = load("vf_products", null) || seed;
+products = products.map(p => seed.find(s => s.id === p.id && !p.sub) || p); // actualiza productos de ejemplo antiguos
+let cart = load("vf_cart", []);
+let customer = load("vf_customer", {});
+let filter = { cat:null, sub:null, brand:null, offers:false, q:"" };
+const DEMO = new URLSearchParams(location.search).has("demo");
+
+const cop = n => new Intl.NumberFormat("es-CO",{style:"currency",currency:"COP",maximumFractionDigits:0}).format(n);
+const calcPrice = (base,m) => base/(1-Math.min(Math.max(m,0),95)/100);
+const persist = () => { save("vf_products", products); save("vf_cart", cart); };
+const esc = s => String(s ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+const uid = () => (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : Date.now().toString(36)+Math.random().toString(36).slice(2);
+const waLink = text => `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(text)}`;
+const isOffer = p => +p.oldPrice > +p.price;
+const chevron = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>`;
+
+let toastTimer;
+function toast(msg, err){
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.className = err ? "error show" : "show";
+  clearTimeout(toastTimer); toastTimer = setTimeout(()=>t.classList.remove("show"), 2600);
 }
 
-function updateMarkerLine() { recalc(); }
-
-function uid() { return Math.random().toString(36).slice(2, 7); }
-
-function addRow(data = {}) {
-  const id = uid();
-  products.push({
-    id,
-    name: data.name || '',
-    brand: data.brand || '',
-    price: data.price || 0,
-    qty: data.qty || 1,
-    marginOverride: data.marginOverride ?? null,
-    marketPrice: data.marketPrice || 0
-  });
-  renderRows();
-  recalc();
+/* ---------- configuración en la página ---------- */
+function applyConfig(){
+  const links = { instagram:CONFIG.instagram, tiktok:CONFIG.tiktok, facebook:CONFIG.facebook,
+    whatsapp:waLink("Hola VITAFAMA, quiero información sobre sus productos.") };
+  document.querySelectorAll("[data-social]").forEach(a => a.href = links[a.dataset.social] || "#");
+  document.querySelectorAll("#free-from,.free-amt").forEach(el => el.textContent = cop(CONFIG.envioGratisDesde));
+  document.getElementById("wa-text").textContent = CONFIG.whatsappTexto;
+  document.getElementById("mail-text").textContent = CONFIG.email;
+  document.getElementById("mail-link").href = "mailto:" + CONFIG.email;
+  document.getElementById("year").textContent = new Date().getFullYear();
 }
 
-function removeRow(id) {
-  products = products.filter(p => p.id !== id);
-  renderRows();
-  recalc();
-}
-
-function updateField(id, field, val) {
-  const p = products.find(p => p.id === id);
-  if (!p) return;
-  if (field === 'price' || field === 'qty' || field === 'marketPrice') {
-    p[field] = parseFloat(val) || 0;
-  } else if (field === 'marginOverride') {
-    p[field] = val === '' ? null : parseFloat(val);
-  } else {
-    p[field] = val;
-  }
-  recalc();
-}
-
-function renderRows() {
-  const list = document.getElementById('products-list');
-  list.innerHTML = products.map((p, i) => `
-    <div class="product-row" id="row-${p.id}">
-      <div class="col-name"><input value="${esc(p.name)}" placeholder="Nombre del producto" title="${esc(p.name)}" oninput="updateField('${p.id}','name',this.value);this.title=this.value"></div>
-      <div style="text-align:right"><input type="number" value="${p.price}" min="0" step="100" style="text-align:right" oninput="updateField('${p.id}','price',this.value)"></div>
-      <div style="text-align:center"><input type="number" value="${p.qty}" min="1" max="99" style="text-align:center" oninput="updateField('${p.id}','qty',this.value)"></div>
-      <div id="costo-${p.id}" style="font-size:13px;font-weight:600;text-align:right;padding-right:4px;">—</div>
-      <div style="text-align:center">
-        <input type="number" value="${p.marginOverride ?? ''}" placeholder="global" min="0" max="100" step="1"
-          style="text-align:center;font-size:12px;padding:4px 6px;"
-          oninput="updateField('${p.id}','marginOverride',this.value)"
-          title="Deja vacío para usar el margen global. Escribe un número para usar margen específico para este producto.">
-      </div>
-      <div id="gan-${p.id}" style="font-size:13px;font-weight:600;color:var(--green-accent);text-align:right;padding-right:4px;">—</div>
-      <div id="resale-${p.id}" class="price-result" style="text-align:right;padding-right:4px;">—</div>
-      <div style="text-align:right">
-        <input type="number" value="${p.marketPrice || ''}" placeholder="opcional" min="0" step="1000"
-          style="text-align:right;font-size:12px;padding:4px 6px;"
-          oninput="updateField('${p.id}','marketPrice',this.value)"
-          title="Precio de referencia en Mercado Libre o competencia local. Sirve para calcular competitividad.">
-      </div>
-      <div id="status-${p.id}" style="text-align:center;">—</div>
-      <button class="btn-del" onclick="removeRow('${p.id}')" title="Eliminar">✕</button>
-    </div>
-  `).join('');
-}
-
-function esc(s) { return (s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
-
-function fmt(n) {
-  return '$' + Math.round(n).toLocaleString('es-CO');
-}
-
-function roundTo(n, r) {
-  if (!r) return n;
-  return Math.ceil(n / r) * r;
-}
-
-function recalc() {
-  const flete    = parseFloat(document.getElementById('cfg-flete').value) || 0;
-  const marginG  = parseFloat(document.getElementById('cfg-margin').value) || 18;
-  const marginMin = parseFloat(document.getElementById('cfg-margin-min').value) || 12;
-  const marginMax = parseFloat(document.getElementById('cfg-margin-max').value) || 22;
-  const descMercado = parseFloat(document.getElementById('cfg-desc-mercado').value) || 8;
-  const round    = parseInt(document.getElementById('cfg-round').value) || 0;
-  const MIN_MARGIN = 3; // Margen mínimo viable
-
-  document.getElementById('comp-margin').textContent = marginG;
-
-  // Alert de margen global
-  const alert = document.getElementById('margin-alert');
-  if (marginG < marginMin) {
-    alert.style.display = 'block';
-    alert.style.background = '#FEF3C7'; alert.style.color = '#92400E';
-    alert.textContent = `⚠️ Margen global (${marginG}%) por debajo del mínimo recomendado (${marginMin}%).`;
-  } else if (marginG > marginMax) {
-    alert.style.display = 'block';
-    alert.style.background = '#FEF3C7'; alert.style.color = '#92400E';
-    alert.textContent = `⚠️ Margen global (${marginG}%) supera el máximo competitivo (${marginMax}%).`;
-  } else {
-    alert.style.display = 'block';
-    alert.style.background = '#D1FAE5'; alert.style.color = '#065F46';
-    alert.textContent = `✅ Margen global del ${marginG}% dentro del rango (${marginMin}%–${marginMax}%). Se usa solo para productos sin precio mercado.`;
-  }
-
-  const subtotal = products.reduce((s, p) => s + (p.price), 0);
-
-  let totalReventa = 0;
-  let totalCosto   = 0;
-  let hasForced = false;
-
-  products.forEach(p => {
-    const lineVal    = p.price;
-    const fleteShare = subtotal > 0 ? (lineVal / subtotal) * flete : 0;
-    const costoReal  = lineVal + fleteShare;
-
-    // Determinar precio de reventa según prioridad:
-    // 1. marginOverride manual (máxima prioridad)
-    // 2. Precio mercado × (1 − descMercado%)  — respetando mínimo viable
-    // 3. Costo × (1 + marginG%)
-    let resale, priceSource;
-    const minPrice = roundTo(costoReal * (1 + MIN_MARGIN/100), round);
-
-    if (p.marginOverride !== null && !isNaN(p.marginOverride) && p.marginOverride !== '') {
-      resale = roundTo(costoReal * (1 + p.marginOverride/100), round);
-      priceSource = 'manual';
-    } else if (p.marketPrice && p.marketPrice > 0) {
-      const marketBased = roundTo(p.marketPrice * (1 - descMercado/100), round);
-      if (marketBased < minPrice) {
-        resale = minPrice;
-        priceSource = 'forced-min';
-        hasForced = true;
-      } else {
-        resale = marketBased;
-        priceSource = 'market';
-      }
-    } else {
-      resale = roundTo(costoReal * (1 + marginG/100), round);
-      priceSource = 'global';
-    }
-
-    const ganancia = resale - costoReal;
-    const marginReal = costoReal > 0 ? (ganancia / costoReal * 100) : 0;
-
-    totalCosto   += costoReal;
-    totalReventa += resale;
-
-    const el = (id) => document.getElementById(id);
-    if (el(`costo-${p.id}`))   el(`costo-${p.id}`).textContent   = fmt(costoReal);
-    if (el(`gan-${p.id}`))     el(`gan-${p.id}`).textContent     = fmt(ganancia) + ' (' + marginReal.toFixed(0) + '%)';
-    if (el(`resale-${p.id}`))  el(`resale-${p.id}`).textContent  = fmt(resale);
-
-    // Status badge (basado en precio mercado + fuente del cálculo)
-    const statusEl = el(`status-${p.id}`);
-    if (statusEl) {
-      if (priceSource === 'forced-min') {
-        statusEl.innerHTML = '<span class="badge badge-warn" title="Precio subido al mínimo viable">⚠️ Ajustado</span>';
-      } else if (priceSource === 'manual') {
-        statusEl.innerHTML = '<span class="badge badge-ok">👤 Manual</span>';
-      } else if (!p.marketPrice) {
-        statusEl.innerHTML = '<span class="badge badge-neu">Sin ref.</span>';
-      } else if (resale < p.marketPrice * 0.92) {
-        statusEl.innerHTML = '<span class="badge badge-win">🟢 Muy competitivo</span>';
-      } else if (resale <= p.marketPrice * 1.02) {
-        statusEl.innerHTML = '<span class="badge badge-ok">✅ Competitivo</span>';
-      } else if (resale <= p.marketPrice * 1.10) {
-        statusEl.innerHTML = '<span class="badge badge-warn">⚠️ Un poco alto</span>';
-      } else {
-        statusEl.innerHTML = '<span class="badge badge-bad">🔴 Muy caro</span>';
-      }
-    }
-  });
-
-  const ganancia = totalReventa - totalCosto;
-  const pct = totalCosto > 0 ? (ganancia / totalCosto * 100) : 0;
-
-  document.getElementById('sum-subtotal').textContent = fmt(subtotal);
-  document.getElementById('sum-flete').textContent    = fmt(flete);
-  document.getElementById('sum-costo').textContent    = fmt(totalCosto);
-  document.getElementById('sum-reventa').textContent  = fmt(totalReventa);
-  document.getElementById('sum-ganancia').textContent = fmt(ganancia);
-  document.getElementById('bar-pct').textContent      = pct.toFixed(1) + '%';
-  document.getElementById('profit-bar-fill').style.width = Math.min(pct * 2, 100) + '%';
-}
-
-// ── CATALOG ──
-function sendToCatalog() {
-  const flete  = parseFloat(document.getElementById('cfg-flete').value) || 0;
-  const margin = parseFloat(document.getElementById('cfg-margin').value) || 22;
-  const round  = parseInt(document.getElementById('cfg-round').value) || 0;
-  const subtotal = products.reduce((s, p) => s + p.price, 0);
-
-  catalogItems = products.filter(p => p.name && p.price > 0).map((p, i) => {
-    const lineVal    = p.price;
-    const fleteShare = subtotal > 0 ? (lineVal / subtotal) * flete : 0;
-    const costoReal  = lineVal + fleteShare;
-    const resale     = roundTo(costoReal * (1 + margin / 100), round);
-    return {
-      id: p.id,
-      name: p.name,
-      brand: p.brand || '',
-      qty: p.qty,
-      priceOriginal: p.price,
-      resale,
-      imgUrl: p.imgUrl || '',
-      emoji: EMOJIS[i % EMOJIS.length]
-    };
-  });
-
-  renderCatalog();
-  switchTab('catalog');
-  toast('✅ Catálogo actualizado con ' + catalogItems.length + ' productos');
-}
-
-function renderCatalog() {
-  const grid   = document.getElementById('catalog-grid');
-  const search = (document.getElementById('cat-search').value || '').toLowerCase();
-  const sort   = document.getElementById('cat-sort').value;
-
-  let items = catalogItems.filter(c => c.name.toLowerCase().includes(search) || c.brand.toLowerCase().includes(search));
-
-  if (sort === 'name')       items.sort((a,b) => a.name.localeCompare(b.name));
-  if (sort === 'price-asc')  items.sort((a,b) => a.resale - b.resale);
-  if (sort === 'price-desc') items.sort((a,b) => b.resale - a.resale);
-
-  if (!items.length) {
-    grid.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><p>${catalogItems.length ? 'Sin resultados para "'+search+'"' : 'Agrega productos en la calculadora<br>y presiona <strong>"Enviar al catálogo"</strong>'}</p></div>`;
-    return;
-  }
-
-  grid.innerHTML = items.map(c => {
-    const imgHtml = c.imgUrl
-      ? `<img src="${esc(c.imgUrl)}" class="catalog-img"
-            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
-            alt="${esc(c.name)}">
-         <div class="catalog-img-placeholder" style="display:none">${c.emoji}</div>`
-      : `<div class="catalog-img-placeholder">${c.emoji}</div>`;
-    return `
-    <div class="catalog-item">
-      ${imgHtml}
-      <div class="catalog-body">
-        <div class="catalog-brand">${esc(c.brand) || 'VITAFAMA'}</div>
-        <div class="catalog-name">${esc(c.name)}</div>
-        ${c.priceOriginal > c.resale ? '<div class="catalog-iherb-price">Tiendas locales: <span style="text-decoration:line-through">' + fmt(c.priceOriginal) + '</span></div>' : ''}
-        <div class="catalog-prices">
-          <span class="catalog-price-resale">${fmt(c.resale)}</span>
-        </div>
-        <div class="catalog-qty">🇺🇸 Importado de EE.UU. · Original</div>
-        <div class="catalog-saving">✓ Marca certificada con garantía</div>
-        <button class="btn-order" onclick="addToCart('${c.id}');switchTab('shop')">Agregar al pedido</button>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-// ── EXPORT EXCEL ──
-function exportExcel() {
-  const flete     = parseFloat(document.getElementById('cfg-flete').value) || 0;
-  const marginG   = parseFloat(document.getElementById('cfg-margin').value) || 18;
-  const marginMin = parseFloat(document.getElementById('cfg-margin-min').value) || 12;
-  const marginMax = parseFloat(document.getElementById('cfg-margin-max').value) || 22;
-  const descMercado = parseFloat(document.getElementById('cfg-desc-mercado').value) || 8;
-  const round     = parseInt(document.getElementById('cfg-round').value) || 0;
-  const subtotal  = products.reduce((s,p) => s + p.price, 0);
-  const fecha     = new Date().toLocaleDateString('es-CO');
-  const MIN_MARGIN = 3;
-
-  const wb = XLSX.utils.book_new();
-
-  const headers = [
-    'Producto', 'Marca', 'Precio iHerb (total línea)',
-    'Cantidad recibe cliente', 'Flete proporcional (COP)', 'Costo real (COP)',
-    'Margen aplicado', 'Precio reventa (COP)',
-    'Ganancia por producto (COP)', '% Ganancia real',
-    'Precio mercado ref. (COP)', 'Estado', 'Fuente cálculo'
+/* ---------- menú de categorías ---------- */
+function allBrands(){ return [...new Set([...BRANDS, ...products.map(p=>p.brand).filter(Boolean)])].sort((a,b)=>a.localeCompare(b)); }
+function navGroups(){
+  return [
+    { id:"Marcas", links: allBrands().map(b => ({label:b, attrs:`data-brand="${esc(b)}"`})) },
+    ...CATS.map(c => ({ id:c.id, all:`data-cat="${esc(c.id)}"`,
+      links: c.subs.map(s => ({label:s, attrs:`data-cat="${esc(c.id)}" data-sub="${esc(s)}"`})) }))
   ];
-
-  const calcResale = (p, cr) => {
-    const minPrice = roundTo(cr * (1 + MIN_MARGIN/100), round);
-    if (p.marginOverride !== null && !isNaN(p.marginOverride) && p.marginOverride !== '') {
-      return { rv: roundTo(cr * (1 + p.marginOverride/100), round), src: 'Manual (' + p.marginOverride + '%)' };
-    }
-    if (p.marketPrice && p.marketPrice > 0) {
-      const mb = roundTo(p.marketPrice * (1 - descMercado/100), round);
-      if (mb < minPrice) return { rv: minPrice, src: 'Mercado (ajustado a mínimo)' };
-      return { rv: mb, src: 'Mercado (-' + descMercado + '%)' };
-    }
-    return { rv: roundTo(cr * (1 + marginG/100), round), src: 'Global (' + marginG + '%)' };
-  };
-
-  const getStatus = (rv, cr, mp) => {
-    if (!mp) return 'Sin referencia';
-    if (rv < cr * 1.02) return '🔴 No rentable';
-    if (rv < mp * 0.92) return '🟢 Muy competitivo';
-    if (rv <= mp * 1.02) return '✅ Competitivo';
-    if (rv <= mp * 1.10) return '⚠️ Un poco alto';
-    return '🔴 Muy caro';
-  };
-
-  const dataRows = products.map(p => {
-    const lv = p.price;
-    const fs = subtotal > 0 ? (lv / subtotal) * flete : 0;
-    const cr = lv + fs;
-    const { rv, src } = calcResale(p, cr);
-    const gan = rv - cr;
-    const ganPct = cr > 0 ? (gan / cr * 100) : 0;
-    return [
-      p.name, p.brand || '', p.price,
-      p.qty, Math.round(fs), Math.round(cr),
-      ganPct / 100, rv,
-      Math.round(gan), ganPct / 100,
-      p.marketPrice || '', getStatus(rv, cr, p.marketPrice), src
-    ];
-  });
-
-  const totalLv  = products.reduce((s,p) => s + p.price, 0);
-  const totalCr  = products.reduce((s,p) => {
-    const lv=p.price; const fs=subtotal>0?(lv/subtotal)*flete:0; return s+lv+fs;
-  }, 0);
-  const totalRv  = products.reduce((s,p) => {
-    const lv=p.price; const fs=subtotal>0?(lv/subtotal)*flete:0; const cr=lv+fs;
-    return s + calcResale(p, cr).rv;
-  }, 0);
-  const totalGan = totalRv - totalCr;
-
-  const totalsRow = ['TOTAL', '', totalLv, '', flete, Math.round(totalCr), '', totalRv, Math.round(totalGan), totalCr>0?totalGan/totalCr:0, '', '', ''];
-
-  const wsData = [headers, ...dataRows, [], totalsRow];
-  const ws = XLSX.utils.aoa_to_sheet(wsData);
-
-  ws['!cols'] = [
-    {wch:50},{wch:18},{wch:22},{wch:10},{wch:20},{wch:18},{wch:12},{wch:20},{wch:22},{wch:14},{wch:22},{wch:22},{wch:26}
-  ];
-
-  const fmtCOP  = '"$"#,##0';
-  const fmtPct  = '0.0%';
-  const startRow = 2;
-
-  dataRows.forEach((_, ri) => {
-    const r = startRow + ri;
-    ['C','E','F','H','I','K'].forEach(col => {
-      const cell = ws[col + r];
-      if (cell) cell.z = fmtCOP;
-    });
-    const gCell = ws['G' + r]; if (gCell) gCell.z = fmtPct;
-    const jCell = ws['J' + r]; if (jCell) jCell.z = fmtPct;
-  });
-
-  const tr = startRow + dataRows.length + 1;
-  ['C','E','F','H','I'].forEach(col => {
-    const cell = ws[col + tr]; if (cell) cell.z = fmtCOP;
-  });
-  const jTot = ws['J' + tr]; if (jTot) jTot.z = fmtPct;
-
-  XLSX.utils.book_append_sheet(wb, ws, 'Cálculo detallado');
-
-  // ── HOJA 2: Configuración y fórmulas ──
-  const cfgData = [
-    ['CONFIGURACIÓN DEL PEDIDO', ''],
-    ['Fecha', fecha],
-    ['Flete iHerb total (COP)', flete],
-    ['Margen global aplicado', marginG / 100],
-    ['Margen mínimo recomendado', marginMin / 100],
-    ['Margen máximo competitivo', marginMax / 100],
-    ['Redondeo aplicado (COP)', round || 'Sin redondeo'],
-    [],
-    ['FÓRMULAS USADAS', ''],
-    ['Nota', 'El Precio iHerb es el total de la línea en iHerb (ya incluye cantidad).'],
-    ['Flete proporcional por producto', '= (Precio iHerb ÷ Subtotal total) × Flete iHerb'],
-    ['Costo real', '= Precio iHerb + Flete proporcional'],
-    ['Precio reventa', '= Costo real × (1 + Margen%)  →  redondeado al múltiplo elegido'],
-    ['Ganancia por producto', '= Precio reventa − Costo real'],
-    ['% Ganancia real', '= Ganancia ÷ Costo real'],
-    [],
-    ['RESUMEN', ''],
-    ['Subtotal iHerb (COP)', subtotal],
-    ['Flete total (COP)', flete],
-    ['Costo real total (COP)', Math.round(totalCr)],
-    ['Total reventa (COP)', totalRv],
-    ['Ganancia total estimada (COP)', Math.round(totalGan)],
-    ['Margen real obtenido', totalCr > 0 ? totalGan / totalCr : 0],
-  ];
-
-  const ws2 = XLSX.utils.aoa_to_sheet(cfgData);
-  ws2['!cols'] = [{wch:40},{wch:50}];
-  ['B4','B5','B6'].forEach(ref => { const c = ws2[ref]; if(c) c.z = fmtPct; });
-  ['B18','B19','B20','B21','B22'].forEach(ref => { const c = ws2[ref]; if(c) c.z = fmtCOP; });
-  const cMarg = ws2['B23']; if(cMarg) cMarg.z = fmtPct;
-
-  XLSX.utils.book_append_sheet(wb, ws2, 'Config y fórmulas');
-
-  XLSX.writeFile(wb, `VITAFAMA-precios-${fecha.replace(/\//g,'-')}.xlsx`);
-  toast('✅ Excel exportado con ' + products.length + ' productos');
 }
-
-// ── IMPRIMIR PEDIDO CLIENTE ──
-function printClientOrder() {
-  const flete    = parseFloat(document.getElementById('cfg-flete').value) || 0;
-  const marginG  = parseFloat(document.getElementById('cfg-margin').value) || 18;
-  const descMercado = parseFloat(document.getElementById('cfg-desc-mercado').value) || 8;
-  const round    = parseInt(document.getElementById('cfg-round').value) || 0;
-  const subtotal = products.reduce((s,p) => s + p.price, 0);
-  const fecha    = new Date().toLocaleDateString('es-CO', {year:'numeric',month:'long',day:'numeric'});
-  const MIN_MARGIN = 3;
-
-  const rows = products.filter(p => p.name && p.price > 0).map(p => {
-    const lv = p.price;
-    const fs = subtotal > 0 ? (lv / subtotal) * flete : 0;
-    const cr = lv + fs;
-    const minPrice = roundTo(cr * (1 + MIN_MARGIN/100), round);
-    let rv;
-    if (p.marginOverride !== null && !isNaN(p.marginOverride) && p.marginOverride !== '') {
-      rv = roundTo(cr * (1 + p.marginOverride/100), round);
-    } else if (p.marketPrice && p.marketPrice > 0) {
-      const mb = roundTo(p.marketPrice * (1 - descMercado/100), round);
-      rv = Math.max(minPrice, mb);
-    } else {
-      rv = roundTo(cr * (1 + marginG / 100), round);
-    }
-    return { name: p.name, qty: p.qty, precio: rv };
-  });
-
-  const totalCliente = rows.reduce((s,r) => s + r.precio, 0);
-
-  const html = `<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Pedido — VITAFAMA</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Inter', Arial, sans-serif; color: #1A2421; background: #fff; padding: 40px; }
-  .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; border-bottom: 3px solid #1B4332; padding-bottom: 20px; }
-  .brand { font-size: 26px; font-weight: 700; color: #1B4332; }
-  .brand span { display: block; font-size: 13px; font-weight: 400; color: #4A6358; margin-top: 4px; }
-  .meta { text-align: right; font-size: 13px; color: #4A6358; line-height: 1.7; }
-  h2 { font-size: 16px; color: #1B4332; margin-bottom: 16px; }
-  table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
-  thead tr { background: #1B4332; color: #fff; }
-  thead th { padding: 12px 14px; text-align: left; font-size: 13px; font-weight: 600; }
-  thead th:last-child { text-align: right; }
-  thead th:nth-child(2) { text-align: center; }
-  tbody tr { border-bottom: 1px solid #D8F3DC; }
-  tbody tr:nth-child(even) { background: #F4F9F6; }
-  tbody td { padding: 11px 14px; font-size: 13px; vertical-align: top; line-height: 1.4; }
-  tbody td:last-child { text-align: right; font-weight: 600; white-space: nowrap; }
-  tbody td:nth-child(2) { text-align: center; }
-  .total-row { background: #1B4332 !important; }
-  .total-row td { color: #fff; font-weight: 700; font-size: 15px; padding: 13px 14px; border-bottom: none; }
-  .total-row td:last-child { color: #B7E4C7; }
-  .footer { margin-top: 32px; font-size: 12px; color: #4A6358; line-height: 1.7; border-top: 1px solid #C3E6CB; padding-top: 16px; }
-  .note { background: #D8F3DC; border-radius: 8px; padding: 12px 16px; font-size: 12px; color: #1B4332; margin-bottom: 20px; }
-  @media print {
-    body { padding: 20px; }
-    @page { margin: 15mm; size: A4; }
-  }
-</style>
-</head>
-<body>
-<div class="header">
-  <div>
-    <div class="brand">🌿 VITAFAMA<span>Suplementos importados de EE.UU. — Salud &amp; Rendimiento</span></div>
-  </div>
-  <div class="meta">
-    <strong>Fecha:</strong> ${fecha}<br>
-    <strong>Pedido #:</strong> ${Math.floor(Math.random()*9000)+1000}<br>
-    <strong>Entrega estimada:</strong> 17–22 días hábiles
-  </div>
-</div>
-
-<div class="note">
-  📦 Productos importados directamente desde Estados Unidos. Marcas certificadas, originales y con garantía de calidad. Precio incluye producto + flete internacional.
-</div>
-
-<h2>Detalle del pedido</h2>
-<table>
-  <thead>
-    <tr>
-      <th style="width:60%">Producto</th>
-      <th style="width:10%">Cant.</th>
-      <th style="width:30%">Valor</th>
-    </tr>
-  </thead>
-  <tbody>
-    ${rows.map(r => `
-    <tr>
-      <td>${r.name}</td>
-      <td>${r.qty}</td>
-      <td>${'$' + Math.round(r.precio).toLocaleString('es-CO')}</td>
-    </tr>`).join('')}
-    <tr class="total-row">
-      <td colspan="2">TOTAL A PAGAR</td>
-      <td>${'$' + Math.round(totalCliente).toLocaleString('es-CO')}</td>
-    </tr>
-  </tbody>
-</table>
-
-<div class="footer">
-  • Precios en pesos colombianos (COP) &nbsp;|&nbsp; Incluye flete internacional<br>
-  • Productos originales con garantía de calidad &nbsp;|&nbsp; Pago contra entrega o transferencia anticipada<br>
-  • Contacto: VITAFAMA — Fabián Mauricio Ospina Castañeda
-</div>
-<script>window.onload = () => { window.print(); }<\/script>
-</body>
-</html>`;
-
-  const win = window.open('', '_blank');
-  win.document.write(html);
-  win.document.close();
-}
-
-// ── LOGIN ──
-const ADMIN_USER = 'Faustolliniperrone*2025';
-const ADMIN_PASS = 'FMOC*FP1420';
-let isLogged = false;
-
-function doLogin() {
-  const u = document.getElementById('login-user').value;
-  const p = document.getElementById('login-pass').value;
-  const err = document.getElementById('login-error');
-  if (u === ADMIN_USER && p === ADMIN_PASS) {
-    isLogged = true;
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('admin-content').style.display = 'block';
-    document.getElementById('session-badge').textContent = 'Sesión de administrador';
-    err.style.display = 'none';
-    document.getElementById('login-pass').value = '';
-    recalc();
-  } else {
-    err.style.display = 'block';
-    err.textContent = 'Usuario o contraseña incorrectos. Verifica e intenta de nuevo.';
-  }
-}
-
-function doLogout() {
-  isLogged = false;
-  document.getElementById('login-screen').style.display = 'block';
-  document.getElementById('admin-content').style.display = 'none';
-  document.getElementById('session-badge').textContent = 'Tienda pública';
-  document.getElementById('login-user').value = '';
-  document.getElementById('login-pass').value = '';
-  document.getElementById('login-error').style.display = 'none';
-  switchTab('shop');
-}
-
-// ── PRECIO PÚBLICO (misma lógica que recalc, sin exponer costos) ──
-function publicPrice(p) {
-  const flete       = parseFloat(document.getElementById('cfg-flete').value) || 0;
-  const marginG     = parseFloat(document.getElementById('cfg-margin').value) || 18;
-  const descMercado = parseFloat(document.getElementById('cfg-desc-mercado').value) || 8;
-  const round       = parseInt(document.getElementById('cfg-round').value) || 0;
-  const MIN_MARGIN  = 3;
-  const subtotal    = products.reduce((s, x) => s + x.price, 0);
-
-  const fs = subtotal > 0 ? (p.price / subtotal) * flete : 0;
-  const cr = p.price + fs;
-  const minPrice = roundTo(cr * (1 + MIN_MARGIN/100), round);
-
-  if (p.marginOverride !== null && !isNaN(p.marginOverride) && p.marginOverride !== '') {
-    return roundTo(cr * (1 + p.marginOverride/100), round);
-  }
-  if (p.marketPrice && p.marketPrice > 0) {
-    return Math.max(minPrice, roundTo(p.marketPrice * (1 - descMercado/100), round));
-  }
-  return roundTo(cr * (1 + marginG/100), round);
-}
-
-// ── TIENDA ──
-const SHIPPING_LOCAL = 12000;
-
-function renderShop() {
-  const list = document.getElementById('shop-list');
-  const items = products.filter(p => p.name && p.price > 0);
-  if (!items.length) {
-    list.innerHTML = '<div class="empty-state"><div class="icon">🌿</div><p>Catálogo en actualización. Vuelve pronto.</p></div>';
-    return;
-  }
-  list.innerHTML = items.map(p => {
-    const price = publicPrice(p);
-    const mp = p.marketPrice || 0;
-    const saving = mp > price ? mp - price : 0;
-    return `
-    <div class="shop-item">
-      <div class="shop-info">
-        <div class="shop-brand">${esc(p.brand) || 'VITAFAMA'}</div>
-        <div class="shop-name">${esc(p.name)}</div>
-        <div class="shop-meta">Importado de EE.UU. · Original con garantía${saving > 0 ? ' · <strong style="color:var(--green-accent)">Ahorras ' + fmt(saving) + '</strong> vs tiendas locales' : ''}</div>
+function renderNav(){
+  const groups = navGroups();
+  document.getElementById("cat-menu").innerHTML = groups.map(g => `
+    <li>
+      <button class="tab" data-tab="${esc(g.id)}" aria-haspopup="true">${esc(g.id)} ${chevron}</button>
+      <div class="dropdown">
+        ${g.all ? `<a href="#productos" class="all" data-filter ${g.all}>Ver todo ${esc(g.id)}</a><hr>` : ""}
+        ${g.links.map(l => `<a href="#productos" data-filter ${l.attrs}>${esc(l.label)}</a>`).join("")}
       </div>
-      <div class="shop-right">
-        ${saving > 0 ? '<div style="font-size:12px;color:var(--text-muted);text-decoration:line-through;">' + fmt(mp) + '</div>' : ''}
-        <div class="shop-price">${fmt(price)}</div>
-        <button class="btn-add-cart" onclick="addToCart('${p.id}')">Agregar</button>
+    </li>`).join("");
+  document.getElementById("mnav-cats").innerHTML = groups.map(g => `
+    <details><summary>${esc(g.id)}</summary>
+      ${g.all ? `<a href="#productos" class="all" data-filter ${g.all}>Ver todo ${esc(g.id)}</a>` : ""}
+      ${g.links.map(l => `<a href="#productos" data-filter ${l.attrs}>${esc(l.label)}</a>`).join("")}
+    </details>`).join("");
+  document.getElementById("foot-cats").innerHTML = CATS.map(c =>
+    `<li><a href="#productos" data-filter data-cat="${esc(c.id)}">${esc(c.id)}</a></li>`).join("");
+}
+function renderPills(){
+  const items = [{label:"Todos", attrs:"", on:!filter.cat && !filter.offers && !filter.brand},
+                 {label:"Ofertas", attrs:`data-offers="1"`, on:filter.offers},
+                 ...CATS.map(c => ({label:c.id, attrs:`data-cat="${esc(c.id)}"`, on:filter.cat===c.id}))];
+  document.getElementById("pills").innerHTML = items.map(i =>
+    `<button class="pill-tab ${i.on?"active":""}" role="tab" aria-selected="${i.on}" data-filter ${i.attrs}>${esc(i.label)}</button>`).join("");
+  document.querySelectorAll(".tab[data-tab]").forEach(t => {
+    const id = t.dataset.tab;
+    t.classList.toggle("active", id==="Marcas" ? !!filter.brand : filter.cat===id);
+  });
+}
+function setFilter(f, scroll=true){
+  filter = { cat:null, sub:null, brand:null, offers:false, q:"", ...f };
+  const q = document.getElementById("q"); if(q) q.value = filter.q;
+  renderProducts();
+  if(scroll) goProducts();
+}
+function goProducts(){ document.getElementById("productos").scrollIntoView({behavior:"smooth"}); }
+document.addEventListener("click", e => {
+  const el = e.target.closest("[data-filter]"); if(!el) return;
+  e.preventDefault();
+  setFilter({ cat:el.dataset.cat||null, sub:el.dataset.sub||null, brand:el.dataset.brand||null, offers:el.dataset.offers==="1" });
+  document.getElementById("cats-nav").classList.add("suppress");
+  if(document.activeElement) document.activeElement.blur();
+  closeMenu();
+});
+function openMenu(){ document.body.classList.add("mnav-open"); }
+function closeMenu(){ document.body.classList.remove("mnav-open"); }
+function toggleSearch(){
+  const s = document.getElementById("searchbar");
+  s.classList.toggle("hidden");
+  if(!s.classList.contains("hidden")) document.getElementById("q").focus();
+}
+
+/* ---------- productos ---------- */
+function visibleProducts(){
+  const q = filter.q.trim().toLowerCase();
+  return products.filter(p =>
+    (!filter.cat || p.category===filter.cat) &&
+    (!filter.sub || p.sub===filter.sub) &&
+    (!filter.brand || p.brand===filter.brand) &&
+    (!filter.offers || isOffer(p)) &&
+    (!q || [p.name,p.brand,p.category,p.sub,p.description].join(" ").toLowerCase().includes(q)));
+}
+function filterName(){
+  if(filter.offers) return "Ofertas y combos";
+  if(filter.brand) return filter.brand;
+  if(filter.cat) return filter.cat + (filter.sub ? " › " + filter.sub : "");
+  return "";
+}
+function renderProducts(){
+  renderPills();
+  const list = visibleProducts();
+  const name = filterName();
+  const label = document.getElementById("filter-label");
+  const parts = [];
+  if(name) parts.push(`Mostrando <b>${esc(name)}</b>`);
+  if(filter.q.trim()) parts.push(`búsqueda <b>“${esc(filter.q.trim())}”</b>`);
+  label.innerHTML = parts.length
+    ? `${parts.join(" · ")} — ${list.length} producto${list.length===1?"":"s"} · <button class="link-btn" onclick="setFilter({},false)">Ver todos</button>`
+    : "";
+  const empty = document.getElementById("no-products");
+  empty.classList.toggle("hidden", list.length>0);
+  if(list.length===0){
+    empty.innerHTML = `<h3>Muy pronto en ${esc(name || "nuestra tienda")}</h3>
+      <p style="margin:0">Estamos actualizando nuestro catálogo. ¿Buscas algo en particular? Te lo conseguimos.</p>
+      <a class="btn btn-wa" target="_blank" rel="noopener" href="${waLink("Hola VITAFAMA, estoy buscando: " + (filter.q || name || ""))}">Pregúntanos por WhatsApp</a>`;
+  }
+  document.getElementById("product-grid").innerHTML = list.map((p,i)=>`
+    <article class="card fade-up" style="animation-delay:${i*70}ms">
+      <div class="imgwrap">
+        <img src="${esc(p.image)||BOTTLE}" alt="${esc(p.name)}" loading="lazy">
+        ${p.sub||p.category?`<span class="cat">${esc(p.sub||p.category)}</span>`:""}
+        ${isOffer(p)?`<span class="off">-${Math.round((1-p.price/p.oldPrice)*100)}%</span>`:""}
       </div>
-    </div>`;
-  }).join('');
-}
-
-// ── CARRITO ──
-let cart = [];
-
-function addToCart(id) {
-  const p = products.find(x => x.id === id);
-  if (!p) return;
-  const existing = cart.find(c => c.id === id);
-  if (existing) {
-    existing.qty += 1;
-  } else {
-    cart.push({ id, name: p.name, brand: p.brand, price: publicPrice(p), qty: 1 });
-  }
-  renderCart();
-  toast('Agregado al pedido');
-}
-
-function changeQty(id, delta) {
-  const item = cart.find(c => c.id === id);
-  if (!item) return;
-  item.qty += delta;
-  if (item.qty <= 0) cart = cart.filter(c => c.id !== id);
-  renderCart();
-}
-
-function removeFromCart(id) {
-  cart = cart.filter(c => c.id !== id);
-  renderCart();
-}
-
-function clearCart() {
-  cart = [];
-  renderCart();
-}
-
-function cartTotals() {
-  const subtotal = cart.reduce((s, c) => s + c.price * c.qty, 0);
-  const shipping = cart.length ? SHIPPING_LOCAL : 0;
-  return { subtotal, shipping, total: subtotal + shipping };
-}
-
-function renderCart() {
-  const box = document.getElementById('cart-items');
-  const sum = document.getElementById('cart-summary');
-  if (!cart.length) {
-    box.innerHTML = '<div style="text-align:center;padding:26px 10px;color:var(--text-muted);font-size:13px;">Tu pedido está vacío.<br>Agrega productos desde la lista.</div>';
-    sum.style.display = 'none';
-    return;
-  }
-  box.innerHTML = cart.map(c => `
-    <div class="cart-row">
-      <div style="flex:1;">
-        <div class="cart-name">${esc(c.name)}</div>
-        <div class="cart-controls">
-          <button class="qty-btn" onclick="changeQty('${c.id}',-1)">−</button>
-          <span class="qty-num">${c.qty}</span>
-          <button class="qty-btn" onclick="changeQty('${c.id}',1)">+</button>
-          <button class="cart-remove" onclick="removeFromCart('${c.id}')" title="Quitar">✕</button>
+      <div class="body">
+        <p class="brand">${esc(p.brand)}</p>
+        <h3>${esc(p.name)}</h3>
+        <p class="desc">${esc(p.description)}</p>
+        <div class="row">
+          <span class="price">${isOffer(p)?`<span class="old">${cop(p.oldPrice)}</span>`:""}${cop(p.price)}</span>
+          <button class="btn" onclick="addToCart('${esc(p.id)}')">＋ Agregar</button>
         </div>
       </div>
-      <div class="cart-price">${fmt(c.price * c.qty)}</div>
-    </div>`).join('');
-
-  const t = cartTotals();
-  document.getElementById('cart-subtotal').textContent = fmt(t.subtotal);
-  document.getElementById('cart-shipping').textContent = fmt(t.shipping);
-  document.getElementById('cart-total').textContent    = fmt(t.total);
-  sum.style.display = 'block';
+    </article>`).join("");
+  renderCartCount();
 }
 
-// ── CHECKOUT ──
-let selectedMethod = '';
-let lastOrder = null;
-
-function openCheckout() {
-  if (!cart.length) { toast('Agrega productos antes de pagar'); return; }
-  document.getElementById('checkout-step1').style.display = 'block';
-  document.getElementById('checkout-step2').style.display = 'none';
-  document.getElementById('ck-total').textContent = fmt(cartTotals().total);
-  document.getElementById('checkout-modal').classList.add('open');
+/* ---------- preguntas frecuentes ---------- */
+function renderFaq(){
+  document.getElementById("faq-list").innerHTML = FAQS.map(([q,a],i) => `
+    <details class="q" ${i===0?"open":""}><summary>${esc(q)}</summary>
+      <div class="a">${esc(a.replace("{FREE}", cop(CONFIG.envioGratisDesde)).replace("{SHIP}", cop(CONFIG.costoEnvio)))}</div>
+    </details>`).join("");
+}
+function askQuestion(e){
+  e.preventDefault();
+  const n = document.getElementById("ask-name").value.trim(), m = document.getElementById("ask-msg").value.trim();
+  window.open(waLink(`Hola VITAFAMA, soy ${n}. Tengo una pregunta: ${m}`), "_blank", "noopener");
+  e.target.reset(); toast("Abriendo WhatsApp…");
 }
 
-function closeCheckout() {
-  document.getElementById('checkout-modal').classList.remove('open');
+/* ---------- carrito ---------- */
+function renderCartCount(){
+  const n = cart.reduce((a,c)=>a+c.qty,0);
+  const el = document.getElementById("cart-count");
+  el.textContent = n; el.classList.toggle("hidden", n===0);
 }
-
-function selectPay(el) {
-  document.querySelectorAll('.pay-option').forEach(o => o.classList.remove('selected'));
-  el.classList.add('selected');
-  selectedMethod = el.dataset.method;
-  document.getElementById('ck-error').style.display = 'none';
+function addToCart(id){
+  const f = cart.find(c=>c.productId===id);
+  if(f) f.qty++; else cart.push({productId:id,qty:1});
+  persist(); renderCartCount();
+  const el = document.getElementById("cart-count");
+  el.classList.remove("bump"); void el.offsetWidth; el.classList.add("bump");
+  const p = products.find(x=>x.id===id);
+  toast((p?p.name:"Producto")+" agregado al carrito");
 }
+function setQty(id,qty){
+  cart = qty<=0 ? cart.filter(c=>c.productId!==id) : cart.map(c=>c.productId===id?{...c,qty}:c);
+  persist(); renderCartCount(); renderDrawer();
+}
+let step = "cart";
+function openCart(){ step="cart"; closeMenu(); document.body.classList.add("drawer-open"); renderDrawer(); }
+function closeCart(){ document.body.classList.remove("drawer-open"); }
+function cartLines(){ return cart.map(c=>({...c,p:products.find(p=>p.id===c.productId)})).filter(l=>l.p); }
+function totals(){
+  const lines = cartLines();
+  const sub = lines.reduce((a,l)=>a+l.p.price*l.qty,0);
+  const envio = sub===0 || sub>=CONFIG.envioGratisDesde ? 0 : CONFIG.costoEnvio;
+  return { lines, sub, envio, total: sub+envio };
+}
+function summaryHtml(t){
+  return `<div class="kv"><span class="k">Subtotal</span><span>${cop(t.sub)}</span></div>
+    <div class="kv"><span class="k">Envío</span><span>${t.envio?cop(t.envio):'<b style="color:var(--accent)">GRATIS</b>'}</span></div>
+    <div class="total-row"><span>Total</span><span class="amt">${cop(t.total)}</span></div>`;
+}
+function goStep(s){ step = s; renderDrawer(); }
+function renderDrawer(){
+  const body = document.getElementById("drawer-body");
+  const t = totals();
+  const order = ["cart","datos","pago"], idx = order.indexOf(step);
+  document.getElementById("drawer-title").textContent = {cart:"Tu carrito", datos:"Datos de envío", pago:"Pago"}[step];
+  document.getElementById("steps").innerHTML = ["1 Carrito","2 Envío","3 Pago"].map((s,i)=>
+    `<span class="${i===idx?"on":i<idx?"done":""}">${i<idx?"✓ ":""}${s}</span>`).join("");
+  document.getElementById("steps").classList.toggle("hidden", t.lines.length===0);
 
-function submitOrder() {
-  const err = document.getElementById('ck-error');
-  const get = id => document.getElementById(id).value.trim();
-  const name = get('ck-name'), doc = get('ck-doc'), phone = get('ck-phone');
-  const email = get('ck-email'), address = get('ck-address'), city = get('ck-city');
-  const state = get('ck-state');
-
-  if (!name || !doc || !phone || !email || !address || !city) {
-    err.style.display = 'block';
-    err.textContent = 'Completa todos los campos marcados con *.';
+  if(t.lines.length===0){
+    body.innerHTML = `<div class="empty"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <b style="color:var(--primary)">Tu carrito está vacío</b><span style="font-size:14px">Descubre nuestros suplementos originales.</span>
+      <a href="#productos" class="btn" onclick="closeCart()">Ver catálogo</a></div>`;
     return;
   }
-  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
-    err.style.display = 'block';
-    err.textContent = 'Escribe un correo válido.';
+
+  if(step==="cart"){
+    const falta = CONFIG.envioGratisDesde - t.sub;
+    const pct = Math.min(100, t.sub/CONFIG.envioGratisDesde*100);
+    body.innerHTML = `
+      <div class="items">
+        <div class="ship-bar">${falta>0
+          ? `Te faltan <b>${cop(falta)}</b> para obtener <b>envío GRATIS</b>`
+          : `🎉 ¡Tu pedido tiene <b>envío GRATIS</b>!`}
+          <div class="track"><div class="fill" style="width:${pct}%"></div></div></div>
+        ${t.lines.map(l=>`
+        <div class="cart-line">
+          <img src="${esc(l.p.image)||BOTTLE}" alt="">
+          <div class="info">
+            <div class="nm">${esc(l.p.name)}</div>
+            <div class="pr">${esc(l.p.brand)} · ${cop(l.p.price)}</div>
+            <div class="qty-row">
+              <button class="qbtn" onclick="setQty('${esc(l.productId)}',${l.qty-1})" aria-label="Quitar uno">−</button>
+              <span class="qv">${l.qty}</span>
+              <button class="qbtn" onclick="setQty('${esc(l.productId)}',${l.qty+1})" aria-label="Agregar uno">+</button>
+              <span class="lt">${cop(l.p.price*l.qty)}</span>
+              <button class="del" onclick="setQty('${esc(l.productId)}',0)" aria-label="Eliminar">🗑</button>
+            </div>
+          </div>
+        </div>`).join("")}
+      </div>
+      <div class="foot">
+        ${summaryHtml(t)}
+        <button class="btn btn-block btn-lg" onclick="goStep('datos')">Continuar con el pedido</button>
+      </div>`;
+  } else if(step==="datos"){
+    const c = customer, v = k => esc(c[k]||"");
+    body.innerHTML = `
+      <form style="display:flex;flex-direction:column;flex:1;overflow:hidden" onsubmit="saveCustomer(event)">
+        <div class="items form-fields">
+          <div><label for="c-name">Nombre completo</label><input id="c-name" name="name" required autocomplete="name" value="${v("name")}"></div>
+          <div class="two">
+            <div><label for="c-doc">Cédula / NIT</label><input id="c-doc" name="doc" required inputmode="numeric" value="${v("doc")}"></div>
+            <div><label for="c-phone">WhatsApp</label><input id="c-phone" name="phone" type="tel" required autocomplete="tel" value="${v("phone")}"></div>
+          </div>
+          <div><label for="c-email">Correo electrónico</label><input id="c-email" name="email" type="email" required autocomplete="email" value="${v("email")}"></div>
+          <div class="two">
+            <div><label for="c-dept">Departamento</label><input id="c-dept" name="dept" required value="${v("dept")}"></div>
+            <div><label for="c-city">Ciudad</label><input id="c-city" name="city" required autocomplete="address-level2" value="${v("city")}"></div>
+          </div>
+          <div><label for="c-address">Dirección de entrega</label><input id="c-address" name="address" required autocomplete="street-address" placeholder="Calle, número, barrio, apto" value="${v("address")}"></div>
+          <div><label for="c-notes">Notas del pedido (opcional)</label><textarea id="c-notes" name="notes" rows="2" placeholder="Indicaciones para la entrega">${v("notes")}</textarea></div>
+        </div>
+        <div class="foot">
+          ${summaryHtml(t)}
+          <div style="display:flex;gap:8px">
+            <button type="button" class="btn btn-outline" onclick="goStep('cart')">Atrás</button>
+            <button type="submit" class="btn btn-lg" style="flex:1">Continuar al pago</button>
+          </div>
+        </div>
+      </form>`;
+  } else {
+    const online = !!CONFIG.epayco.publicKey || DEMO;
+    body.innerHTML = `
+      <form style="display:flex;flex-direction:column;flex:1;overflow:hidden" onsubmit="submitPayment(event)">
+        <div class="items form-fields">
+          <p class="note" style="margin:0">Enviar a <b>${esc(customer.name)}</b> · ${esc(customer.address)}, ${esc(customer.city)} · <button type="button" class="link-btn" onclick="goStep('datos')">Cambiar</button></p>
+          <label class="pm ${online?"":"disabled"}">
+            <input type="radio" name="pm" value="online" ${online?"checked":"disabled"}>
+            <div>
+              <div class="pt">Pago en línea ${online ? (CONFIG.epayco.publicKey ? "" : '<span class="tagx">Modo demo</span>') : '<span class="tagx">Próximamente</span>'}</div>
+              <div class="pd">Tarjeta de crédito o débito, PSE, Nequi o Daviplata. Pago seguro a través de ePayco.</div>
+              <div class="chips"><span>VISA</span><span>MASTERCARD</span><span>AMEX</span><span>PSE</span><span>NEQUI</span><span>DAVIPLATA</span></div>
+            </div>
+          </label>
+          <label class="pm">
+            <input type="radio" name="pm" value="transferencia" ${online?"":"checked"}>
+            <div>
+              <div class="pt">Transferencia bancaria / Nequi</div>
+              <div class="pd">Te mostramos los datos de la cuenta y nos envías el comprobante por WhatsApp.</div>
+            </div>
+          </label>
+          <label class="pm">
+            <input type="radio" name="pm" value="whatsapp">
+            <div>
+              <div class="pt">Finalizar por WhatsApp</div>
+              <div class="pd">Enviamos tu pedido a un asesor que te confirma disponibilidad y forma de pago.</div>
+            </div>
+          </label>
+          <label class="terms-row"><input type="checkbox" required> <span>Acepto los <a href="#" onclick="openInfo('terminos');return false;">términos y condiciones</a> y la <a href="#" onclick="openInfo('privacidad');return false;">política de tratamiento de datos</a>.</span></label>
+        </div>
+        <div class="foot">
+          ${summaryHtml(t)}
+          <div style="display:flex;gap:8px">
+            <button type="button" class="btn btn-outline" onclick="goStep('datos')">Atrás</button>
+            <button type="submit" class="btn btn-accent btn-lg" style="flex:1">Pagar ${cop(t.total)}</button>
+          </div>
+          <div class="secure"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Conexión segura · No guardamos datos de tarjetas</div>
+        </div>
+      </form>`;
+  }
+}
+function saveCustomer(e){
+  e.preventDefault();
+  customer = Object.fromEntries(new FormData(e.target).entries());
+  save("vf_customer", customer);
+  goStep("pago");
+}
+
+/* ---------- pedidos y pagos ---------- */
+const getOrders = () => load("vf_orders", []);
+const saveOrders = os => save("vf_orders", os.slice(0,30));
+function updateOrder(ref, patch){ const os = getOrders(); const o = os.find(x=>x.ref===ref); if(o){ Object.assign(o, patch); saveOrders(os); } return o; }
+const METHOD = { online:"Pago en línea", transferencia:"Transferencia", whatsapp:"WhatsApp" };
+
+function buildOrder(method){
+  const t = totals();
+  return {
+    ref: "VF-" + Date.now().toString(36).toUpperCase(),
+    date: new Date().toISOString(), method, customer:{...customer},
+    items: t.lines.map(l=>({ id:l.productId, name:l.p.name, brand:l.p.brand, qty:l.qty, price:l.p.price })),
+    sub:t.sub, envio:t.envio, total:t.total,
+    status: method==="online" ? "Pendiente de pago" : method==="transferencia" ? "Esperando comprobante" : "Enviado por WhatsApp"
+  };
+}
+function orderText(o){
+  const c = o.customer;
+  return `Hola VITAFAMA 👋 Quiero hacer este pedido:\n\n` +
+    `*Referencia:* ${o.ref}\n` +
+    o.items.map(i=>`• ${i.qty} x ${i.name} (${i.brand}) — ${cop(i.price*i.qty)}`).join("\n") +
+    `\n\nSubtotal: ${cop(o.sub)}\nEnvío: ${o.envio?cop(o.envio):"GRATIS"}\n*Total: ${cop(o.total)}*\n\n` +
+    `*Datos de envío*\n${c.name} · CC/NIT ${c.doc}\n${c.address}, ${c.city} (${c.dept})\nTel: ${c.phone} · ${c.email}` +
+    (c.notes ? `\nNotas: ${c.notes}` : "") + `\n\nMétodo de pago: ${METHOD[o.method]}`;
+}
+function finishOrder(o){
+  const os = getOrders(); os.unshift(o); saveOrders(os);
+  cart = []; persist(); renderCartCount(); closeCart();
+}
+function submitPayment(e){
+  e.preventDefault();
+  const method = new FormData(e.target).get("pm");
+  if(!method){ toast("Selecciona un método de pago", true); return; }
+  const o = buildOrder(method);
+  if(method==="whatsapp"){
+    window.open(waLink(orderText(o)), "_blank", "noopener");
+    finishOrder(o);
+    resultModal("ok","¡Pedido enviado!",`Tu pedido <b>${o.ref}</b> fue enviado a nuestro WhatsApp. Un asesor te confirmará la disponibilidad y la forma de pago en breve.`);
+  } else if(method==="transferencia"){
+    finishOrder(o);
+    resultModal("wait","¡Pedido registrado!",
+      `Realiza la transferencia por <b>${cop(o.total)}</b> a la siguiente cuenta y envíanos el comprobante indicando la referencia <b>${o.ref}</b>.${bankHtml()}`,
+      `<a class="btn btn-wa" target="_blank" rel="noopener" href="${waLink(orderText(o)+"\n\nAdjunto el comprobante de pago.")}">Enviar comprobante por WhatsApp</a>`);
+  } else {
+    payOnline(o);
+  }
+}
+function bankHtml(){
+  const b = CONFIG.banco;
+  return `<div class="bank">${[["Banco",b.entidad],["Tipo",b.tipo],["Número",b.numero],["Titular",b.titular],["Documento",b.documento],["Nequi / Daviplata",b.nequi]]
+    .filter(r=>r[1]).map(r=>`<div class="kv"><span class="k">${r[0]}</span><span class="v">${esc(r[1])}</span></div>`).join("")}</div>`;
+}
+function loadScript(src){
+  return new Promise((res,rej)=>{
+    if(document.querySelector(`script[src="${src}"]`)) return res();
+    const s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s);
+  });
+}
+async function payOnline(o){
+  if(!CONFIG.epayco.publicKey){
+    // Modo demostración: solo disponible con ?demo en la URL. No se cobra nada.
+    resultModal("wait","Pasarela en modo demo",
+      `Aquí se abrirá la ventana segura de ePayco para pagar <b>${cop(o.total)}</b> con tarjeta, PSE, Nequi o Daviplata. Pega tu llave pública en <code>CONFIG.epayco.publicKey</code> para activarla.`,
+      `<button class="btn btn-accent" onclick="demoApprove('${o.ref}')">Simular pago aprobado</button>`, o);
     return;
   }
-  if (!selectedMethod) {
-    err.style.display = 'block';
-    err.textContent = 'Selecciona un método de pago.';
-    return;
+  const os = getOrders(); os.unshift(o); saveOrders(os);
+  try { await loadScript("https://checkout.epayco.co/checkout.js"); }
+  catch(err){ toast("No pudimos abrir la pasarela. Intenta de nuevo o paga por transferencia.", true); return; }
+  const c = o.customer;
+  const handler = window.ePayco.checkout.configure({ key: CONFIG.epayco.publicKey, test: CONFIG.epayco.test });
+  handler.open({
+    name: "Pedido VITAFAMA " + o.ref,
+    description: o.items.map(i=>`${i.qty}x ${i.name}`).join(", ").slice(0,240),
+    invoice: o.ref, currency: "cop", amount: String(o.total),
+    tax_base: "0", tax: "0", country: "co", lang: "es", external: "false",
+    response: location.origin + location.pathname,
+    name_billing: c.name, address_billing: `${c.address}, ${c.city}`, type_doc_billing: "cc",
+    number_doc_billing: c.doc, mobilephone_billing: c.phone, email_billing: c.email
+  });
+}
+let pendingDemo = null;
+function demoApprove(ref){
+  if(pendingDemo && pendingDemo.ref===ref){ pendingDemo.status = "Pagado (demo)"; finishOrder(pendingDemo); pendingDemo = null; }
+  resultModal("ok","¡Pago aprobado!",`Tu pedido <b>${ref}</b> fue pagado (simulación). Te enviaremos la guía de envío por WhatsApp y correo.`);
+}
+/* Respuesta de ePayco: vuelve a la tienda con ?ref_payco=... */
+async function checkPaymentReturn(){
+  const ref = new URLSearchParams(location.search).get("ref_payco"); if(!ref) return;
+  history.replaceState(null, "", location.pathname + (DEMO ? "?demo" : ""));
+  let estado = "Pendiente", invoice = null;
+  try {
+    const r = await fetch("https://secure.epayco.co/validation/v1/reference/" + encodeURIComponent(ref));
+    const j = await r.json(); estado = j.data.x_response; invoice = j.data.x_id_invoice;
+  } catch(err){}
+  if(estado==="Aceptada"){
+    updateOrder(invoice, {status:"Pagado"}); cart = []; persist(); renderCartCount();
+    resultModal("ok","¡Pago aprobado!",`Recibimos tu pago${invoice?` del pedido <b>${esc(invoice)}</b>`:""}. Te enviaremos la guía de envío por WhatsApp y correo.`);
+  } else if(estado==="Pendiente"){
+    updateOrder(invoice, {status:"Pago en verificación"}); cart = []; persist(); renderCartCount();
+    resultModal("wait","Pago en proceso",`Tu pago está siendo verificado por la entidad. Te confirmaremos por WhatsApp o correo apenas se apruebe.`);
+  } else {
+    updateOrder(invoice, {status:"Pago no aprobado"});
+    resultModal("err","Pago no aprobado",`La transacción fue ${esc(String(estado).toLowerCase())}. Tus productos siguen en el carrito para que lo intentes de nuevo o elijas otro medio de pago.`,
+      `<button class="btn" onclick="closeModal();openCart()">Volver al carrito</button>`);
   }
-  err.style.display = 'none';
-
-  const t = cartTotals();
-  const ref = 'VF-' + Date.now().toString().slice(-6);
-  lastOrder = { ref, name, doc, phone, email, address, city, state, method: selectedMethod, items: [...cart], ...t };
-
-  document.getElementById('ck-confirm-msg').innerHTML =
-    `Referencia <strong>${ref}</strong><br>Te contactaremos al ${phone} para confirmar el pago por <strong>${selectedMethod}</strong> y coordinar la entrega.`;
-
-  document.getElementById('ck-summary-box').innerHTML =
-    lastOrder.items.map(i => `<div>${i.qty} × ${esc(i.name)} — <strong>${fmt(i.price * i.qty)}</strong></div>`).join('') +
-    `<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);"><strong>Total: ${fmt(t.total)}</strong></div>` +
-    `<div style="margin-top:8px;font-size:12px;color:var(--text-muted);">Entrega: ${esc(address)}, ${esc(city)}</div>`;
-
-  document.getElementById('checkout-step1').style.display = 'none';
-  document.getElementById('checkout-step2').style.display = 'block';
 }
 
-function sendWhatsApp() {
-  if (!lastOrder) return;
-  const o = lastOrder;
-  const lines = [
-    `*Nuevo pedido VITAFAMA* (${o.ref})`,
-    '',
-    `*Cliente:* ${o.name}`,
-    `*Documento:* ${o.doc}`,
-    `*Celular:* ${o.phone}`,
-    `*Correo:* ${o.email}`,
-    `*Dirección:* ${o.address}, ${o.city}${o.state ? ', ' + o.state : ''}`,
-    `*Método de pago:* ${o.method}`,
-    '',
-    '*Productos:*',
-    ...o.items.map(i => `• ${i.qty} × ${i.name} — $${Math.round(i.price * i.qty).toLocaleString('es-CO')}`),
-    '',
-    `*Subtotal:* $${Math.round(o.subtotal).toLocaleString('es-CO')}`,
-    `*Domicilio:* $${Math.round(o.shipping).toLocaleString('es-CO')}`,
-    `*TOTAL:* $${Math.round(o.total).toLocaleString('es-CO')}`
-  ];
-  const url = 'https://wa.me/?text=' + encodeURIComponent(lines.join('\n'));
-  window.open(url, '_blank');
+/* ---------- modales ---------- */
+const ICONS = {
+  ok:`<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>`,
+  wait:`<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+  err:`<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>`
+};
+function showModal(html, cls=""){
+  const box = document.getElementById("modal-box");
+  box.className = "modal " + cls;
+  box.innerHTML = `<button class="btn-ghost x" onclick="closeModal()" aria-label="Cerrar">✕</button>` + html;
+  document.getElementById("modal").classList.add("open");
+}
+function closeModal(){ document.getElementById("modal").classList.remove("open"); }
+function resultModal(kind, title, html, actions="", demoOrder=null){
+  pendingDemo = demoOrder;
+  showModal(`<div class="check ${kind==="ok"?"":kind}">${ICONS[kind]}</div><h3>${title}</h3><p>${html}</p>
+    <div class="actions">${actions}<button class="btn ${actions?"btn-outline":""}" onclick="closeModal()">Entendido</button></div>`);
+}
+function openOrders(){
+  const os = getOrders();
+  showModal(`<h3>Mis pedidos</h3><p style="margin-top:6px">Pedidos realizados desde este dispositivo.</p>` +
+    (os.length ? os.map(o=>`
+      <div class="order">
+        <div class="top"><span>${esc(o.ref)}</span><span class="st">${esc(o.status)}</span></div>
+        <div class="meta">${new Date(o.date).toLocaleDateString("es-CO",{day:"numeric",month:"short",year:"numeric"})} · ${o.items.reduce((a,i)=>a+i.qty,0)} producto(s) · <b>${cop(o.total)}</b> · ${METHOD[o.method]||""}</div>
+        <div class="meta">${o.items.map(i=>`${i.qty} x ${esc(i.name)}`).join(", ")}</div>
+        <a class="link-btn" style="display:inline-block;margin-top:8px" target="_blank" rel="noopener" href="${waLink(`Hola VITAFAMA, quiero consultar el estado de mi pedido ${o.ref}.`)}">Consultar por WhatsApp</a>
+      </div>`).join("")
+      : `<p>Aún no tienes pedidos. ¡Explora nuestro catálogo!</p>`) +
+    `<div class="actions"><button class="btn" onclick="closeModal()">Cerrar</button></div>`, "left");
+}
+const INFO = {
+  pagos: () => `<h3>Medios de pago</h3>
+    <h4>Pago en línea</h4><p>Tarjetas de crédito y débito (Visa, Mastercard, American Express), PSE, Nequi y Daviplata, procesados por la pasarela certificada ePayco. VITAFAMA no ve ni almacena los datos de tu tarjeta.</p>
+    <h4>Transferencia bancaria</h4><p>Al finalizar tu pedido te mostramos los datos de la cuenta. Envíanos el comprobante por WhatsApp con tu número de referencia.</p>${bankHtml()}
+    <h4>Pedido asistido por WhatsApp</h4><p>Envía tu carrito a un asesor y te ayudamos a completar la compra.</p>`,
+  envios: () => `<h3>Envíos</h3>
+    <p>Enviamos a todas las ciudades y municipios de Colombia mediante transportadoras aliadas, con número de guía para seguimiento.</p>
+    <h4>Costo</h4><p>Envío <b>GRATIS</b> en compras superiores a ${cop(CONFIG.envioGratisDesde)}. Para compras menores, el costo es de ${cop(CONFIG.costoEnvio)}.</p>
+    <h4>Tiempos</h4><p>Despachamos en 1 a 2 días hábiles después de confirmado el pago. La entrega tarda de 2 a 5 días hábiles según el destino.</p>`,
+  terminos: () => `<h3>Términos y condiciones</h3>
+    <p>Al realizar una compra en VITAFAMA aceptas las siguientes condiciones:</p>
+    <h4>Productos</h4><p>Comercializamos suplementos dietarios y productos de bienestar originales importados de Estados Unidos. Las imágenes son ilustrativas y la presentación puede variar según el lote del fabricante.</p>
+    <h4>Precios y pagos</h4><p>Los precios están expresados en pesos colombianos (COP) e incluyen los impuestos aplicables. Un pedido se considera confirmado cuando el pago ha sido aprobado o verificado.</p>
+    <h4>Disponibilidad</h4><p>Si un producto no está disponible después de tu compra, te ofreceremos un producto equivalente o la devolución total de tu dinero.</p>
+    <h4>Cambios y devoluciones</h4><p>Si el producto llega en mal estado o no corresponde a tu pedido, repórtalo dentro de los 5 días siguientes a la entrega. Por razones de higiene, no se aceptan devoluciones de productos abiertos. El derecho de retracto aplica en los términos del Estatuto del Consumidor (Ley 1480 de 2011).</p>
+    <h4>Uso de los productos</h4><p>Los suplementos dietarios no son medicamentos. Consulta a un profesional de la salud antes de su consumo.</p>`,
+  privacidad: () => `<h3>Política de privacidad</h3>
+    <p>En cumplimiento de la Ley 1581 de 2012 y el Decreto 1377 de 2013, VITAFAMA informa que los datos personales que nos suministras (nombre, documento, teléfono, correo y dirección) se usan únicamente para:</p>
+    <ul><li>Procesar, despachar y hacer seguimiento a tus pedidos.</li><li>Atender tus preguntas, peticiones, quejas o reclamos.</li><li>Enviarte información comercial, solo si nos autorizas.</li></ul>
+    <p>No vendemos ni compartimos tus datos con terceros, salvo con las transportadoras y la pasarela de pagos en lo estrictamente necesario para completar tu compra.</p>
+    <p>Puedes conocer, actualizar, rectificar o solicitar la eliminación de tus datos escribiéndonos a <b>${esc(CONFIG.email)}</b>.</p>`
+};
+function openInfo(k){ showModal(INFO[k]() + `<div class="actions"><button class="btn" onclick="closeModal()">Cerrar</button></div>`, "left"); }
+document.addEventListener("keydown", e => { if(e.key==="Escape"){ closeModal(); closeCart(); closeMenu(); } });
+
+/* ---------- admin ---------- */
+function showAdmin(){
+  document.getElementById("view-store").classList.add("hidden");
+  document.getElementById("view-admin").classList.remove("hidden");
+  let ok = false; try { ok = sessionStorage.getItem("vf_admin")==="1"; } catch(e){}
+  document.getElementById("admin-login").classList.toggle("hidden", ok);
+  document.getElementById("admin-dash").classList.toggle("hidden", !ok);
+  if(ok) renderAdmin();
+  window.scrollTo(0,0);
+}
+function showStore(){
+  document.getElementById("view-admin").classList.add("hidden");
+  document.getElementById("view-store").classList.remove("hidden");
+  if(location.hash==="#admin") history.replaceState(null,"",location.pathname+location.search);
+  renderNav(); renderProducts(); window.scrollTo(0,0);
+}
+function adminLogin(e){
+  e.preventDefault();
+  const u = document.getElementById("au").value, p = document.getElementById("ap").value;
+  if(u==="admin" && p==="admin2026"){
+    try { sessionStorage.setItem("vf_admin","1"); } catch(e){}
+    document.getElementById("admin-login").classList.add("hidden");
+    document.getElementById("admin-dash").classList.remove("hidden");
+    renderAdmin();
+  } else toast("Credenciales incorrectas", true);
+}
+function adminLogout(){
+  try { sessionStorage.removeItem("vf_admin"); } catch(e){}
+  document.getElementById("admin-dash").classList.add("hidden");
+  document.getElementById("admin-login").classList.remove("hidden");
+}
+let editId = null, manual = false;
+const fv = id => document.getElementById(id).value;
+const fn = id => +document.getElementById(id).value || 0;
+function fillAdminLists(){
+  document.getElementById("f-category").innerHTML = CATS.map(c=>`<option>${esc(c.id)}</option>`).join("");
+  document.getElementById("brand-list").innerHTML = allBrands().map(b=>`<option value="${esc(b)}">`).join("");
+  fillSubList();
+}
+function fillSubList(){
+  const c = CATS.find(x=>x.id===fv("f-category"));
+  document.getElementById("sub-list").innerHTML = (c?c.subs:[]).map(s=>`<option value="${esc(s)}">`).join("");
+}
+function baseCost(){ return fn("f-productCost")+fn("f-shippingCost"); }
+function suggested(){ return Math.round(calcPrice(baseCost(), fn("f-margin"))); }
+function recalc(){
+  document.getElementById("c-base").textContent = cop(baseCost());
+  document.getElementById("c-suggested").textContent = cop(suggested());
+  if(!manual) document.getElementById("f-price").value = suggested() || "";
+  updateProfit();
+}
+function updateProfit(){
+  const price = fn("f-price"), profit = price - baseCost();
+  document.getElementById("c-profit").textContent = cop(profit);
+  document.getElementById("c-margin").textContent = (price>0 ? (profit/price*100).toFixed(1) : "0.0")+"%";
+}
+function manualPrice(){ manual = true; document.getElementById("back-suggested").classList.remove("hidden"); updateProfit(); }
+function autoPrice(){ manual = false; document.getElementById("back-suggested").classList.add("hidden"); recalc(); }
+function roundPrice(){ manual = true; document.getElementById("back-suggested").classList.remove("hidden");
+  const p = fn("f-price"); document.getElementById("f-price").value = Math.ceil(p/1000)*1000; updateProfit(); }
+function resetForm(){
+  editId = null; manual = false;
+  ["f-name","f-brand","f-sub","f-oldPrice","f-description","f-image","f-productCost","f-shippingCost"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("f-category").selectedIndex = 0; fillSubList();
+  document.getElementById("f-margin").value = 25;
+  document.getElementById("form-title").textContent = "Nuevo producto";
+  document.getElementById("save-btn").textContent = "＋ Agregar producto";
+  document.getElementById("cancel-edit").classList.add("hidden");
+  document.getElementById("back-suggested").classList.add("hidden");
+  recalc();
+}
+function saveProduct(e){
+  e.preventDefault();
+  if(!fv("f-name") || baseCost()<=0){ toast("Completa nombre y costos", true); return; }
+  const wasEdit = !!editId;
+  const p = { id: editId || uid(), name: fv("f-name"), brand: fv("f-brand"), category: fv("f-category"), sub: fv("f-sub"),
+    description: fv("f-description"), image: fv("f-image"), productCost: fn("f-productCost"),
+    shippingCost: fn("f-shippingCost"), margin: fn("f-margin"), price: fn("f-price"), oldPrice: fn("f-oldPrice") || 0 };
+  const i = products.findIndex(x=>x.id===p.id);
+  if(i>=0) products[i]=p; else products.unshift(p);
+  persist(); fillAdminLists(); renderAdmin(); resetForm();
+  toast(wasEdit ? "Producto actualizado" : "Producto agregado");
+}
+function editProduct(id){
+  const p = products.find(x=>x.id===id); if(!p) return;
+  editId = id; manual = true;
+  const set = (k,v) => document.getElementById(k).value = v ?? "";
+  set("f-name",p.name); set("f-brand",p.brand); set("f-category",p.category); fillSubList(); set("f-sub",p.sub);
+  set("f-oldPrice",p.oldPrice||""); set("f-description",p.description); set("f-image",p.image);
+  set("f-productCost",p.productCost); set("f-shippingCost",p.shippingCost); set("f-margin",p.margin); set("f-price",p.price);
+  document.getElementById("form-title").textContent = "Editar producto";
+  document.getElementById("save-btn").textContent = "Guardar cambios";
+  document.getElementById("cancel-edit").classList.remove("hidden");
+  document.getElementById("back-suggested").classList.remove("hidden");
+  recalc(); window.scrollTo(0,0);
+}
+function deleteProduct(id){
+  products = products.filter(x=>x.id!==id); cart = cart.filter(c=>c.productId!==id);
+  persist(); renderAdmin(); toast("Producto eliminado");
+}
+function renderAdmin(){
+  fillAdminLists();
+  document.getElementById("inv-count").textContent = products.length;
+  document.getElementById("inv-list").innerHTML = products.map(p=>`
+    <div class="inv-item">
+      <img src="${esc(p.image)||BOTTLE}" alt="">
+      <div class="inf">
+        <div class="nm">${esc(p.name)}</div>
+        <div class="sub">${esc(p.category||"")}${p.sub?" › "+esc(p.sub):""} · Costo ${cop(p.productCost+p.shippingCost)} · Ganancia ${cop(p.price-p.productCost-p.shippingCost)}</div>
+      </div>
+      <div class="pr">${cop(p.price)}</div>
+      <button class="btn-ghost" onclick="editProduct('${esc(p.id)}')" aria-label="Editar">✏️</button>
+      <button class="btn-ghost" onclick="deleteProduct('${esc(p.id)}')" aria-label="Eliminar" style="color:var(--destructive)">🗑</button>
+    </div>`).join("");
 }
 
-// ── TABS ──
-function switchTab(name) {
-  const order = ['admin', 'shop', 'catalog'];
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + name).classList.add('active');
-  const idx = order.indexOf(name);
-  if (idx >= 0) document.querySelectorAll('.tab-btn')[idx].classList.add('active');
-  if (name === 'shop') { renderShop(); renderCart(); }
-}
-
-// ── TOAST ──
-function toast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
+/* ---------- inicio ---------- */
+applyConfig();
+renderNav();
+renderFaq();
+renderProducts();
+checkPaymentReturn();
+if(location.hash==="#admin") showAdmin();
 </script>
 </body>
 </html>
