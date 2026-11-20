@@ -192,8 +192,53 @@ footer .about{margin:12px 0 0;font-size:14px;line-height:1.6;opacity:.75;max-wid
 .foot-bottom a{color:inherit}
 .disclaimer{font-size:11.5px;color:rgba(245,243,234,.5);margin-top:14px;line-height:1.55}
 
-.wa-float{position:fixed;right:18px;bottom:18px;width:56px;height:56px;border-radius:50%;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 25px rgba(0,0,0,.25);z-index:39;transition:transform .2s}
-.wa-float:hover{transform:scale(1.08)}
+/* ---------- chatbot ---------- */
+.chat-launch{position:fixed;right:18px;bottom:18px;width:60px;height:60px;border-radius:50%;border:none;background:var(--primary);color:var(--primary-fg);display:flex;align-items:center;justify-content:center;box-shadow:0 12px 28px rgba(27,67,50,.4);z-index:45;transition:transform .2s}
+.chat-launch:hover{transform:scale(1.06)}
+.chat-launch .dot{position:absolute;top:2px;right:2px;width:16px;height:16px;border-radius:50%;background:var(--accent);border:2px solid var(--bg)}
+body.chat-open .chat-launch{transform:scale(0);pointer-events:none}
+.chat-hint{position:fixed;right:88px;bottom:30px;max-width:230px;background:var(--card);color:var(--fg);border:1px solid var(--border);border-radius:16px 16px 4px 16px;padding:11px 14px;font-size:13.5px;line-height:1.45;box-shadow:0 12px 30px -10px rgba(27,67,50,.35);z-index:44;cursor:pointer;animation:fadeUp .5s both}
+.chat-hint b{color:var(--primary)}
+.chat-hint .x{position:absolute;top:-8px;left:-8px;width:22px;height:22px;border-radius:50%;border:1px solid var(--border);background:var(--card);font-size:11px;color:var(--muted-fg);padding:0}
+.chat{position:fixed;right:18px;bottom:18px;width:380px;height:min(600px,calc(100vh - 36px));background:var(--card);border:1px solid var(--border);border-radius:22px;box-shadow:0 30px 70px -20px rgba(15,35,25,.45);z-index:55;display:flex;flex-direction:column;overflow:hidden;transform-origin:bottom right;transform:scale(.6);opacity:0;pointer-events:none;transition:transform .3s cubic-bezier(.2,.8,.2,1),opacity .2s}
+body.chat-open .chat{transform:none;opacity:1;pointer-events:auto}
+@media(max-width:520px){.chat{right:0;bottom:0;width:100%;height:100%;max-height:none;border-radius:0;border:none}.chat-hint{right:84px;bottom:24px}}
+.chat-head{display:flex;align-items:center;gap:11px;padding:14px 14px 14px 16px;background:var(--primary);color:var(--primary-fg)}
+.chat-head .av{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.chat-head .t{font-weight:700;font-size:15px}
+.chat-head .s{font-size:12px;opacity:.8;display:flex;align-items:center;gap:6px}
+.chat-head .s::before{content:"";width:7px;height:7px;border-radius:50%;background:#7EE2A8}
+.chat-head .acts{margin-left:auto;display:flex;gap:2px}
+.chat-head button{background:none;border:none;color:var(--primary-fg);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.chat-head button:hover{background:rgba(255,255,255,.12)}
+.chat-body{flex:1;overflow-y:auto;padding:16px 14px 8px;display:flex;flex-direction:column;gap:10px;background:var(--bg)}
+.msg{max-width:86%;padding:10px 13px;border-radius:16px;font-size:14px;line-height:1.5;white-space:pre-line;word-wrap:break-word;animation:fadeUp .3s both}
+.msg.bot{align-self:flex-start;background:var(--card);border:1px solid var(--border);border-bottom-left-radius:5px;color:var(--fg)}
+.msg.user{align-self:flex-end;background:var(--primary);color:var(--primary-fg);border-bottom-right-radius:5px}
+.msg a{color:inherit;font-weight:700}
+.msg.bot a{color:var(--primary)}
+.msg .note-s{display:block;margin-top:6px;font-size:12px;color:var(--muted-fg)}
+.typing{align-self:flex-start;background:var(--card);border:1px solid var(--border);border-radius:16px;border-bottom-left-radius:5px;padding:12px 14px;display:flex;gap:4px}
+.typing span{width:7px;height:7px;border-radius:50%;background:var(--muted-fg);opacity:.4;animation:blink 1s infinite}
+.typing span:nth-child(2){animation-delay:.15s}.typing span:nth-child(3){animation-delay:.3s}
+@keyframes blink{50%{opacity:1;transform:translateY(-2px)}}
+.chips-row{display:flex;flex-wrap:wrap;gap:6px;align-self:flex-start;max-width:100%;animation:fadeUp .3s both}
+.chip{border:1px solid var(--accent);background:var(--card);color:var(--primary);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;transition:background .15s}
+.chip:hover{background:rgba(82,183,136,.12)}
+.chip.wa{border-color:#25D366;background:#25D366;color:#fff}
+.chat-prods{display:flex;gap:8px;overflow-x:auto;align-self:stretch;padding-bottom:4px;scrollbar-width:thin}
+.chat-prod{flex:0 0 150px;border:1px solid var(--border);border-radius:14px;background:var(--card);overflow:hidden;font-size:12.5px}
+.chat-prod img{width:100%;aspect-ratio:1/1;object-fit:cover;background:var(--cream)}
+.chat-prod .in{padding:8px}
+.chat-prod .n{font-weight:700;color:var(--primary);line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:33px}
+.chat-prod .p{margin:3px 0 7px;color:var(--muted-fg)}
+.chat-prod button{width:100%;border:none;border-radius:999px;background:var(--primary);color:var(--primary-fg);font-size:12px;font-weight:700;padding:6px}
+.chat-input{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--border);background:var(--card)}
+.chat-input input{border-radius:999px;padding:10px 16px}
+.chat-input button{flex-shrink:0;width:42px;height:42px;border-radius:50%;border:none;background:var(--primary);color:var(--primary-fg);display:flex;align-items:center;justify-content:center}
+.chat-input button:disabled{opacity:.4}
+.chat-foot{font-size:10.5px;text-align:center;color:var(--muted-fg);padding:0 12px 8px;background:var(--card)}
+.chat-foot a{color:inherit}
 
 /* ---------- carrito (drawer) ---------- */
 .drawer-backdrop{position:fixed;inset:0;background:rgba(15,25,20,.5);z-index:50;opacity:0;pointer-events:none;transition:opacity .3s}
@@ -478,10 +523,34 @@ body.drawer-open .drawer{transform:none}
     </div>
   </footer>
 
-  <a class="wa-float" data-social="whatsapp" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9.5 9.5c.3 1.6 1.5 3.4 3.2 4.3l1-.9 1.6.8-.4 1.4c-2.9.1-5.9-2.9-5.8-5.8l1.4-.4.8 1.6Z" fill="currentColor" stroke="none"/></svg>
-  </a>
 </div>
+
+<!-- ============ CHATBOT ============ -->
+<button class="chat-launch" id="chat-launch" onclick="openChat()" aria-label="Abrir chat de atención al cliente">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/></svg>
+  <span class="dot"></span>
+</button>
+<div class="chat-hint hidden" id="chat-hint" onclick="openChat()">
+  <button class="x" onclick="event.stopPropagation();hideHint()" aria-label="Cerrar">✕</button>
+  👋 <b>¡Hola!</b> Soy el asistente de VITAFAMA. ¿Te ayudo a encontrar tu suplemento?
+</div>
+<section class="chat" id="chat" role="dialog" aria-label="Chat de atención al cliente" aria-hidden="true">
+  <div class="chat-head">
+    <div class="av"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#52B788" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></div>
+    <div><div class="t">Asistente VITAFAMA</div><div class="s">En línea · respondo al instante</div></div>
+    <div class="acts">
+      <button onclick="restartChat()" aria-label="Reiniciar conversación" title="Nueva conversación"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></button>
+      <button onclick="closeChat()" aria-label="Cerrar chat"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+    </div>
+  </div>
+  <div class="chat-body" id="chat-body" aria-live="polite"></div>
+  <form class="chat-input" onsubmit="chatSubmit(event)" autocomplete="off">
+    <input id="chat-text" placeholder="Escribe tu pregunta…" maxlength="400" aria-label="Escribe tu mensaje">
+    <input name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px" aria-hidden="true">
+    <button type="submit" aria-label="Enviar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></button>
+  </form>
+  <div class="chat-foot">Asistente automático · Tus datos se tratan según nuestra <a href="#" onclick="openInfo('privacidad');return false;">política de privacidad</a></div>
+</section>
 
 <!-- ============ MENÚ MÓVIL ============ -->
 <div class="mnav-backdrop" onclick="closeMenu()"></div>
@@ -616,6 +685,11 @@ const CONFIG = {
   facebook: "https://www.facebook.com/vitafama",
   envioGratisDesde: 199000,            // Compras desde este valor tienen envío gratis
   costoEnvio: 15000,                   // Valor del envío para compras menores
+  horario: "lunes a sábado de 8:00 a.m. a 7:00 p.m.", // Horario de los asesores humanos
+
+  // Google Sheets: URL de la aplicación web de Apps Script (termina en /exec).
+  // Ver apps-script/Codigo.gs. Mientras esté vacía, el chatbot funciona pero no guarda datos.
+  sheetsUrl: "",
 
   // Pasarela de pagos ePayco (tarjeta, PSE, Nequi, Daviplata, efectivo).
   // Pega aquí tu PUBLIC_KEY (panel ePayco > Integraciones > Llaves API).
@@ -987,7 +1061,12 @@ function saveCustomer(e){
 /* ---------- pedidos y pagos ---------- */
 const getOrders = () => load("vf_orders", []);
 const saveOrders = os => save("vf_orders", os.slice(0,30));
-function updateOrder(ref, patch){ const os = getOrders(); const o = os.find(x=>x.ref===ref); if(o){ Object.assign(o, patch); saveOrders(os); } return o; }
+function updateOrder(ref, patch){
+  const os = getOrders(); const o = os.find(x=>x.ref===ref);
+  if(o){ Object.assign(o, patch); saveOrders(os); }
+  if(ref && patch.status) sendToSheet("orderStatus", { ref, status: patch.status });
+  return o;
+}
 const METHOD = { online:"Pago en línea", transferencia:"Transferencia", whatsapp:"WhatsApp" };
 
 function buildOrder(method){
@@ -1010,7 +1089,7 @@ function orderText(o){
     (c.notes ? `\nNotas: ${c.notes}` : "") + `\n\nMétodo de pago: ${METHOD[o.method]}`;
 }
 function finishOrder(o){
-  const os = getOrders(); os.unshift(o); saveOrders(os);
+  const os = getOrders(); os.unshift(o); saveOrders(os); sendOrder(o);
   cart = []; persist(); renderCartCount(); closeCart();
 }
 function submitPayment(e){
@@ -1050,7 +1129,7 @@ async function payOnline(o){
       `<button class="btn btn-accent" onclick="demoApprove('${o.ref}')">Simular pago aprobado</button>`, o);
     return;
   }
-  const os = getOrders(); os.unshift(o); saveOrders(os);
+  const os = getOrders(); os.unshift(o); saveOrders(os); sendOrder(o);
   try { await loadScript("https://checkout.epayco.co/checkout.js"); }
   catch(err){ toast("No pudimos abrir la pasarela. Intenta de nuevo o paga por transferencia.", true); return; }
   const c = o.customer;
@@ -1142,11 +1221,16 @@ const INFO = {
   privacidad: () => `<h3>Política de privacidad</h3>
     <p>En cumplimiento de la Ley 1581 de 2012 y el Decreto 1377 de 2013, VITAFAMA informa que los datos personales que nos suministras (nombre, documento, teléfono, correo y dirección) se usan únicamente para:</p>
     <ul><li>Procesar, despachar y hacer seguimiento a tus pedidos.</li><li>Atender tus preguntas, peticiones, quejas o reclamos.</li><li>Enviarte información comercial, solo si nos autorizas.</li></ul>
-    <p>No vendemos ni compartimos tus datos con terceros, salvo con las transportadoras y la pasarela de pagos en lo estrictamente necesario para completar tu compra.</p>
+    <p>Cuando usas nuestro chat de atención, guardamos tus mensajes para mejorar el servicio, y tus datos de contacto solo si nos das tu autorización en el chat. Esta información se almacena de forma privada en Google Sheets (Google LLC).</p>
+    <p>No vendemos ni compartimos tus datos con terceros, salvo con las transportadoras, la pasarela de pagos y los proveedores tecnológicos mencionados, en lo estrictamente necesario para atenderte y completar tu compra.</p>
     <p>Puedes conocer, actualizar, rectificar o solicitar la eliminación de tus datos escribiéndonos a <b>${esc(CONFIG.email)}</b>.</p>`
 };
 function openInfo(k){ showModal(INFO[k]() + `<div class="actions"><button class="btn" onclick="closeModal()">Cerrar</button></div>`, "left"); }
-document.addEventListener("keydown", e => { if(e.key==="Escape"){ closeModal(); closeCart(); closeMenu(); } });
+document.addEventListener("keydown", e => {
+  if(e.key!=="Escape") return;
+  if(document.getElementById("modal").classList.contains("open")) return closeModal();
+  closeCart(); closeMenu(); closeChat();
+});
 
 /* ---------- admin ---------- */
 function showAdmin(){
@@ -1264,6 +1348,412 @@ function renderAdmin(){
     </div>`).join("");
 }
 
+/* =====================================================================
+   GOOGLE SHEETS — envía clientes, conversaciones y pedidos a la hoja
+   ===================================================================== */
+let SESSION = load("vf_session", null);
+if(!SESSION){ SESSION = "S-" + Date.now().toString(36).toUpperCase().slice(-6) + Math.random().toString(36).slice(2,5).toUpperCase(); save("vf_session", SESSION); }
+function sendToSheet(type, data){
+  if(!CONFIG.sheetsUrl) return;
+  const hp = document.querySelector('.chat-input [name="website"]');
+  try {
+    fetch(CONFIG.sheetsUrl, { method:"POST", mode:"no-cors", keepalive:true,
+      headers:{ "Content-Type":"text/plain;charset=utf-8" },
+      body: JSON.stringify({ type, session:SESSION, website: hp ? hp.value : "", ...data }) });
+  } catch(e){}
+}
+function sendOrder(o){
+  const c = o.customer || {};
+  sendToSheet("order", { ref:o.ref, name:c.name, doc:c.doc, phone:c.phone, email:c.email,
+    city:[c.city, c.dept].filter(Boolean).join(", "), address:c.address,
+    items:o.items.map(i=>`${i.qty} x ${i.name}`).join(", "), sub:o.sub, envio:o.envio, total:o.total,
+    method:METHOD[o.method]||o.method, status:o.status });
+}
+
+/* =====================================================================
+   CHATBOT DE ATENCIÓN AL CLIENTE
+   Para agregar o cambiar respuestas, edita la lista KB (k = palabras clave, a = respuesta).
+   ===================================================================== */
+const norm = s => String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")
+  .replace(/[^a-z0-9\s-]/g," ").replace(/\s+/g," ").trim();
+const free = () => cop(CONFIG.envioGratisDesde), ship = () => cop(CONFIG.costoEnvio);
+const HEALTH = `<span class="note-s">Orientación general: no reemplaza la consulta con tu médico.</span>`;
+const C = {   // botones frecuentes
+  menu:{label:"Menú principal", act:"menu"},
+  human:{label:"👤 Hablar con un asesor", act:"human"},
+  rec:{label:"💊 Recomiéndame un producto", act:"recommend"},
+  order:{label:"📦 Estado de mi pedido", act:"order"},
+  shop:{label:"🛍️ Ver catálogo", act:"goto:productos"},
+  pay:{label:"💳 Medios de pago", act:"ask:pagos"},
+  ship:{label:"🚚 Costo del envío", act:"ask:costoenvio"},
+  time:{label:"⏱️ Tiempos de entrega", act:"ask:tiempo"},
+  lead:{label:"📞 Quiero que me contacten", act:"lead:Contacto con asesor"},
+  faq:{label:"❓ Preguntas frecuentes", act:"faq"}
+};
+
+const KB = [
+  { id:"saludo", t:"Saludo", k:["hola","buenas","buenos dias","buenas tardes","buenas noches","saludos","hey","que tal","buen dia"],
+    a:()=>`¡Hola${lead.name?`, ${esc(lead.name.split(" ")[0])}`:""}! 😊 ¿En qué te puedo ayudar hoy?`, c:()=>menuChips() },
+  { id:"gracias", t:"Agradecimiento", k:["gracias","te agradezco","muy amable","genial","perfecto","excelente","listo"],
+    a:()=>`¡Con mucho gusto! 💚 Si necesitas algo más, aquí estoy.`, c:()=>[C.shop, C.menu] },
+  { id:"despedida", t:"Despedida", k:["chao","adios","hasta luego","bye","nos vemos","hasta pronto"],
+    a:()=>`¡Gracias por escribirnos! Que tengas un excelente día. 🌿`, c:()=>[C.menu] },
+  { id:"original", t:"¿Son originales?", k:["original","autentic","falsific","replica","legitim","son reales","son buenos","confiable","calidad"],
+    a:()=>`Sí ✅ Todos nuestros productos son <b>100% originales</b>, importados de distribuidores autorizados en Estados Unidos. Llegan <b>sellados de fábrica</b>, con su etiqueta y lote originales. Nunca vendemos productos reenvasados.`, c:()=>[{label:"🇺🇸 ¿De dónde vienen?", act:"ask:origen"}, C.shop] },
+  { id:"origen", t:"Origen de los productos", k:["estados unidos","eeuu","ee uu","usa","importad","de donde vienen","procedencia","de donde son","donde los traen","de donde traen","de donde los traen","de que pais"],
+    a:()=>`Nuestros suplementos vienen directamente de <b>Estados Unidos</b> 🇺🇸, de marcas reconocidas como Nordic Naturals, NOW Foods o Doctor's Best. Los importamos y te los entregamos en toda Colombia.`, c:()=>[C.shop, C.time] },
+  { id:"invima", t:"Registro INVIMA", k:["invima","registro sanitario","registro","permiso sanitario","es legal"],
+    a:()=>`Todos nuestros productos son originales y llegan sellados de fábrica. Si necesitas la información regulatoria o el registro de un producto específico, un asesor te la comparte con gusto.`, c:()=>[C.human, C.menu] },
+  { id:"vencimiento", t:"Fecha de vencimiento", k:["vencimiento","vence","caducidad","expira","fecha de venc","lote","se vencen"],
+    a:()=>`Todos los productos se despachan con <b>fecha de vencimiento vigente</b>, impresa en el envase. Si quieres saber la fecha exacta de un producto antes de comprar, pregúntale a un asesor.`, c:()=>[C.human, C.shop] },
+  { id:"recomendar", t:"Recomendación de producto", k:["recomiend","que me sirve","que tomar","que producto","que me aconsej","me aconsej","cual es mejor","cual me sirve","necesito algo","busco algo","asesoria","para que sirve"],
+    run:()=>startRecommend() },
+  { id:"combinar", t:"Combinar suplementos", k:["combinar","juntos","mezclar","al mismo tiempo","varios suplementos","interaccion","con medicamentos","tomo medicamentos"],
+    a:()=>`Muchos suplementos se pueden tomar juntos, pero depende de cada caso. Si tomas medicamentos o tienes alguna condición de salud, consulta primero con tu médico. Un asesor puede orientarte sobre combinaciones habituales.${HEALTH}`, c:()=>[C.human, C.rec] },
+  { id:"embarazo", t:"Embarazo, lactancia y niños", k:["embaraz","lactan","lactancia","bebe","nino","ninos","menor de edad","hijo","hija"],
+    a:()=>`Para mujeres embarazadas o lactando, y para niños, es indispensable que un <b>médico</b> indique el suplemento y la dosis. Con gusto te ayudamos a conseguir el producto que te formulen.${HEALTH}`, c:()=>[C.human, C.menu] },
+  { id:"efectos", t:"Efectos secundarios", k:["efecto secundario","efectos","contraindica","alergi","reaccion","hace dano","es peligroso","es seguro tomar","seguro de tomar"],
+    a:()=>`Los suplementos suelen ser bien tolerados cuando se siguen las indicaciones de la etiqueta. Si tienes alergias, alguna condición médica o tomas medicamentos, consulta con tu médico antes de usarlos. Ante cualquier reacción, suspende su uso.${HEALTH}`, c:()=>[{label:"💊 ¿Cómo se toman?", act:"ask:dosis"}, C.human] },
+  { id:"dosis", t:"Dosis y modo de uso", k:["dosis","como se toma","como tomar","como lo tomo","cuantas capsulas","cuanto tomar","modo de uso","en ayunas","a que hora tomar","cada cuanto"],
+    a:()=>`La dosis recomendada viene en la <b>etiqueta</b> de cada producto (por ejemplo, 1 cápsula al día con alimentos). Te sugerimos no superarla y, si tienes dudas, consultar con tu médico.${HEALTH}`, c:()=>[C.rec, C.human] },
+  { id:"vegano", t:"Vegano, sin gluten, etc.", k:["vegan","vegetarian","gluten","lactosa","sin azucar","keto","halal","kosher","sin soya"],
+    a:()=>`Tenemos productos con distintas características (veganos, sin gluten, sin azúcar…). Cada etiqueta lo indica. Cuéntale a un asesor qué necesitas y te mostramos las opciones disponibles.`, c:()=>[C.human, C.shop] },
+  { id:"encargo", t:"Producto bajo pedido", k:["no esta en el catalogo","no lo veo","conseguir","encargo","bajo pedido","me pueden traer","pueden traer","otro producto","lo consiguen","tienen disponible","hay disponible"],
+    a:()=>`¡Claro! Si buscas un suplemento que no está en el catálogo, <b>te lo conseguimos bajo pedido</b> desde Estados Unidos. Déjanos tus datos o escríbele a un asesor con el nombre del producto.`, c:()=>[{label:"📝 Encargar un producto", act:"lead:Producto bajo pedido"}, C.human] },
+  { id:"catalogo", t:"Catálogo y precios", k:["catalogo","que productos","que venden","lista de productos","precios","precio","cuanto vale","cuanto cuesta","valor"],
+    a:()=>`Puedes ver todos nuestros productos y precios en el catálogo, organizado por categorías: Suplementos, Belleza, Comestibles, Vitaminas/Minerales y Deporte. También puedes escribirme el nombre del producto que buscas. 🔎`, c:()=>[C.shop, C.rec] },
+  { id:"tienda", t:"Tienda física", k:["tienda fisica","direccion de la tienda","donde estan ubicados","donde quedan","local","punto de venta","ubicacion","visitarlos","puedo ir"],
+    a:()=>`Atendemos principalmente en línea y por WhatsApp, con envíos a toda Colombia. Si quieres recoger tu pedido o visitarnos, escríbele a un asesor y coordinamos.`, c:()=>[C.human, C.shop] },
+  { id:"pagos", t:"Medios de pago", k:["medios de pago","formas de pago","forma de pago","como pago","como pagar","metodos de pago","pse","nequi","daviplata","tarjeta","efectivo","bancolombia"],
+    a:()=>`Puedes pagar con:\n💳 <b>Tarjeta</b> de crédito o débito, <b>PSE</b>, <b>Nequi</b> o <b>Daviplata</b> por nuestra pasarela segura.\n🏦 <b>Transferencia bancaria</b> (te damos los datos al finalizar la compra).\n💬 <b>Pedido asistido por WhatsApp</b>.`, c:()=>[{label:"🔒 ¿Es seguro?", act:"ask:seguridad"}, {label:"Cuotas", act:"ask:cuotas"}, C.ship] },
+  { id:"seguridad", t:"Seguridad del pago", k:["seguro pagar","pago seguro","pagar en linea","pagar por internet","estafa","fraude","datos de mi tarjeta","confiar"],
+    a:()=>`Sí, es seguro 🔒. Los pagos en línea se procesan en la plataforma certificada de la pasarela, con conexión encriptada. <b>VITAFAMA nunca ve ni guarda los datos de tu tarjeta.</b>`, c:()=>[C.pay, C.menu] },
+  { id:"contraentrega", t:"Pago contra entrega", k:["contra entrega","contraentrega","pago al recibir","pagar al recibir","pagar cuando llegue","pago cuando llegue"],
+    a:()=>`Por ahora los pedidos se confirman con pago previo (en línea o transferencia), porque muchos productos se importan especialmente para ti. Si necesitas otra opción, consúltalo con un asesor.`, c:()=>[C.pay, C.human] },
+  { id:"cuotas", t:"Pago a cuotas", k:["cuotas","a plazos","diferir","financiar","financiacion","credito"],
+    a:()=>`Sí: si pagas con <b>tarjeta de crédito</b> en nuestra pasarela, puedes elegir el número de cuotas al momento del pago, según lo que permita tu banco.`, c:()=>[C.pay, C.menu] },
+  { id:"factura", t:"Factura", k:["factura","facturacion","rut","cuenta de cobro","factura electronica"],
+    a:()=>`Si necesitas factura, escríbelo en las <b>notas del pedido</b> al comprar (nombre o razón social y NIT/cédula) o díselo a un asesor por WhatsApp.`, c:()=>[C.human, C.menu] },
+  { id:"comprobante", t:"Comprobante de transferencia", k:["comprobante","transferi","consignacion","consigne","ya pague","ya hice el pago","soporte de pago","envie el pago"],
+    a:()=>`¡Gracias! 🙌 Envíanos el <b>comprobante por WhatsApp</b> junto con tu número de referencia (empieza por VF-). En cuanto lo verifiquemos, despachamos tu pedido.`, c:()=>[{label:"💬 Enviar comprobante", href:()=>waLink("Hola VITAFAMA, envío el comprobante de pago de mi pedido.")}, C.order] },
+  { id:"costoenvio", t:"Costo del envío", k:["costo de envio","costo del envio","cuanto cuesta el envio","valor del envio","envio gratis","cobran envio","flete","domicilio","cuanto vale el envio","envio"],
+    a:()=>`🚚 El envío es <b>GRATIS</b> en compras desde <b>${free()}</b>. Para compras menores, cuesta <b>${ship()}</b> a cualquier ciudad de Colombia.`, c:()=>[C.time, {label:"📍 ¿Llegan a mi ciudad?", act:"ask:cobertura"}] },
+  { id:"tiempo", t:"Tiempo de entrega", k:["cuanto tarda","cuanto se demora","cuanto demora","tiempo de entrega","cuando llega","cuando me llega","dias habiles","demora","tiempo de envio","que tan rapido"],
+    a:()=>`⏱️ Despachamos en <b>1 a 2 días hábiles</b> después de confirmado el pago. La entrega toma normalmente <b>2 a 5 días hábiles</b> según tu ciudad. Si un producto es bajo pedido de importación, te avisamos el tiempo antes de pagar.`, c:()=>[C.ship, C.order] },
+  { id:"cobertura", t:"Cobertura de envíos", k:["envian a","hacen envios","llegan a","toda colombia","mi ciudad","municipio","pueblo","vereda","internacional","fuera del pais","exterior"],
+    a:()=>`Enviamos a <b>todas las ciudades y municipios de Colombia</b> 🇨🇴 con transportadoras aliadas y número de guía. Por ahora no hacemos envíos fuera del país.`, c:()=>[C.ship, C.time] },
+  { id:"rastreo", t:"Estado del pedido", k:["rastrear","seguimiento","guia","donde esta mi pedido","estado de mi pedido","como va mi pedido","no ha llegado","no me ha llegado","no llega","rastreo","numero de guia","ya despacharon"],
+    run:()=>startOrder() },
+  { id:"modificar", t:"Cambiar dirección o pedido", k:["cambiar direccion","cambiar la direccion","direccion equivocada","modificar pedido","modificar mi pedido","cambiar pedido","cambiar mi pedido","agregar producto","agregar otro"],
+    a:()=>`Si tu pedido <b>aún no ha sido despachado</b>, podemos cambiar la dirección o los productos. Escríbele cuanto antes a un asesor con tu número de referencia.`, c:()=>[C.human, C.order] },
+  { id:"ausente", t:"No estoy para recibir", k:["no estoy","no hay nadie","no estare","no voy a estar","ausente","recibir otra persona","otra persona recibe","quien recibe","para recibir","porteria","conjunto"],
+    a:()=>`No te preocupes: puede recibir otra persona en la dirección o la portería. Si nadie recibe, la transportadora intentará de nuevo o te contactará para coordinar.`, c:()=>[C.order, C.menu] },
+  { id:"devolucion", t:"Cambios y devoluciones", k:["devolucion","devolver","cambio de producto","cambiar el producto","garantia","reembolso","retracto","me devuelven"],
+    a:()=>`Si tu producto llega en mal estado o no corresponde a lo que pediste, escríbenos dentro de los <b>5 días</b> siguientes a la entrega y lo solucionamos. Por higiene y seguridad, no aceptamos devoluciones de productos abiertos.`, c:()=>[{label:"📦 Llegó dañado", act:"ask:danado"}, C.human] },
+  { id:"danado", t:"Producto dañado o equivocado", k:["danado","roto","mal estado","llego abierto","llego mal","incompleto","equivocado","faltante","me falta","llego vencido","no es lo que pedi"],
+    a:()=>`¡Lamentamos lo ocurrido! 😔 Envíanos por WhatsApp una <b>foto del producto y del empaque</b> con tu número de referencia, y te damos solución lo antes posible (cambio o devolución de tu dinero).`, c:()=>[{label:"💬 Reportar por WhatsApp", href:()=>waLink("Hola VITAFAMA, mi pedido llegó con un problema. Adjunto fotos. Referencia: ")}, C.menu] },
+  { id:"cancelar", t:"Cancelar pedido", k:["cancelar","anular","ya no lo quiero","me arrepenti","arrepenti"],
+    a:()=>`Puedes cancelar tu pedido mientras <b>no haya sido despachado</b>. Escríbele a un asesor con tu número de referencia; si ya pagaste, te devolvemos el dinero.`, c:()=>[C.human, C.order] },
+  { id:"ofertas", t:"Ofertas y descuentos", k:["oferta","descuento","promocion","promo","combo","cupon","codigo de descuento","rebaja","black friday","2x1"],
+    a:()=>`🎁 Revisa la sección <b>Ofertas y Combos</b> de la tienda. Además, recuerda que el envío es gratis desde ${free()}. Si quieres enterarte primero de las promociones, déjanos tus datos.`, c:()=>[{label:"🏷️ Ver ofertas", act:"offers"}, {label:"🔔 Avísenme de ofertas", act:"lead:Ofertas y promociones"}] },
+  { id:"mayor", t:"Ventas al por mayor", k:["por mayor","mayorista","distribuidor","distribuir","revender","reventa","al mayor","grandes cantidades"],
+    a:()=>`¡Nos encanta trabajar con aliados! 🤝 Manejamos precios especiales para compras al por mayor y distribuidores. Déjanos tus datos y un asesor te envía la información.`, c:()=>[{label:"📝 Quiero ser distribuidor", act:"lead:Ventas al por mayor"}, C.human] },
+  { id:"horario", t:"Horario de atención", k:["horario","hora de atencion","a que hora","atienden","abren","cierran","domingo","festivo","fin de semana"],
+    a:()=>`🕐 Yo respondo <b>las 24 horas</b>. Nuestros asesores humanos atienden <b>${esc(CONFIG.horario.replace(/\.$/, ""))}</b>. Los pedidos en línea se reciben en cualquier momento.`, c:()=>[C.human, C.menu] },
+  { id:"humano", t:"Hablar con un asesor", k:["asesor","humano","una persona","hablar con alguien","agente","llamar","llamada","whatsapp","contacto","telefono","celular","numero de ustedes"],
+    run:()=>handoff() },
+  { id:"privacidad", t:"Privacidad de datos", k:["datos personales","privacidad","habeas data","mis datos","borrar mis datos","eliminar mis datos","tratamiento de datos"],
+    a:()=>`Tus datos solo se usan para atender tus solicitudes y pedidos, según la Ley 1581 de 2012. Puedes pedir que los actualicemos o eliminemos escribiendo a <b>${esc(CONFIG.email)}</b>.`, c:()=>[{label:"📄 Ver política", act:"info:privacidad"}, C.menu] },
+  { id:"quienes", t:"¿Quiénes somos?", k:["quienes son","que es vitafama","sobre ustedes","quien es vitafama","de que se trata","quienes somos"],
+    a:()=>`VITAFAMA es una tienda colombiana de <b>suplementos y vitaminas 100% originales importados de Estados Unidos</b> 🌿. Te orientamos antes de comprar y enviamos a todo el país.`, c:()=>[C.shop, C.rec] },
+  { id:"datos", t:"Dejar datos de contacto", k:["dejar mis datos","que me contacten","contactenme","me llamen","registrarme","quiero que me llamen","me pueden llamar"],
+    run:()=>startLead("Contacto con asesor", "human") }
+];
+
+/* Necesidades para recomendar productos (palabras que buscan en el catálogo) */
+const NEEDS = [
+  { id:"energia", label:"⚡ Energía", k:["energia","cansancio","cansado","fatiga","agotamiento","rendimiento","concentracion","memoria"], q:["complejo b","b12","multivitamin","energia","coq10","ginseng"] },
+  { id:"sueno", label:"😴 Dormir mejor", k:["dormir","sueno","insomnio","descansar","estres","ansiedad","relajar"], q:["magnesio","melatonina","sueno","relajacion","ashwagandha"] },
+  { id:"defensas", label:"🛡️ Defensas", k:["defensas","inmune","inmunidad","gripa","resfriado","gripe","enfermo"], q:["vitamina c","vitamina d","zinc","inmunidad","sauco"] },
+  { id:"corazon", label:"❤️ Corazón", k:["corazon","colesterol","triglicerido","presion","cardio","circulacion"], q:["omega","corazon","coq10","aceites"] },
+  { id:"articulaciones", label:"🦴 Articulaciones y huesos", k:["articulacion","rodilla","huesos","artritis","cartilago","dolor de articul"], q:["colageno","articulaciones","glucosamina","calcio","vitamina d"] },
+  { id:"belleza", label:"✨ Piel, cabello y uñas", k:["cabello","pelo","piel","las unas","caida del cabello","arrugas","belleza"], q:["biotina","colageno","cabello","piel","belleza"] },
+  { id:"deporte", label:"💪 Deporte y músculo", k:["musculo","gym","gimnasio","deporte","masa muscular","entrenar","proteina","creatina"], q:["proteina","creatina","pre-entreno","aminoacidos","recuperacion","deporte"] },
+  { id:"digestion", label:"🌿 Digestión", k:["digestion","colon","estrenimiento","gases","inflamacion","intestin","probiotico"], q:["probiotico","digestion","enzima","fibra"] }
+];
+
+let lead = load("vf_lead", {});
+let chatLog = load("vf_chat", []);
+let questions = load("vf_chat_q", []);   // últimas preguntas libres del cliente (para pasarlas al asesor)
+let flow = null, misses = 0, botQueue = Promise.resolve(), chatRendered = false;
+
+const chatBody = () => document.getElementById("chat-body");
+function scrollChat(){ const b = chatBody(); b.scrollTop = b.scrollHeight; }
+function addMsg(from, html, text, persist=true){
+  const d = document.createElement("div");
+  d.className = "msg " + (from==="u" ? "user" : "bot");
+  d.innerHTML = html; chatBody().appendChild(d);
+  if(persist){ chatLog.push({f:from, h:html, t:text||""}); chatLog = chatLog.slice(-40); save("vf_chat", chatLog); }
+  scrollChat();
+}
+function removeChips(){ chatBody().querySelectorAll(".chips-row").forEach(r=>r.remove()); }
+function addChips(chips){
+  removeChips(); if(!chips || !chips.length) return;
+  const row = document.createElement("div"); row.className = "chips-row";
+  chips.forEach(c => {
+    const href = typeof c.href === "function" ? c.href() : c.href;
+    const el = document.createElement(href ? "a" : "button");
+    el.className = "chip" + (href ? " wa" : ""); el.textContent = c.label;
+    if(href){ el.href = href; el.target = "_blank"; el.rel = "noopener"; el.addEventListener("click", ()=>logChat(c.label, "Abrió WhatsApp", "Sí")); }
+    else { el.type = "button"; el.addEventListener("click", ()=>{ addMsg("u", esc(c.label), c.label); removeChips(); runAction(c.act, c.label); }); }
+    row.appendChild(el);
+  });
+  chatBody().appendChild(row); scrollChat();
+}
+function addProducts(list){
+  const row = document.createElement("div"); row.className = "chat-prods";
+  row.innerHTML = list.slice(0,6).map(p => `
+    <div class="chat-prod"><img src="${esc(p.image)||BOTTLE}" alt="">
+      <div class="in"><div class="n">${esc(p.name)}</div><div class="p">${esc(p.brand)} · ${cop(p.price)}</div>
+      <button type="button" data-add="${esc(p.id)}">＋ Agregar</button></div></div>`).join("");
+  row.querySelectorAll("[data-add]").forEach(b => b.addEventListener("click", ()=>{
+    addToCart(b.dataset.add); b.textContent = "✓ Agregado"; logChat("Agregó al carrito: " + b.closest(".chat-prod").querySelector(".n").textContent, "Producto agregado", "Sí");
+  }));
+  chatBody().appendChild(row); scrollChat();
+}
+function botSay(html, chips, products){
+  botQueue = botQueue.then(() => new Promise(res => {
+    const t = document.createElement("div"); t.className = "typing"; t.innerHTML = "<span></span><span></span><span></span>";
+    chatBody().appendChild(t); scrollChat();
+    setTimeout(() => {
+      t.remove(); addMsg("b", html);
+      if(products && products.length) addProducts(products);
+      addChips(typeof chips === "function" ? chips() : chips);
+      res();
+    }, 450 + Math.min(900, html.length * 4));
+  }));
+  return botQueue;
+}
+function logChat(message, answer, resolved){
+  sendToSheet("chat", { client: lead.name || "", message, answer, resolved });
+}
+function menuChips(){ return [C.rec, C.order, C.ship, C.pay, C.faq, C.human]; }
+function showMenu(){ botSay("¿Con qué te puedo ayudar? Elige una opción o escríbeme tu pregunta 👇", menuChips()); }
+
+/* --- abrir / cerrar --- */
+function openChat(){
+  hideHint(); document.body.classList.add("chat-open");
+  document.getElementById("chat").setAttribute("aria-hidden","false");
+  if(!chatRendered){
+    chatRendered = true;
+    chatLog.forEach(m => addMsg(m.f, m.h, m.t, false));
+    if(chatLog.length) addChips(menuChips()); else greet();
+  }
+  if(window.innerWidth > 520) setTimeout(()=>document.getElementById("chat-text").focus(), 300);
+}
+function closeChat(){ document.body.classList.remove("chat-open"); document.getElementById("chat").setAttribute("aria-hidden","true"); }
+function restartChat(){ chatLog = []; questions = []; save("vf_chat", chatLog); save("vf_chat_q", questions); flow = null; misses = 0; chatBody().innerHTML = ""; greet(); }
+function greet(){
+  botSay(`¡Hola${lead.name?`, ${esc(lead.name.split(" ")[0])}`:""}! 👋 Soy el <b>asistente virtual de VITAFAMA</b>.\nTe ayudo con productos, pagos, envíos y el estado de tu pedido. ¿En qué te ayudo?`, menuChips());
+}
+function hideHint(){ document.getElementById("chat-hint").classList.add("hidden"); try{ sessionStorage.setItem("vf_hint","1"); }catch(e){} }
+function maybeHint(){
+  let seen = false; try{ seen = sessionStorage.getItem("vf_hint")==="1"; }catch(e){}
+  if(!seen && !document.body.classList.contains("chat-open") && !chatLog.length) document.getElementById("chat-hint").classList.remove("hidden");
+}
+
+/* --- entrada del usuario --- */
+function chatSubmit(e){
+  e.preventDefault();
+  const inp = document.getElementById("chat-text"); const t = inp.value.trim();
+  if(!t) return;
+  inp.value = ""; addMsg("u", esc(t), t); removeChips(); handle(t);
+}
+function handle(t){ if(flow) return flowStep(t); route(t); }
+function matchIntent(n){
+  let best = null, score = 0;
+  for(const it of KB){
+    let s = 0;
+    for(const k of it.k){
+      const hit = k.length < 5 ? new RegExp(`(^|\\s)${k}(\\s|$)`).test(n) : n.includes(k);
+      if(hit) s += k.includes(" ") ? 3 : (k.length >= 6 ? 2 : 1);
+    }
+    if(s > score){ score = s; best = it; }
+  }
+  return { intent: best, score };
+}
+function matchNeed(n){ return NEEDS.find(nd => nd.k.some(k => n.includes(k))) || null; }
+function productsFor(terms){
+  return products.filter(p => { const txt = norm([p.name,p.brand,p.category,p.sub,p.description].join(" ")); return terms.some(q => txt.includes(norm(q))); });
+}
+function searchProducts(n){
+  const words = n.split(" ").filter(w => w.length >= 4);
+  if(!words.length) return [];
+  return products.filter(p => { const txt = norm([p.name,p.brand,p.sub].join(" ")); return words.some(w => txt.includes(w)); });
+}
+function route(t){
+  const n = norm(t);
+  questions.push(t.slice(0,200)); questions = questions.slice(-5); save("vf_chat_q", questions);
+  const ref = t.match(/VF-[A-Z0-9]{4,}/i);
+  if(ref) return orderLookup(ref[0].toUpperCase(), t);
+  const { intent, score } = matchIntent(n);
+  const need = matchNeed(n);
+  if(need && (!intent || ["recomendar","catalogo","saludo"].includes(intent.id) || score < 3)) return recommendNeed(need, t);
+  if(intent && intent.id === "catalogo"){
+    const found = searchProducts(n);
+    if(found.length){ logChat(t, "Búsqueda de producto", "Sí"); return botSay(`Esto es lo que encontré 👇`, [C.shop, C.human], found); }
+  }
+  if(intent){ misses = 0; return answer(intent, t); }
+  const found = searchProducts(n);
+  if(found.length){ misses = 0; logChat(t, "Búsqueda de producto", "Sí"); return botSay(`Esto es lo que encontré en nuestro catálogo 👇`, [C.shop, C.human], found); }
+  fallback(t);
+}
+function answer(it, t){
+  logChat(t, it.t, "Sí");
+  if(it.run) return it.run(t);
+  botSay(it.a(), it.c ? it.c() : [C.menu]);
+}
+function fallback(t){
+  misses++;
+  logChat(t, "Sin respuesta", "No");
+  if(misses >= 2){
+    misses = 0;
+    return botSay(`Esa pregunta es mejor que la resuelva una persona de nuestro equipo 🙋. ¿Te comunico con un asesor?`, [C.human, C.lead, C.menu]);
+  }
+  botSay(`Mmm, no estoy seguro de haber entendido 🤔. Puedes preguntarme por ejemplo:\n• "¿Cuánto cuesta el envío?"\n• "¿Qué me sirve para dormir mejor?"\n• "¿Dónde está mi pedido?"`, [C.rec, C.ship, C.pay, C.human]);
+}
+function runAction(act, label){
+  const [cmd, ...rest] = String(act).split(":"); const arg = rest.join(":");
+  if(cmd === "menu"){ logChat(label, "Menú", "Sí"); return showMenu(); }
+  if(cmd === "recommend"){ logChat(label, "Recomendación de producto", "Sí"); return startRecommend(); }
+  if(cmd === "need"){ const nd = NEEDS.find(x=>x.id===arg); return recommendNeed(nd, label); }
+  if(cmd === "order"){ logChat(label, "Estado del pedido", "Sí"); return startOrder(); }
+  if(cmd === "human"){ logChat(label, "Hablar con un asesor", "Sí"); return handoff(); }
+  if(cmd === "faq"){ logChat(label, "Preguntas frecuentes", "Sí"); return showFaqTopics(); }
+  if(cmd === "ask"){ const it = KB.find(x=>x.id===arg); if(it) return answer(it, label); }
+  if(cmd === "lead"){ logChat(label, "Captura de datos: " + arg, "Sí"); return startLead(arg, "thanks"); }
+  if(cmd === "say") return handle(arg);
+  if(cmd === "offers"){ logChat(label, "Ver ofertas", "Sí"); if(window.innerWidth <= 520) closeChat(); setFilter({offers:true}); return botSay("Te mostré las ofertas en la tienda 🏷️. ¿Algo más?", [C.menu]); }
+  if(cmd === "info"){ return openInfo(arg); }
+  if(cmd === "goto"){
+    logChat(label, "Ir a " + arg, "Sí");
+    if(window.innerWidth <= 520) closeChat();
+    if(arg === "productos") setFilter({}); else document.getElementById(arg).scrollIntoView({behavior:"smooth"});
+    return botSay("¡Listo! Te llevé a esa sección de la tienda. Si necesitas algo más, aquí estoy 😊", [C.menu]);
+  }
+}
+function showFaqTopics(){
+  const ids = ["original","costoenvio","tiempo","pagos","devolucion","dosis","encargo","horario","mayor","ofertas"];
+  botSay("Estas son las preguntas más frecuentes. Toca una o escríbeme la tuya 👇",
+    ids.map(id => { const it = KB.find(x=>x.id===id); return { label: it.t, act: "ask:" + id }; }));
+}
+
+/* --- recomendaciones --- */
+function startRecommend(){
+  botSay(`¡Con gusto te oriento! 🌿 ¿Qué te gustaría mejorar?`, NEEDS.map(n => ({ label:n.label, act:"need:" + n.id })).concat([C.human]));
+}
+function recommendNeed(nd, t){
+  logChat(t, "Recomendación: " + nd.label.replace(/^\S+\s/, ""), "Sí");
+  const found = productsFor(nd.q);
+  if(found.length){
+    botSay(`Para <b>${esc(nd.label.replace(/^\S+\s/, "").toLowerCase())}</b> te pueden interesar estas opciones 👇${HEALTH}`, [C.human, {label:"Otra necesidad", act:"recommend"}], found);
+  } else {
+    botSay(`Estamos cargando más productos para <b>${esc(nd.label.replace(/^\S+\s/, "").toLowerCase())}</b> a la tienda. Un asesor puede recomendarte las opciones disponibles hoy 🙌`,
+      [{label:"📞 Que un asesor me recomiende", act:"lead:Recomendación - " + nd.label.replace(/^\S+\s/, "")}, C.human, {label:"Otra necesidad", act:"recommend"}]);
+  }
+}
+
+/* --- estado del pedido --- */
+function startOrder(){
+  const os = getOrders();
+  flow = { type:"order" };
+  const chips = os.slice(0,3).map(o => ({ label:o.ref, act:"say:" + o.ref }));
+  botSay(`Claro 📦. Escríbeme tu <b>número de referencia</b> (empieza por <b>VF-</b>, lo recibiste al hacer tu compra).`, chips.concat([{label:"No tengo la referencia", act:"say:no tengo"}]));
+}
+function orderLookup(ref, t){
+  flow = null;
+  const o = getOrders().find(x => x.ref === ref);
+  logChat(t, "Consulta pedido " + ref, o ? "Sí" : "No");
+  if(o){
+    botSay(`Encontré tu pedido <b>${esc(o.ref)}</b> 🙌\n• Estado: <b>${esc(o.status)}</b>\n• Total: ${cop(o.total)} · ${esc(METHOD[o.method]||"")}\n• Productos: ${esc(o.items.map(i=>`${i.qty} x ${i.name}`).join(", "))}\n\nSi ya fue despachado, te enviamos la guía por WhatsApp o correo.`,
+      [{label:"💬 Preguntar por WhatsApp", href:()=>waLink(`Hola VITAFAMA, quiero saber el estado de mi pedido ${o.ref}.`)}, C.menu]);
+  } else {
+    botSay(`No encuentro el pedido <b>${esc(ref)}</b> en este dispositivo, pero un asesor lo puede revisar enseguida.`,
+      [{label:"💬 Consultar por WhatsApp", href:()=>waLink(`Hola VITAFAMA, quiero saber el estado de mi pedido ${ref}.`)}, C.menu]);
+  }
+}
+
+/* --- hablar con un asesor --- */
+function handoff(){
+  const asked = questions.slice(-3).join(" | ");
+  const txt = `Hola VITAFAMA, vengo del chat de la página.${lead.name ? ` Soy ${lead.name}.` : ""}${asked ? `\nMi consulta: ${asked}` : ""}`;
+  const chips = [{label:"💬 Abrir WhatsApp", href:()=>waLink(txt)}];
+  if(!lead.saved) chips.push(C.lead);
+  chips.push(C.menu);
+  botSay(`Te comunico con un asesor de nuestro equipo 🙋. Atendemos <b>${esc(CONFIG.horario.replace(/\.$/, ""))}</b>.\nToca el botón para continuar por WhatsApp${lead.saved ? "" : ", o déjame tus datos y te contactamos"}.`, chips);
+}
+
+/* --- captura de datos del cliente --- */
+function startLead(interest, then){
+  if(lead.saved){
+    sendToSheet("lead", { name:lead.name, phone:lead.phone, email:lead.email, city:lead.city, interest, source:"Chatbot", consent:"Sí" });
+    return botSay(`¡Perfecto, ${esc(lead.name.split(" ")[0])}! Ya tenemos tus datos 📋. Un asesor te contactará al <b>${esc(lead.phone)}</b> sobre: <i>${esc(interest)}</i>.`, [C.menu]);
+  }
+  flow = { type:"lead", step:"name", interest, then, data:{} };
+  botSay(`Con gusto 😊. Te pido unos datos para que un asesor te contacte.\n¿Cuál es tu <b>nombre</b>?`, [{label:"Cancelar", act:"say:cancelar"}]);
+}
+function flowStep(t){
+  const n = norm(t);
+  if(["cancelar","salir","menu","no gracias"].includes(n)){ flow = null; logChat(t, "Canceló el formulario", "Sí"); return showMenu(); }
+  if(flow.type === "order"){
+    const ref = t.match(/VF-[A-Z0-9]{4,}/i);
+    if(ref) return orderLookup(ref[0].toUpperCase(), t);
+    flow = null; logChat(t, "Pedido sin referencia", "No");
+    return botSay(`Sin problema. Un asesor puede buscar tu pedido con tu nombre o cédula 👇`,
+      [{label:"💬 Consultar por WhatsApp", href:()=>waLink("Hola VITAFAMA, quiero saber el estado de mi pedido. Mi nombre es: ")}, C.menu]);
+  }
+  const f = flow, d = f.data;
+  if(f.step === "name"){
+    if(t.length < 2 || /\d/.test(t)) return botSay("¿Me escribes tu nombre, por favor? 🙂");
+    d.name = t.replace(/\s+/g," ").trim().replace(/\b\p{L}/gu, c => c.toUpperCase()).slice(0,60);
+    f.step = "phone";
+    return botSay(`¡Mucho gusto, ${esc(d.name.split(" ")[0])}! ¿Cuál es tu número de <b>WhatsApp</b>?`);
+  }
+  if(f.step === "phone"){
+    let digits = t.replace(/\D/g,"");
+    if(digits.length === 12 && digits.startsWith("57")) digits = digits.slice(2);
+    if(!/^3\d{9}$/.test(digits)) return botSay("Ese número no parece válido 🤔. Escríbelo con 10 dígitos, por ejemplo: 3001234567");
+    d.phone = digits; f.step = "email";
+    return botSay(`¿Y tu <b>correo electrónico</b>? (opcional)`, [{label:"Omitir", act:"say:omitir"}]);
+  }
+  if(f.step === "email"){
+    if(!["omitir","no","no tengo","ninguno"].includes(n)){
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(t.trim())) return botSay("Ese correo no parece válido. Revísalo o toca «Omitir».", [{label:"Omitir", act:"say:omitir"}]);
+      d.email = t.trim().toLowerCase();
+    }
+    f.step = "city";
+    return botSay(`¿En qué <b>ciudad</b> estás?`);
+  }
+  if(f.step === "city"){
+    if(t.length < 3) return botSay("¿En qué ciudad estás? 🙂");
+    d.city = t.trim().slice(0,60); f.step = "consent";
+    return botSay(`Último paso ✅ ¿Autorizas a VITAFAMA a guardar estos datos para contactarte, según nuestra <a href="#" onclick="openInfo('privacidad');return false;">política de privacidad</a>?`,
+      [{label:"Sí, autorizo", act:"say:si autorizo"}, {label:"No", act:"say:no autorizo"}]);
+  }
+  if(f.step === "consent"){
+    flow = null;
+    if(!n.startsWith("si")){
+      logChat("No autorizó datos", "Captura de datos", "Sí");
+      return botSay(`Entendido, no guardaremos tus datos. Si quieres, puedes escribirnos directamente por WhatsApp 👇`, [{label:"💬 Abrir WhatsApp", href:()=>waLink(`Hola VITAFAMA, mi consulta es sobre: ${f.interest}`)}, C.menu]);
+    }
+    lead = { ...d, saved:true }; save("vf_lead", lead);
+    sendToSheet("lead", { name:d.name, phone:d.phone, email:d.email||"", city:d.city, interest:f.interest, source:"Chatbot", consent:"Sí" });
+    const first = esc(d.name.split(" ")[0]);
+    return botSay(`¡Gracias, ${first}! 🎉 Recibimos tus datos. Un asesor te contactará al <b>${esc(d.phone)}</b> sobre: <i>${esc(f.interest)}</i>.\nSi prefieres, puedes adelantar la conversación por WhatsApp.`,
+      [{label:"💬 Escribir por WhatsApp", href:()=>waLink(`Hola VITAFAMA, soy ${d.name} (${d.city}). Me interesa: ${f.interest}`)}, C.menu]);
+  }
+}
+
 /* ---------- inicio ---------- */
 applyConfig();
 renderNav();
@@ -1271,6 +1761,7 @@ renderFaq();
 renderProducts();
 checkPaymentReturn();
 if(location.hash==="#admin") showAdmin();
+setTimeout(maybeHint, 6000);
 </script>
 </body>
 </html>
