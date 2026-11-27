@@ -1252,12 +1252,13 @@ document.addEventListener("keydown", e => {
 /* ---------- calculadora de precios (privada) ---------- */
 function openCalc(){
   const ov = document.getElementById("calc-ov"), fr = document.getElementById("calc-frame");
-  if(!fr.getAttribute("src")) fr.setAttribute("src","calculadora.html");
+  fr.setAttribute("src","calculadora.html?t="+Date.now()); // pide la clave cada vez
   ov.classList.remove("hidden"); document.body.classList.add("calc-open");
   if(location.hash!=="#calculadora") history.replaceState(null,"",location.pathname+location.search+"#calculadora");
 }
 function closeCalc(){
   document.getElementById("calc-ov").classList.add("hidden"); document.body.classList.remove("calc-open");
+  document.getElementById("calc-frame").removeAttribute("src");
   if(location.hash==="#calculadora") history.replaceState(null,"",location.pathname+location.search);
 }
 document.addEventListener("keydown", e => { if(e.key==="Escape" && !document.getElementById("calc-ov").classList.contains("hidden")) closeCalc(); });

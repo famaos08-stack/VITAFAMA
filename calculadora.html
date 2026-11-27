@@ -213,7 +213,7 @@ tr.tot td{font-weight:700;background:var(--cream)}
   var PIN_HASH = "f213a64a";
   function hashPin(s){ var h = 0x811c9dc5; for (var i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return ("0000000"+h.toString(16)).slice(-8); }
   var SKEY = "vf_calc_ok";
-  function isOk(){ try { return sessionStorage.getItem(SKEY)==="1"; } catch(e){ return false; } }
+  function isOk(){ return false; } // pide la clave cada vez que se abre
   function setOk(v){ try { v ? sessionStorage.setItem(SKEY,"1") : sessionStorage.removeItem(SKEY); } catch(e){} }
   function showApp(){ document.getElementById("login").classList.add("hidden"); document.getElementById("app").classList.remove("hidden"); init(); }
   document.getElementById("login-form").addEventListener("submit", function(e){
