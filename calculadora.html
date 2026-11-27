@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>VITAFAMA · Calculadora de precios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#FAF7EF; --fg:#1E2B24; --card:#FDFCF8; --primary:#1B4332; --primary-fg:#F5F3EA;
+  --accent:#52B788; --gold:#D9B45B; --cream:#F3EDDC; --muted:#EDEAE0; --muted-fg:#5C6B60;
+  --border:#E3DECF; --red:#C0392B; --amber:#B7791F; --green:#2F855A;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:Manrope,system-ui,sans-serif;font-size:14px}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;letter-spacing:-.02em;color:var(--primary);margin:0}
+button{font-family:inherit;cursor:pointer}
+input,select{font-family:inherit;font-size:15px;padding:9px 11px;border:1px solid var(--border);border-radius:10px;width:100%;background:#fff;color:var(--fg)}
+input:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px}
+label{font-size:12.5px;font-weight:600;color:var(--primary);display:block;margin-bottom:4px}
+.hint{font-size:12px;color:var(--muted-fg);margin-top:3px;line-height:1.35}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:none;border-radius:999px;background:var(--primary);color:var(--primary-fg);padding:10px 18px;font-size:14px;font-weight:600}
+.btn:hover{background:#25573F}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--fg)}
+.btn-outline:hover{background:var(--muted)}
+.btn-sm{padding:7px 13px;font-size:13px}
+.hidden{display:none!important}
+/* login */
+.login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--primary);padding:20px}
+.login form{width:100%;max-width:360px;background:var(--card);border-radius:20px;padding:30px;box-shadow:0 30px 60px rgba(0,0,0,.35);display:flex;flex-direction:column;gap:16px;text-align:center}
+.login .pin{font-size:26px;letter-spacing:.5em;text-align:center}
+.login .err{color:var(--red);font-size:13px;min-height:18px}
+/* layout */
+.bar{background:var(--primary);color:var(--primary-fg)}
+.bar .in{max-width:1200px;margin:0 auto;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.bar .brand{font-family:Fraunces,serif;letter-spacing:.18em;font-size:16px}
+.bar a,.bar button{color:var(--primary-fg);background:transparent;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:6px 14px;font-size:13px;text-decoration:none}
+main{max-width:1200px;margin:0 auto;padding:24px 20px 60px;display:grid;gap:20px}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px}
+.panel h2{font-size:20px;margin-bottom:4px}
+.panel .lead{color:var(--muted-fg);margin:0 0 14px;font-size:13px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.top{display:grid;gap:20px}
+@media(min-width:960px){.top{grid-template-columns:1fr 1fr}}
+.summary{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-top:14px}
+.kpi{background:var(--cream);border-radius:12px;padding:10px 12px}
+.kpi .k{font-size:12px;color:var(--muted-fg)}
+.kpi .v{font-size:18px;font-weight:700;color:var(--primary)}
+/* quick */
+.quick{background:var(--primary);color:var(--primary-fg);border:none}
+.quick h2{color:var(--primary-fg)}
+.quick label{color:#CFE7D9}
+.quick .lead{color:#CFE7D9}
+.qres{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-top:16px}
+.qres .kpi{background:rgba(255,255,255,.08)}
+.qres .kpi .k{color:#CFE7D9}
+.qres .kpi .v{color:#fff}
+.qres .big{grid-column:1/-1;background:var(--gold);color:var(--primary)}
+.qres .big .k{color:var(--primary)}
+.qres .big .v{font-size:30px;color:var(--primary)}
+.badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.b-green{background:#DFF3E7;color:var(--green)}
+.b-amber{background:#FCEFD6;color:var(--amber)}
+.b-red{background:#FBE2DF;color:var(--red)}
+.b-gray{background:var(--muted);color:var(--muted-fg)}
+.qstatus{margin-top:12px;font-size:13.5px;line-height:1.45}
+/* table */
+.tw{overflow-x:auto;margin-top:8px}
+table{width:100%;border-collapse:collapse;min-width:980px}
+th{background:var(--primary);color:var(--primary-fg);text-align:left;font-size:12px;padding:9px 8px;font-weight:600;white-space:nowrap}
+td{border-bottom:1px solid var(--border);padding:7px 8px;vertical-align:middle}
+td input{padding:7px 8px;font-size:14px}
+td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+td.price{font-weight:700;color:var(--primary);font-size:15px}
+tr.tot td{font-weight:700;background:var(--cream)}
+.del{background:transparent;border:none;color:var(--red);font-size:18px;padding:4px 8px}
+.warn{background:#FCEFD6;color:#7A4F0F;border-radius:10px;padding:9px 12px;font-size:13px;margin-top:10px}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.note{font-size:12.5px;color:var(--muted-fg);line-height:1.5}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;min-width:140px;border:1px solid var(--border);background:#fff;border-radius:10px;padding:9px;font-size:13px;font-weight:600;color:var(--fg);text-align:left}
+.seg button.on{border-color:var(--primary);background:#E6F2EC;color:var(--primary)}
+.seg button small{display:block;font-weight:500;color:var(--muted-fg);font-size:11.5px;margin-top:2px}
+</style>
+</head>
+<body>
+
+<!-- ===== Acceso con PIN ===== -->
+<div class="login" id="login">
+  <form id="login-form" autocomplete="off">
+    <div style="font-family:Fraunces,serif;letter-spacing:.2em;color:var(--primary);font-size:20px">VITAFAMA</div>
+    <h1 style="font-size:22px">Calculadora de precios</h1>
+    <div>
+      <label for="pin">PIN de acceso</label>
+      <input id="pin" class="pin" type="password" inputmode="numeric" maxlength="8" autofocus>
+    </div>
+    <div class="err" id="pin-err"></div>
+    <button class="btn" type="submit">Entrar</button>
+    <a href="./" style="font-size:13px;color:var(--muted-fg)">Volver a la tienda</a>
+  </form>
+</div>
+
+<!-- ===== Calculadora ===== -->
+<div id="app" class="hidden">
+  <div class="bar"><div class="in">
+    <div class="brand">VITAFAMA · Calculadora</div>
+    <div style="display:flex;gap:8px"><a href="./">Ver tienda</a><button id="logout" type="button">Salir</button></div>
+  </div></div>
+
+  <main>
+    <!-- Calculadora rápida -->
+    <section class="panel quick">
+      <h2>Calculadora rápida</h2>
+      <p class="lead">Escribe el precio del producto en iHerb (ya con descuento) y te doy el precio de venta al instante. Usa el envío y las reglas de abajo.</p>
+      <div class="grid">
+        <div><label for="q-cost">Precio en iHerb (COP)</label><input id="q-cost" inputmode="numeric" placeholder="Ej: 31.014"></div>
+        <div><label for="q-market">Precio en Colombia (opcional)</label><input id="q-market" inputmode="numeric" placeholder="Ej: 55.000"></div>
+      </div>
+      <div class="qres" id="q-res">
+        <div class="kpi big"><div class="k">Precio de venta sugerido</div><div class="v" id="q-price">$0</div></div>
+        <div class="kpi"><div class="k">Costo real (con envío)</div><div class="v" id="q-real">$0</div></div>
+        <div class="kpi"><div class="k">Ganancia por unidad</div><div class="v" id="q-profit">$0</div></div>
+        <div class="kpi"><div class="k">Ganancia sobre lo invertido</div><div class="v" id="q-markup">0%</div></div>
+        <div class="kpi"><div class="k">Margen sobre la venta</div><div class="v" id="q-margin">0%</div></div>
+      </div>
+      <div class="qstatus" id="q-status"></div>
+    </section>
+
+    <div class="top">
+      <!-- Datos del pedido -->
+      <section class="panel">
+        <h2>1. Datos del pedido</h2>
+        <p class="lead">Copia los valores del resumen de compra de iHerb. El envío se reparte entre los productos según su precio.</p>
+        <div class="grid">
+          <div><label for="o-products">Total productos (con descuento)</label><input id="o-products" inputmode="numeric"></div>
+          <div><label for="o-ship">Envío internacional</label><input id="o-ship" inputmode="numeric"></div>
+          <div><label for="o-tax">Impuestos o aduana al recibir</label><input id="o-tax" inputmode="numeric"><div class="hint">Si al recibir te cobran algo, ponlo aquí.</div></div>
+        </div>
+        <div class="summary">
+          <div class="kpi"><div class="k">Inversión total</div><div class="v" id="s-invest">$0</div></div>
+          <div class="kpi"><div class="k">El envío le suma a cada producto</div><div class="v" id="s-factor">0%</div></div>
+        </div>
+        <div class="warn hidden" id="o-warn"></div>
+        <div class="actions"><button class="btn btn-outline btn-sm" type="button" id="use-sum">Usar la suma de la tabla como total de productos</button></div>
+      </section>
+
+      <!-- Reglas -->
+      <section class="panel">
+        <h2>2. Reglas de precio</h2>
+        <p class="lead">La ganancia se calcula sobre lo que te costó cada producto, envío incluido.</p>
+        <div class="grid">
+          <div><label for="r-base">Ganancia objetivo (%)</label><input id="r-base" inputmode="decimal"></div>
+          <div><label for="r-min">Ganancia mínima (%)</label><input id="r-min" inputmode="decimal"></div>
+          <div><label for="r-max">Ganancia máxima (%)</label><input id="r-max" inputmode="decimal"></div>
+          <div><label for="r-adv">Más barato que el mercado (%)</label><input id="r-adv" inputmode="decimal"><div class="hint">Cuánto por debajo del precio en Colombia quieres vender.</div></div>
+          <div><label for="r-fee">Comisión de la pasarela de pago (%)</label><input id="r-fee" inputmode="decimal"><div class="hint">Ej: lo que cobra ePayco por venta. 0 si no aplica.</div></div>
+          <div><label for="r-local">Envío nacional que asumes por unidad</label><input id="r-local" inputmode="numeric"><div class="hint">Si das envío gratis, pon cuánto te cuesta.</div></div>
+          <div><label for="r-round">Redondear precio a</label>
+            <select id="r-round"><option value="100">$100</option><option value="500">$500</option><option value="1000">$1.000</option></select></div>
+        </div>
+        <div style="margin-top:14px">
+          <label>Estrategia</label>
+          <div class="seg" id="strategy">
+            <button type="button" data-v="eco">Económica<small>Nunca pasa de la ganancia objetivo</small></button>
+            <button type="button" data-v="max">Aprovechar mercado<small>Sube hasta la máxima si sigues más barato</small></button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Tabla -->
+    <section class="panel">
+      <h2>3. Productos del pedido</h2>
+      <p class="lead">Cada fila se calcula sola. El "precio en Colombia" es opcional: con él, la herramienta ajusta la ganancia entre la mínima y la máxima para que tu precio quede por debajo del mercado.</p>
+      <div class="tw">
+        <table>
+          <thead><tr>
+            <th style="width:24%">Producto</th><th>Precio iHerb</th><th style="width:70px">Cant.</th><th>Precio en Colombia</th>
+            <th>Costo real</th><th>Precio de venta</th><th>Ganancia/u</th><th>Ganancia %</th><th>Estado</th><th></th>
+          </tr></thead>
+          <tbody id="rows"></tbody>
+          <tfoot id="foot"></tfoot>
+        </table>
+      </div>
+      <div class="actions">
+        <button class="btn btn-sm" type="button" id="add-row">＋ Agregar producto</button>
+        <button class="btn btn-outline btn-sm" type="button" id="reset">Restablecer pedido de ejemplo</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Cómo calcula</h2>
+      <p class="note">
+        <b>Costo real</b> = precio en iHerb × (inversión total ÷ total productos) + envío nacional que asumes.<br>
+        <b>Precio de venta</b> = costo real × (1 + ganancia) ÷ (1 − comisión de pago), redondeado.<br>
+        <b>Con precio en Colombia:</b> el tope es ese precio menos el % "más barato que el mercado". En modo <i>Económica</i> usa la ganancia objetivo y solo la baja (hasta la mínima) si el precio queda por encima del tope. En modo <i>Aprovechar mercado</i> sube hasta la máxima mientras siga por debajo del tope.<br>
+        <b>Estados:</b> <span class="badge b-green">Competitivo</span> ganancia objetivo o más y por debajo del tope · <span class="badge b-amber">Ajustado</span> se bajó la ganancia para competir · <span class="badge b-red">Caro</span> ni con la ganancia mínima queda por debajo del tope · <span class="badge b-gray">Sin referencia</span> falta el precio en Colombia.<br>
+        Los datos se guardan solo en este navegador.
+      </p>
+    </section>
+  </main>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  /* ---------- acceso ---------- */
+  // Huella del PIN (no se guarda el PIN en texto). Para cambiarlo, ver instrucciones al final del archivo.
+  var PIN_HASH = "f213a64a";
+  function hashPin(s){ var h = 0x811c9dc5; for (var i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return ("0000000"+h.toString(16)).slice(-8); }
+  var SKEY = "vf_calc_ok";
+  function isOk(){ try { return sessionStorage.getItem(SKEY)==="1"; } catch(e){ return false; } }
+  function setOk(v){ try { v ? sessionStorage.setItem(SKEY,"1") : sessionStorage.removeItem(SKEY); } catch(e){} }
+  function showApp(){ document.getElementById("login").classList.add("hidden"); document.getElementById("app").classList.remove("hidden"); init(); }
+  document.getElementById("login-form").addEventListener("submit", function(e){
+    e.preventDefault();
+    var v = document.getElementById("pin").value.trim();
+    if (hashPin(v) === PIN_HASH){ setOk(true); showApp(); }
+    else { document.getElementById("pin-err").textContent = "PIN incorrecto"; document.getElementById("pin").value=""; }
+  });
+  document.getElementById("logout").addEventListener("click", function(){ setOk(false); location.reload(); });
+
+  /* ---------- utilidades ---------- */
+  var fmt = new Intl.NumberFormat("es-CO",{maximumFractionDigits:0});
+  function cop(n){ if(!isFinite(n)) n = 0; return (n<0?"-$":"$") + fmt.format(Math.abs(Math.round(n))); }
+  function pct(n){ if(!isFinite(n)) return "—"; return (Math.round(n*1000)/10).toString().replace(".",",") + "%"; }
+  function money(s){ var d = String(s==null?"":s).replace(/[^\d]/g,""); return d ? parseInt(d,10) : 0; }
+  function num(s){ var t = String(s==null?"":s).replace(/\s/g,"").replace(",","."); var n = parseFloat(t); return isFinite(n) ? n : 0; }
+  function showMoney(n){ return n ? fmt.format(n) : ""; }
+  function esc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+
+  /* ---------- estado ---------- */
+  var DEFAULT = {
+    order:{ products:561773, ship:36156, tax:0 },
+    rules:{ base:30, min:27, max:35, adv:5, fee:0, local:0, round:100, strategy:"eco" },
+    items:[
+      { name:"Nutricost Óxido nítrico, 90 cáps.", cost:31014, qty:1, market:0 },
+      { name:"California Gold Creatina monohidrato 1 kg", cost:85394, qty:1, market:0 },
+      { name:"Lemme Burn, 60 gomitas", cost:99984, qty:1, market:0 },
+      { name:"NOW Vitamina K2 100 mcg, 100 cáps.", cost:35724, qty:1, market:0 },
+      { name:"MuscleMeds Carnivor Mass 2.646 g", cost:273125, qty:1, market:0 },
+      { name:"NOW Omega-3 1000 mg, 100 cáps.", cost:36532, qty:1, market:0 }
+    ],
+    quick:{ cost:0, market:0 }
+  };
+  var DKEY = "vf_calc_v1";
+  var S;
+  function clone(o){ return JSON.parse(JSON.stringify(o)); }
+  function load(){
+    try { var raw = localStorage.getItem(DKEY); if (raw){ var o = JSON.parse(raw); if (o && o.order && o.rules && Array.isArray(o.items)) { o.quick = o.quick || {cost:0,market:0}; return o; } } } catch(e){}
+    return clone(DEFAULT);
+  }
+  function save(){ try { localStorage.setItem(DKEY, JSON.stringify(S)); } catch(e){} }
+
+  /* ---------- cálculo ---------- */
+  function factor(){
+    var p = S.order.products;
+    if (!(p>0)) return 1;
+    return (p + S.order.ship + S.order.tax) / p;
+  }
+  function priceFor(cost, market){
+    var r = S.rules;
+    var base = r.base/100, mn = r.min/100, mx = r.max/100, fee = Math.min(Math.max(r.fee,0),90)/100;
+    if (mn > base) mn = base; if (mx < base) mx = base;
+    var real = cost * factor() + r.local;
+    var res = { real:real, price:0, profit:0, markup:0, margin:0, status:"gray", label:"Sin referencia", cap:0, m:base };
+    if (!(cost>0)) { res.status = "none"; return res; }
+    function P(m){ return real*(1+m)/(1-fee); }
+    var m = base, cap = 0;
+    if (market>0){
+      cap = market * (1 - Math.min(Math.max(r.adv,0),90)/100);
+      var mcap = cap*(1-fee)/real - 1;          // ganancia que deja el precio tope
+      if (r.strategy === "max") m = Math.min(Math.max(mcap, mn), mx);
+      else m = (P(base) > cap) ? Math.max(mcap, mn) : base;
+      if (mcap < mn) { res.status="red"; res.label="Caro"; }
+      else if (m < base - 1e-9) { res.status="amber"; res.label="Ajustado"; }
+      else { res.status="green"; res.label="Competitivo"; }
+    }
+    var step = r.round>0 ? r.round : 100;
+    var raw = P(m);
+    var price = Math.ceil(raw/step)*step;
+    if (market>0 && price > cap && res.status!=="red"){
+      var down = Math.floor(cap/step)*step;
+      if (down*(1-fee) - real >= real*mn - 0.5) price = down;
+    }
+    var profit = price*(1-fee) - real;
+    res.price = price; res.profit = profit; res.markup = profit/real; res.margin = price>0 ? profit/price : 0; res.cap = cap; res.m = m;
+    return res;
+  }
+  function badge(r){
+    var cls = {green:"b-green",amber:"b-amber",red:"b-red",gray:"b-gray"}[r.status] || "b-gray";
+    return r.status==="none" ? "" : '<span class="badge '+cls+'">'+r.label+'</span>';
+  }
+
+  /* ---------- render ---------- */
+  function renderTop(){
+    var inv = S.order.products + S.order.ship + S.order.tax;
+    document.getElementById("s-invest").textContent = cop(inv);
+    document.getElementById("s-factor").textContent = S.order.products>0 ? "+" + pct(factor()-1) : "—";
+    var sum = S.items.reduce(function(a,it){ return a + it.cost*(it.qty||0); },0);
+    var w = document.getElementById("o-warn");
+    if (S.items.length && sum>0 && Math.abs(sum - S.order.products) > 1){
+      w.textContent = "La suma de la tabla (" + cop(sum) + ") no coincide con el total de productos del pedido (" + cop(S.order.products) + "). Si es el mismo pedido, toca el botón de abajo para igualarlos.";
+      w.classList.remove("hidden");
+    } else w.classList.add("hidden");
+    if (!(S.order.products>0)) { w.textContent = "Escribe el total de productos del pedido para repartir el envío."; w.classList.remove("hidden"); }
+  }
+  function renderQuick(){
+    var r = priceFor(S.quick.cost, S.quick.market);
+    document.getElementById("q-price").textContent = cop(r.price);
+    document.getElementById("q-real").textContent = cop(S.quick.cost>0 ? r.real : 0);
+    document.getElementById("q-profit").textContent = cop(r.profit);
+    document.getElementById("q-markup").textContent = S.quick.cost>0 ? pct(r.markup) : "0%";
+    document.getElementById("q-margin").textContent = S.quick.cost>0 ? pct(r.margin) : "0%";
+    var st = document.getElementById("q-status"), t = "";
+    if (S.quick.cost>0){
+      if (S.quick.market>0){
+        var diff = 1 - r.price/S.quick.market;
+        if (r.status==="green") t = badge(r) + " Quedas " + pct(diff) + " más barato que el mercado.";
+        else if (r.status==="amber") t = badge(r) + " Bajé la ganancia a " + pct(r.markup) + " para quedar " + pct(diff) + " por debajo del mercado.";
+        else t = badge(r) + " Aun con la ganancia mínima, tu precio queda " + (diff>=0 ? "solo " + pct(diff) + " por debajo" : pct(-diff) + " por encima") + " del mercado. Revisa si conviene traerlo.";
+      } else t = badge(r) + " Agrega el precio en Colombia para saber si eres competitivo.";
+    }
+    st.innerHTML = t;
+  }
+  function rowHTML(it, i){
+    return '<tr data-i="'+i+'">' +
+      '<td><input data-f="name" value="'+esc(it.name)+'" placeholder="Nombre del producto"></td>' +
+      '<td><input data-f="cost" inputmode="numeric" value="'+showMoney(it.cost)+'" placeholder="0"></td>' +
+      '<td><input data-f="qty" inputmode="numeric" value="'+(it.qty||"")+'" placeholder="1"></td>' +
+      '<td><input data-f="market" inputmode="numeric" value="'+showMoney(it.market)+'" placeholder="Opcional"></td>' +
+      '<td class="num" data-o="real"></td><td class="num price" data-o="price"></td><td class="num" data-o="profit"></td><td class="num" data-o="markup"></td><td data-o="status"></td>' +
+      '<td><button class="del" type="button" data-del="'+i+'" aria-label="Eliminar">×</button></td></tr>';
+  }
+  function renderRows(){
+    document.getElementById("rows").innerHTML = S.items.map(rowHTML).join("");
+    updateRows();
+  }
+  function updateRows(){
+    var tInv=0, tSales=0, tProfit=0;
+    var trs = document.querySelectorAll("#rows tr");
+    S.items.forEach(function(it, i){
+      var tr = trs[i]; if (!tr) return;
+      var r = priceFor(it.cost, it.market), q = it.qty||0;
+      var has = it.cost>0;
+      tr.querySelector('[data-o="real"]').textContent = has ? cop(r.real) : "—";
+      tr.querySelector('[data-o="price"]').textContent = has ? cop(r.price) : "—";
+      tr.querySelector('[data-o="profit"]').textContent = has ? cop(r.profit) : "—";
+      tr.querySelector('[data-o="markup"]').textContent = has ? pct(r.markup) : "—";
+      tr.querySelector('[data-o="status"]').innerHTML = has ? badge(r) : "";
+      if (has){ tInv += r.real*q; tSales += r.price*q; tProfit += r.profit*q; }
+    });
+    var units = S.items.reduce(function(a,it){ return a + (it.cost>0 ? (it.qty||0) : 0); },0);
+    document.getElementById("foot").innerHTML =
+      '<tr class="tot"><td>Total (' + units + ' unidades)</td><td></td><td></td><td></td><td class="num">' + cop(tInv) +
+      '</td><td class="num">' + cop(tSales) + '</td><td class="num">' + cop(tProfit) + '</td><td class="num">' + (tInv>0 ? pct(tProfit/tInv) : "—") +
+      '</td><td colspan="2">Ganancia sobre lo invertido</td></tr>';
+  }
+  function renderAll(){ renderTop(); renderQuick(); updateRows(); }
+
+  /* ---------- eventos ---------- */
+  function bindMoney(id, get, set){
+    var el = document.getElementById(id);
+    el.value = showMoney(get());
+    el.addEventListener("input", function(){ set(money(el.value)); save(); renderAll(); });
+    el.addEventListener("blur", function(){ el.value = showMoney(get()); });
+  }
+  function bindNum(id, key){
+    var el = document.getElementById(id);
+    el.value = String(S.rules[key]).replace(".",",");
+    el.addEventListener("input", function(){ S.rules[key] = num(el.value); save(); renderAll(); });
+  }
+  var started = false;
+  function init(){
+    if (started) return; started = true;
+    S = load();
+    bindMoney("o-products", function(){return S.order.products;}, function(v){S.order.products=v;});
+    bindMoney("o-ship", function(){return S.order.ship;}, function(v){S.order.ship=v;});
+    bindMoney("o-tax", function(){return S.order.tax;}, function(v){S.order.tax=v;});
+    bindMoney("r-local", function(){return S.rules.local;}, function(v){S.rules.local=v;});
+    bindMoney("q-cost", function(){return S.quick.cost;}, function(v){S.quick.cost=v;});
+    bindMoney("q-market", function(){return S.quick.market;}, function(v){S.quick.market=v;});
+    ["base","min","max","adv","fee"].forEach(function(k){ bindNum("r-"+k, k); });
+    var rs = document.getElementById("r-round");
+    rs.value = String(S.rules.round);
+    rs.addEventListener("change", function(){ S.rules.round = parseInt(rs.value,10)||100; save(); renderAll(); });
+    var seg = document.querySelectorAll("#strategy button");
+    function paintSeg(){ seg.forEach(function(b){ b.classList.toggle("on", b.getAttribute("data-v")===S.rules.strategy); }); }
+    seg.forEach(function(b){ b.addEventListener("click", function(){ S.rules.strategy = b.getAttribute("data-v"); paintSeg(); save(); renderAll(); }); });
+    paintSeg();
+
+    var tbody = document.getElementById("rows");
+    tbody.addEventListener("input", function(e){
+      var f = e.target.getAttribute("data-f"); if (!f) return;
+      var i = +e.target.closest("tr").getAttribute("data-i"), it = S.items[i]; if (!it) return;
+      if (f==="name") it.name = e.target.value;
+      else if (f==="qty") it.qty = money(e.target.value);
+      else it[f] = money(e.target.value);
+      save(); renderTop(); updateRows();
+    });
+    tbody.addEventListener("focusout", function(e){
+      var f = e.target.getAttribute("data-f"); if (f!=="cost" && f!=="market") return;
+      var i = +e.target.closest("tr").getAttribute("data-i"); if (S.items[i]) e.target.value = showMoney(S.items[i][f]);
+    });
+    tbody.addEventListener("click", function(e){
+      var d = e.target.getAttribute("data-del"); if (d===null) return;
+      S.items.splice(+d,1); save(); renderRows(); renderTop();
+    });
+    document.getElementById("add-row").addEventListener("click", function(){
+      S.items.push({name:"",cost:0,qty:1,market:0}); save(); renderRows(); renderTop();
+      var ins = document.querySelectorAll('#rows input[data-f="name"]'); if (ins.length) ins[ins.length-1].focus();
+    });
+    document.getElementById("reset").addEventListener("click", function(){
+      if (!confirm("¿Restablecer el pedido de ejemplo? Se borran los productos y valores que cambiaste.")) return;
+      S = clone(DEFAULT); save(); location.reload();
+    });
+    document.getElementById("use-sum").addEventListener("click", function(){
+      var sum = S.items.reduce(function(a,it){ return a + it.cost*(it.qty||0); },0);
+      if (sum>0){ S.order.products = sum; document.getElementById("o-products").value = showMoney(sum); save(); renderAll(); }
+    });
+    renderRows(); renderAll();
+  }
+  if (isOk()) showApp();
+})();
+/*
+  CAMBIAR EL PIN: abre esta página, presiona F12 > Consola y escribe:
+  (s=>{let h=0x811c9dc5;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,0x01000193)>>>0}return h.toString(16).padStart(8,"0")})("NUEVO_PIN")
+  Copia el resultado y reemplaza el valor de PIN_HASH arriba.
+*/
+</script>
+</body>
+</html>
