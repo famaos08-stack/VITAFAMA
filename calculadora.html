@@ -27,6 +27,7 @@ label{font-size:12.5px;font-weight:600;color:var(--primary);display:block;margin
 .btn-outline:hover{background:var(--muted)}
 .btn-sm{padding:7px 13px;font-size:13px}
 .hidden{display:none!important}
+.embedded .bar{display:none}
 /* login */
 .login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--primary);padding:20px}
 .login form{width:100%;max-width:360px;background:var(--card);border-radius:20px;padding:30px;box-shadow:0 30px 60px rgba(0,0,0,.35);display:flex;flex-direction:column;gap:16px;text-align:center}
@@ -98,7 +99,7 @@ tr.tot td{font-weight:700;background:var(--cream)}
     </div>
     <div class="err" id="pin-err"></div>
     <button class="btn" type="submit">Entrar</button>
-    <a href="./" style="font-size:13px;color:var(--muted-fg)">Volver a la tienda</a>
+    <a href="./" target="_top" style="font-size:13px;color:var(--muted-fg)">Volver a la tienda</a>
   </form>
 </div>
 
@@ -106,7 +107,7 @@ tr.tot td{font-weight:700;background:var(--cream)}
 <div id="app" class="hidden">
   <div class="bar"><div class="in">
     <div class="brand">VITAFAMA · Calculadora</div>
-    <div style="display:flex;gap:8px"><a href="./">Ver tienda</a><button id="logout" type="button">Salir</button></div>
+    <div style="display:flex;gap:8px"><a href="./" target="_top">Ver tienda</a><button id="logout" type="button">Salir</button></div>
   </div></div>
 
   <main>
@@ -206,6 +207,7 @@ tr.tot td{font-weight:700;background:var(--cream)}
 <script>
 (function(){
   "use strict";
+  try { if (window.top !== window.self) document.documentElement.classList.add("embedded"); } catch(e){ document.documentElement.classList.add("embedded"); }
   /* ---------- acceso ---------- */
   // Huella del PIN (no se guarda el PIN en texto). Para cambiarlo, ver instrucciones al final del archivo.
   var PIN_HASH = "f213a64a";

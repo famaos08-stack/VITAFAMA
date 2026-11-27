@@ -319,6 +319,13 @@ body.drawer-open .drawer{transform:none}
 #toast.show{transform:translateX(-50%) translateY(0)}
 #toast.error{background:var(--destructive);color:#fff}
 
+/* ---------- calculadora (privada) ---------- */
+.calc-ov{position:fixed;inset:0;z-index:80;background:var(--bg);display:flex;flex-direction:column}
+.calc-ov .cbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 16px;background:var(--primary);color:var(--primary-fg)}
+.calc-ov .cbar b{font-family:Fraunces,serif;letter-spacing:.15em;font-weight:400;font-size:15px}
+.calc-ov .cbar button{background:transparent;color:var(--primary-fg);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:6px 14px;font-size:13px}
+.calc-ov iframe{flex:1;width:100%;border:0;background:var(--bg)}
+body.calc-open{overflow:hidden}
 /* ---------- admin ---------- */
 .admin-login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--primary);padding:20px}
 .admin-login form{width:100%;max-width:380px;background:var(--card);border-radius:20px;padding:32px;box-shadow:0 30px 60px rgba(0,0,0,.35);display:flex;flex-direction:column;gap:18px}
@@ -382,6 +389,9 @@ body.drawer-open .drawer{transform:none}
         </a>
         <button class="ibtn" onclick="openOrders()" aria-label="Mis pedidos" title="Mis pedidos">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>
+        </button>
+        <button class="ibtn desk" onclick="openCalc()" aria-label="Calculadora de precios" title="Calculadora de precios (privada)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
         </button>
         <button class="ibtn" onclick="openCart()" aria-label="Carrito de compras" title="Carrito">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
@@ -518,7 +528,7 @@ body.drawer-open .drawer{transform:none}
       <p class="disclaimer">Los suplementos dietarios no son medicamentos y no reemplazan una alimentación balanceada. No están destinados a diagnosticar, tratar, curar ni prevenir enfermedades. Consulta a tu médico antes de consumirlos si estás embarazada, lactando o tomando medicamentos.</p>
       <div class="foot-bottom">
         <span>© <span id="year">2026</span> VITAFAMA · Vitalidad con prestigio americano · Colombia</span>
-        <a href="#admin" onclick="showAdmin();return false;">Acceso administrador</a>
+        <span style="display:inline-flex;gap:16px;flex-wrap:wrap"><a href="#calculadora" onclick="openCalc();return false;">Calculadora de precios</a><a href="#admin" onclick="showAdmin();return false;">Acceso administrador</a></span>
       </div>
     </div>
   </footer>
@@ -612,6 +622,7 @@ body.drawer-open .drawer{transform:none}
           VITAFAMA · Admin
         </div>
         <div style="display:flex;gap:8px">
+          <button class="btn-ghost" onclick="openCalc()">Calculadora</button>
           <button class="btn-ghost" onclick="showStore()">Ver tienda</button>
           <button class="btn-ghost" onclick="adminLogout()" aria-label="Salir">⎋</button>
         </div>
@@ -668,6 +679,12 @@ body.drawer-open .drawer{transform:none}
       </section>
     </main>
   </div>
+</div>
+
+<!-- ============ CALCULADORA DE PRECIOS (privada, con PIN) ============ -->
+<div class="calc-ov hidden" id="calc-ov" role="dialog" aria-label="Calculadora de precios">
+  <div class="cbar"><b>VITAFAMA · Calculadora de precios</b><button type="button" onclick="closeCalc()">✕ Cerrar</button></div>
+  <iframe id="calc-frame" title="Calculadora de precios"></iframe>
 </div>
 
 <div id="toast" role="status" aria-live="polite"></div>
@@ -1232,6 +1249,20 @@ document.addEventListener("keydown", e => {
   closeCart(); closeMenu(); closeChat();
 });
 
+/* ---------- calculadora de precios (privada) ---------- */
+function openCalc(){
+  const ov = document.getElementById("calc-ov"), fr = document.getElementById("calc-frame");
+  if(!fr.getAttribute("src")) fr.setAttribute("src","calculadora.html");
+  ov.classList.remove("hidden"); document.body.classList.add("calc-open");
+  if(location.hash!=="#calculadora") history.replaceState(null,"",location.pathname+location.search+"#calculadora");
+}
+function closeCalc(){
+  document.getElementById("calc-ov").classList.add("hidden"); document.body.classList.remove("calc-open");
+  if(location.hash==="#calculadora") history.replaceState(null,"",location.pathname+location.search);
+}
+document.addEventListener("keydown", e => { if(e.key==="Escape" && !document.getElementById("calc-ov").classList.contains("hidden")) closeCalc(); });
+window.addEventListener("hashchange", () => { if(location.hash==="#calculadora") openCalc(); });
+
 /* ---------- admin ---------- */
 function showAdmin(){
   document.getElementById("view-store").classList.add("hidden");
@@ -1762,6 +1793,7 @@ renderFaq();
 renderProducts();
 checkPaymentReturn();
 if(location.hash==="#admin") showAdmin();
+if(location.hash==="#calculadora") openCalc();
 setTimeout(maybeHint, 6000);
 </script>
 </body>
